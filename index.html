@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spark 操作系统 - 主页</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-container">
+        <header>
+            <div class="header-left">
+                <img src="img/MAIN.jpg" alt="Spark 商标" class="logo">
+                <h1>Spark 操作系统</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">主页</a></li>
+                    <li><a href="products.html">我的产品</a></li>
+                    <li><a href="download.html">下载 Spark</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section>
+                <h2 class="section-title">什么是Spark？</h2>
+                <p>Spark是一款初（网名）编写的模拟操作系统（虽然不是真正的操作系统，但是也颇具几分姿色）Spark系统主要由安装界面和主要图形操作界面为主。Spark第一代并不叫作Spark 1.0.0.0，而是被称作dictionary 1.0，开发者也许是希望他能查阅到很多信息吧……不过可惜的是dictionary 1.0系统的源代码已经找不到了……</p>
+            </section>
+
+            <section>
+                <h2 class="section-title">为什么要编写Spark呢？</h2>
+                <p>Spark的灵感主要是开发者在编程社区中闲逛时，看到了一个名为Windows 10操作系统的模拟编程作品，于是便有了开发一款操作系统的想法。 Spark操作系统最早编写于2021年，每一代操作系统都随着上一代的迭代而更新，操作也变得更加流畅和稳定。随着越来越多的Java插件的发现和云存储的发现，在Spark 4发布结束后，首次出现了联网的一批代表性编程作品。主要以多个用户移动不同的区块来进行图形交互操作。在spark 5之后，操作系统就支持了联网， Spark也就顺理成章地进入了互联网时代。Java插件是一个非常有用的东西，它允许开发者可以通过Java的带入来进行更多有趣的操作。比如spark 5的一项功能："聊天"就采用了"汉字转换英文1.0"</p>
+            </section>
+
+            <section>
+                <h2 class="section-title">如何正确部署Spark呢？</h2>
+                <p>该部分内容正在更新中，敬请期待……</p>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 柴炳坤. 保留所有权利。</p>
+            <button id="feedbackBtn">向我们提供你的建议</button>
+        </footer>
+    </div>
+
+    <dialog id="feedbackDialog">
+        <h2>提供反馈</h2>
+        <form id="feedbackForm">
+            <label for="name">姓名：</label>
+            <input type="text" id="name" name="user_name" required>
+            
+            <label for="email">邮箱：</label>
+            <input type="email" id="email" name="user_email" required>
+            
+            <label for="feedback">反馈内容：</label>
+            <textarea id="feedback" name="message" required></textarea>
+            
+            <button type="submit">提交反馈</button>
+            <button type="button" onclick="closeFeedbackDialog()">取消</button>
+        </form>
+    </dialog>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="feedback.js"></script>
+</body>
+</html>
