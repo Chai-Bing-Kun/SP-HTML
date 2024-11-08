@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>下载 Spark - 柴炳坤</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .download-button {
+            display: inline-block;
+            background-color: rgba(76, 175, 80, 0.9);
+            color: white;
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.2s; /* 添加过渡效果 */
+            border: none;
+            cursor: pointer;
+        }
+
+        .download-button:hover {
+            background-color: rgba(69, 160, 73, 0.9);
+            transform: scale(1.05); /* 悬停时放大效果 */
+        }
+    </style>
+</head>
+<body>
+    <div class="background-container">
+        <header>
+            <h1>下载 Spark</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">主页</a></li>
+                    <li><a href="products.html">我的产品</a></li>
+                    <li><a href="download.html">下载 Spark</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section class="product-showcase">
+                <h2>Spark 5</h2>
+                <img src="img/spark-preview.png" alt="Spark 预览图" class="product-image">
+                <p class="product-description">Spark 5 是一个创新的操作系统，旨在提供流畅、高效的用户体验。</p>
+                <div class="download-section">
+                    <button onclick="window.location.href='Spark for the web/Spark 5.html'" class="github-link run-button">在网页中运行</button>
+                    <button onclick="showDownloadOptions('spark5')" class="download-button">下载最新版 Spark 5</button>
+                    <a href="https://github.com/Chai-Bing-Kun/Spark-X" class="github-link" target="_blank">在GitHub中查看</a>
+                </div>
+            </section>
+
+            <section class="product-showcase">
+                <h2>Spark 4</h2>
+                <img src="img/spark4-preview.png" alt="Spark 4 预览图" class="product-image">
+                <p class="product-description">Spark 4 是 Spark 系列的前代版本，提供稳定可靠的操作系统体验。</p>
+                <div class="download-section">
+                    <button onclick="window.location.href='Spark for the web/Spark 4.html'" class="github-link run-button">在网页中运行</button>
+                    <button onclick="showDownloadOptions('spark4')" class="download-button">下载最新版 Spark 4</button>
+                    <a href="https://github.com/Chai-Bing-Kun/Spark-X" class="github-link" target="_blank">在GitHub中查看</a>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 柴炳坤. 保留所有权利。</p>
+            <button id="themeToggle">切换主题</button>
+        </footer>
+    </div>
+
+    <dialog id="downloadDialog">
+        <h2>选择下载选项</h2>
+        <button onclick="download('apk')" class="download-button">下载APK文件</button>
+        <button onclick="download('windows')" class="download-button">下载Windows执行文件</button>
+        <button onclick="download('mac')" class="download-button">下载Mac执行文件</button>
+        <button onclick="download('linux')" class="download-button">下载Linux执行文件</button>
+        <button onclick="download('all')" class="download-button">全部下载</button>
+        <button onclick="closeDialog()">取消</button>
+    </dialog>
+
+    <script src="download.js"></script>
+    <script src="theme.js"></script>
+</body>
+</html>
