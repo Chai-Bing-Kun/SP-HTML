@@ -72,7 +72,7 @@
         </header>
 
         <main>
-            <section>
+            <section></section>
                 <h2 class="section-title">什么是Spark？</h2>
                 <p>Spark是一款初（网名）编写的模拟操作系统（虽然不是真正的操作系统，但是也颇具几分姿色）Spark系统主要由安装界面和主要图形操作界面为主。Spark第一代并不叫作Spark 1.0.0.0，而是被称作dictionary 1.0，开发者也许是希望他能查阅到很多信息吧……不过可惜的是dictionary 1.0系统的源代码已经找不到了……</p>
             </section>
@@ -81,11 +81,52 @@
                 <h2 class="section-title">为什么要编写Spark呢？</h2>
                 <p>Spark的灵感主要是开发者在编程社区中闲逛时，看到了一个名为Windows 10操作系统的模拟编程作品，于是便有了开发一款操作系统的想法。 Spark操作系统最早编写于2021年，每一代操作系统都随着上一代的迭代而更新，操作也变得更加流畅和稳定。随着越来越多的Java插件的发现和云存储的发现，在Spark 4发布结束后，首次出现了联网的一批代表性编程作品。主要以多个用户移动不同的区块来进行图形交互操作。在spark 5之后，操作系统就支持了联网， Spark也就顺理成章地进入了互联网时代。Java插件是一个非常有用的东西，它允许开发者可以通过Java的带入来进行更多有趣的操作。比如spark 5的一项功能："聊天"就采用了"汉字转换英文1.0"</p>
             </section>
-
+            
             <section>
                 <h2 class="section-title">如何正确部署Spark呢？</h2>
-                <p>该部分内容正在更新中，敬请期待……</p>
+                <p style="font-size: 16px;">手机版：<br>
+                跳转到 <a href="https://spark-home.pages.dev/download" target="_blank" style="color: #0366d6; text-decoration: underline;">https://spark-home.pages.dev/download</a>，点击下载按钮，下载apk安装包：<br>
+                <img src="img/apk下载介绍.png" alt="APK 下载示例" style="max-width: 100%; height: auto; margin-top: 10px;"> <!-- 这里插入一个图片1 -->
+                </p>
+                
+                <br><br> <!-- 插入两行换行 -->
+                
+                <p style="font-size: 16px;">Windows版：<br>
+                跳转到 <a href="https://spark-home.pages.dev/download" target="_blank" style="color: #0366d6; text-decoration: underline;">https://spark-home.pages.dev/download</a>，点击下载按钮，下载Zip文件<br>
+                <img src="img/Windows下载介绍.png" alt="APK 下载示例" style="max-width: 100%; height: auto; margin-top: 10px;"> <br><!-- 这里插入一个图片2 -->
+                解压文件<br>
+                <span id="commandPath">打开命令行终端运行：<br>
+                (这里替换成解压后的位置)\spark\spark.exe</span>
+                <button onclick="copyToClipboard('#commandPath')" style="margin-left: 10px; border: none; border-radius: 5px; background-color: rgba(76, 175, 80, 0.5); color: white; padding: 5px 10px; cursor: pointer;">复制</button><br>
+                例如：<br>
+                <span id="examplePath">D:\Spark 5\Windows\spark\spark.exe</span>
+                <button onclick="copyToClipboard('#examplePath')" style="margin-left: 10px; border: none; border-radius: 5px; background-color: rgba(76, 175, 80, 0.5); color: white; padding: 5px 10px; cursor: pointer;">复制</button>
+                </p>
+                
+                <p style="font-size: 16px;">(Linux和Mac文件可参阅解压后的txt文件进行操作)</p>
             </section>
+            
+            <script>
+                function copyToClipboard(selector) {
+                    const text = document.querySelector(selector).innerText;
+                    navigator.clipboard.writeText(text).then(() => {
+                        alert('复制成功: ' + text);
+                    }).catch(err => {
+                        alert('复制失败: ' + err);
+                    });
+                }
+            </script>
+            
+            <script>
+                function copyToClipboard(selector) {
+                    const text = document.querySelector(selector).innerText;
+                    navigator.clipboard.writeText(text).then(() => {
+                        alert('复制成功: ' + text);
+                    }).catch(err => {
+                        alert('复制失败: ' + err);
+                    });
+                }
+            </script>
         </main>
 
         <footer>
