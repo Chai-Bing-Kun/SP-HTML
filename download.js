@@ -15,10 +15,10 @@ function download(type) {
     let files;
     if (currentProduct === 'spark5') {
         files = {
-            'apk': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.1.0/H53034E71__20241214084109.apk',
-            'windows': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.1.0/Spark.5.3.1.0.zip',
-            'mac': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.1.0/Spark.5.3.1.0.WKWebView.macOS.zip',
-            'linux': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.1.0/Spark.5.3.1.0.64.Electron.Linux.zip'
+            'apk': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.1/H53034E71__20241227205118.apk',
+            'windows': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.1/Spark.5.3.2.1.zip',
+            'mac': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.1/Spark.5.3.2.1.WKWebView.macOS.zip',
+            'linux': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.1/Spark.5.3.2.1.64.Electron.Linux.zip'
         };
     } else if (currentProduct === 'spark4') {
         files = {
