@@ -5,7 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spark 操作系统 - 主页</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> <!-- 引入字体 -->
     <style>
+        body, html {
+            font-family: 'Roboto', sans-serif; /* 使用指定字体 */
+        }
+
         #feedbackBtn {
             background-color: #4CAF50; /* 按钮背景色 */
             color: white; /* 按钮文字颜色 */
@@ -65,14 +70,14 @@
             <nav>
                 <ul>
                     <li><a href="index.html">主页</a></li>
-                    <li><a href="products.html">我的产品</a></li>
+                    <li><a href="products.html" onclick="showAnnouncement(); return false;">公告</a></li> <!-- 添加 onclick 事件 -->
                     <li><a href="download.html">下载 Spark</a></li>
                 </ul>
             </nav>
         </header>
 
         <main>
-            <section></section>
+            <section>
                 <h2 class="section-title">什么是Spark？</h2>
                 <p>Spark是一款初（网名）编写的模拟操作系统（虽然不是真正的操作系统，但是也颇具几分姿色）Spark系统主要由安装界面和主要图形操作界面为主。Spark第一代并不叫作Spark 1.0.0.0，而是被称作dictionary 1.0，开发者也许是希望他能查阅到很多信息吧……不过可惜的是dictionary 1.0系统的源代码已经找不到了……</p>
             </section>
@@ -105,28 +110,6 @@
                 
                 <p style="font-size: 16px;">(Linux和Mac文件可参阅解压后的txt文件进行操作)</p>
             </section>
-            
-            <script>
-                function copyToClipboard(selector) {
-                    const text = document.querySelector(selector).innerText;
-                    navigator.clipboard.writeText(text).then(() => {
-                        alert('复制成功: ' + text);
-                    }).catch(err => {
-                        alert('复制失败: ' + err);
-                    });
-                }
-            </script>
-            
-            <script>
-                function copyToClipboard(selector) {
-                    const text = document.querySelector(selector).innerText;
-                    navigator.clipboard.writeText(text).then(() => {
-                        alert('复制成功: ' + text);
-                    }).catch(err => {
-                        alert('复制失败: ' + err);
-                    });
-                }
-            </script>
         </main>
 
         <footer>
@@ -136,25 +119,43 @@
         </footer>
     </div>
 
-    <dialog id="feedbackDialog">
-        <h2>提供反馈</h2>
-        <form id="feedbackForm">
-            <label for="name">姓名：</label>
-            <input type="text" id="name" name="user_name" required>
-            
-            <label for="email">邮箱：</label>
-            <input type="email" id="email" name="user_email" required>
-            
-            <label for="feedback">反馈内容（你也可以输入“成为Spark内测用户”来抢先体验）：</label>
-            <textarea id="feedback" name="message" required></textarea>
-            
-            <button type="submit">提交反馈</button>
-            <button type="button" onclick="closeFeedbackDialog()">取消</button>
-        </form>
+    <dialog id="announcementDialog">
+        <h2>公告</h2>
+        <p>以下是新版本说明<br>
+        1.目前最新版：5.3.2.1<br>
+        2.优化了体验<br>
+        3.加入了每日壁纸显示<br>
+        4.修复了部分按键不显示的Bug<br>
+        5.修复了部分按钮显示失灵的Bug<br>
+        6.修复了背景图片不显示的Bug<br><br>
+        以下是系统公告<br>
+        1.欢迎大家来参加先遣版的报名！<br>
+        2.网站和应用是免费无广告的<br>
+        3.本作品只是一个演示文件，娱乐所做<br>
+        4.欢迎大家来反馈！
+        </p>
+        <button onclick="closeAnnouncementDialog()">关闭</button>
     </dialog>
 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script src="feedback.js"></script>
-    <script src="theme.js"></script>
+    <script>
+        function showAnnouncement() {
+            const dialog = document.getElementById('announcementDialog');
+            dialog.showModal();
+        }
+
+        function closeAnnouncementDialog() {
+            const dialog = document.getElementById('announcementDialog');
+            dialog.close();
+        }
+
+        function copyToClipboard(selector) {
+            const text = document.querySelector(selector).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('复制成功: ' + text);
+            }).catch(err => {
+                alert('复制失败: ' + err);
+            });
+        }
+    </script>
 </body>
 </html>
