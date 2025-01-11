@@ -70,7 +70,7 @@
             <nav>
                 <ul>
                     <li><a href="index.html">主页</a></li>
-                    <li><a href="products.html" onclick="showAnnouncement(); return false;">公告</a></li> <!-- 添加 onclick 事件 -->
+                    <li><a href="products.html" onclick="showAnnouncement(); return false;">公告</a></li>
                     <li><a href="download.html">下载 Spark</a></li>
                 </ul>
             </nav>
@@ -122,23 +122,25 @@
     <dialog id="announcementDialog">
         <h2>公告</h2>
         <p>以下是新版本说明<br>
-        1.目前最新版：5.3.2.3<br>
-        2.优化了部分控制台代码<br>
-        3.增加了时间显示模块<br>
-        4.增加了英文字典功能（在控制台中增加）<br>
-        5.标注了部分不可见的内容
-        6..修复了关闭部分窗口电池图标不显示的Bug<br>
-        7.修复了版本数据显示错误的Bug<br>
-        8.修复了部分背景冲突的Bug<br><br>
-        以下是系统公告<br>
-        1.欢迎大家来参加先遣版的报名！<br>
-        2.网站和应用是免费无广告的<br>
-        3.本作品只是一个演示文件，娱乐所做<br>
-        4.欢迎大家来反馈！
-        </p>
+            1.目前最新版：5.3.2.3<br>
+            2.优化了部分控制台代码<br>
+            3.增加了时间显示模块<br>
+            4.增加了英文字典功能（在控制台中增加）<br>
+            5.标注了部分不可见的内容
+            6..修复了关闭部分窗口电池图标不显示的Bug<br>
+            7.修复了版本数据显示错误的Bug<br>
+            8.修复了部分背景冲突的Bug<br><br>
+            以下是系统公告<br>
+            1.欢迎大家来参加先遣版的报名！<br>
+            2.网站和应用是免费无广告的<br>
+            3.本作品只是一个演示文件，娱乐所做<br>
+            4.修复了主题显示错误的Bug<br>
+            5.欢迎大家来反馈！
+            </p>
         <button onclick="closeAnnouncementDialog()">关闭</button>
     </dialog>
 
+    <script src="theme.js"></script> <!-- 确保引入 theme.js -->
     <script>
         function showAnnouncement() {
             const dialog = document.getElementById('announcementDialog');
