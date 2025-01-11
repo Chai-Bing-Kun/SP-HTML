@@ -205,22 +205,22 @@ textarea {
 
 /* Dark theme styles */
 body.dark-theme {
-    background-color: #121212;
-    color: #ffffff;
+    background-color: rgba(18, 18, 18, 0.5); /* 整体背景颜色，透明度调整为 0.5 */
+    color: #ffffff; /* 文字颜色 */
 }
 
 .dark-theme header,
 .dark-theme footer,
 .dark-theme .background-container {
-    background-color: #1e1e1e;
+    background-color: rgba(30, 30, 30, 0.5); /* 头部和页脚的背景颜色，透明度调整为 0.5 */
 }
 
 .dark-theme main {
-    background-color: #1e1e1e; /* 设置主内容区域的背景为黑色 */
+    background-color: rgba(30, 30, 30, 0.5); /* 主内容区域的背景颜色，透明度调整为 0.5 */
 }
 
 .dark-theme .product-showcase {
-    background-color: #1e1e1e; /* 设置作品展示框的背景为黑色 */
+    background-color: rgba(30, 30, 30, 0.5); /* 产品展示框的背景颜色，透明度调整为 0.5 */
 }
 
 .dark-theme nav ul li a {
