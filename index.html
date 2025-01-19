@@ -11,6 +11,26 @@
             font-family: 'Roboto', sans-serif; /* 使用指定字体 */
         }
 
+        /* 加载动画样式 */
+        #loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8); /* 半透明背景 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* 确保在最上层 */
+        }
+
+        #loading img {
+            width: 1000px; /* 设置加载动画的宽度为原来的十倍 */
+            height: auto; /* 自适应高度 */
+        }
+
+        /* 其他样式保持不变 */
         #feedbackBtn {
             background-color: #4CAF50; /* 按钮背景色 */
             color: white; /* 按钮文字颜色 */
@@ -61,6 +81,10 @@
     </style>
 </head>
 <body>
+    <div id="loading">
+        <img src="img/loading10.gif" alt="加载中..."> <!-- 加载动画 -->
+    </div>
+
     <div class="background-container">
         <header>
             <div class="header-left">
@@ -130,18 +154,24 @@
             6..修复了关闭部分窗口电池图标不显示的Bug<br>
             7.修复了版本数据显示错误的Bug<br>
             8.修复了部分背景冲突的Bug<br><br>
-            以下是系统公告<br>
+            以下是网站公告<br>
             1.欢迎大家来参加先遣版的报名！<br>
             2.网站和应用是免费无广告的<br>
             3.本作品只是一个演示文件，娱乐所做<br>
             4.修复了主题显示错误的Bug<br>
-            5.欢迎大家来反馈！
+            5.增加了加载动图<be></be>
+            6..欢迎大家来反馈！
             </p>
         <button onclick="closeAnnouncementDialog()">关闭</button>
     </dialog>
 
     <script src="theme.js"></script> <!-- 确保引入 theme.js -->
     <script>
+        // 页面加载完成后隐藏加载动画
+        window.onload = function() {
+            document.getElementById('loading').style.display = 'none';
+        };
+
         function showAnnouncement() {
             const dialog = document.getElementById('announcementDialog');
             dialog.showModal();
