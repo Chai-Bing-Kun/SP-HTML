@@ -23,16 +23,39 @@
             background-color: rgba(69, 160, 73, 0.9);
             transform: scale(1.05); /* 悬停时放大效果 */
         }
+
+        /* 加载动画样式 */
+        #loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8); /* 半透明背景 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* 确保在最上层 */
+        }
+
+        #loading img {
+            width: 500px; /* 设置加载动画的宽度 */
+            height: auto; /* 自适应高度 */
+        }
     </style>
 </head>
 <body>
+    <div id="loading">
+        <img src="img/loading10.gif" alt="加载中..."> <!-- 加载动画 -->
+    </div>
+
     <div class="background-container">
         <header>
             <h1>下载 Spark</h1>
             <nav>
                 <ul>
                     <li><a href="index.html">主页</a></li>
-                    <li><a href="products.html">我的产品</a></li>
+                    <li><a href="javascript:void(0);" onclick="showAnnouncement();">公告</a></li> <!-- 替换为公告按钮 -->
                     <li><a href="download.html">下载 Spark</a></li>
                 </ul>
             </nav>
@@ -42,7 +65,7 @@
             <section class="product-showcase">
                 <h2>Spark 5</h2>
                 <img src="img/spark-preview.png" alt="Spark 预览图" class="product-image">
-                <p class="product-description">Spark 5 是目前最新的spark系列操作系统，你可以用它进行联网等操作。(当前最新版本：5.3.2.5）</p>
+                <p class="product-description">Spark 5 是目前最新的spark系列操作系统，你可以用它进行联网等操作。(当前最新版本：5.3.2.6）</p>
                 <div class="download-section">
                     <button onclick="window.location.href='Spark for the web/Spark 5.html'" class="github-link run-button">在网页中运行</button>
                     <button onclick="showDownloadOptions('spark5')" class="download-button">下载最新版 Spark 5</button>
@@ -73,12 +96,54 @@
         <button onclick="download('apk')" class="download-button">下载APK文件</button>
         <button onclick="download('windows')" class="download-button">下载Windows执行文件</button>
         <button onclick="download('mac')" class="download-button">下载Mac执行文件</button>
-        <button onclick="download('linux')" class="download-button">下载Linux执行文件</button>
+        <button onclick="download('linux')" class="download-button">下载Linux执行文件</button><br>
+        <button onclick="download('fastapk')" class="download-button">快速下载APK</button>
+        <button onclick="download('fastwindows')" class="download-button">快速下载Windows</button>
+        <button onclick="download('fastmac')" class="download-button">快速下载Mac</button>
+        <button onclick="download('fastlinux')" class="download-button">快速下载Linux</button>
         <button onclick="download('all')" class="download-button">全部下载</button>
         <button onclick="closeDialog()">取消</button>
     </dialog>
 
+    <dialog id="announcementDialog">
+        <h2>公告</h2>
+        <p>以下是新版本说明<br>
+            1.目前最新版：5.3.2.6<br>
+            2.增加日志系统<br>
+            3.渲染模板可使用<br>
+            4.修复了部分应用打开电池显示的Bug<br>
+            5.修复版本提示Bug<br><br>
+            以下是网站公告<br>
+            1.欢迎大家来参加先遣版的报名！<br>
+            2.网站和应用是免费无广告的<br>
+            3.本作品只是一个演示文件，娱乐所做<br>
+            4.修复了全部下载按钮下载错误的Bug<br>
+            5.修复了下载界面公告不显示的Bug<br>
+            6.修复了加载动画显示错误的Bug<br>
+            7.增加了下载界面的下载动画<br>
+            8.增加了快速下载功能<br>
+            9.欢迎大家来反馈！
+        </p>
+        <button onclick="closeAnnouncementDialog()">关闭</button>
+    </dialog>
+
     <script src="download.js"></script>
     <script src="theme.js"></script>
+    <script>
+        function showAnnouncement() {
+            const dialog = document.getElementById('announcementDialog');
+            dialog.showModal();
+        }
+
+        function closeAnnouncementDialog() {
+            const dialog = document.getElementById('announcementDialog');
+            dialog.close();
+        }
+
+        // 页面加载完成后隐藏加载动画
+        window.onload = function() {
+            document.getElementById('loading').style.display = 'none';
+        };
+    </script>
 </body>
 </html>
