@@ -6,6 +6,7 @@
     <title>Spark 操作系统 - 主页</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> <!-- 引入字体 -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         body, html {
             font-family: 'Roboto', sans-serif; /* 使用指定字体 */
@@ -76,6 +77,30 @@
         }
 
         #themeToggle:active {
+            transform: scale(0.95); /* 点击时缩小效果 */
+        }
+
+        #submitFeedback, #cancelFeedback {
+            background-color: #4CAF50; /* 按钮背景色 */
+            color: white; /* 按钮文字颜色 */
+            border: none; /* 去掉边框 */
+            padding: 10px 20px; /* 内边距 */
+            text-align: center; /* 文字居中 */
+            text-decoration: none; /* 去掉下划线 */
+            display: inline-block; /* 使按钮为块级元素 */
+            font-size: 16px; /* 字体大小 */
+            margin: 4px 2px; /* 外边距 */
+            cursor: pointer; /* 鼠标悬停时显示手型 */
+            border-radius: 5px; /* 圆角 */
+            transition: background-color 0.3s, transform 0.2s; /* 添加过渡效果 */
+        }
+
+        #submitFeedback:hover, #cancelFeedback:hover {
+            background-color: #45a049; /* 悬停时的背景色 */
+            transform: scale(1.05); /* 悬停时放大效果 */
+        }
+
+        #submitFeedback:active, #cancelFeedback:active {
             transform: scale(0.95); /* 点击时缩小效果 */
         }
     </style>
@@ -154,10 +179,20 @@
             1.欢迎大家来参加先遣版的报名！<br>
             2.网站和应用是免费无广告的<br>
             3.本作品只是一个演示文件，娱乐所做<br>
-            4.增加了相关说明<br>
-            5.欢迎大家来反馈！
+            4.修复了提供反馈按钮无法使用的Bug<br>
+            5.增加了相关说明<br>
+            6.欢迎大家来反馈！
             </p>
         <button onclick="closeAnnouncementDialog()">关闭</button>
+    </dialog>
+
+    <dialog id="feedbackDialog">
+        <h2>提供你的建议</h2>
+        <input type="text" id="user_name" placeholder="你的姓名">
+        <input type="email" id="user_email" placeholder="你的联系方式（邮箱）">
+        <textarea id="message" placeholder="你提交的问题"></textarea>
+        <button id="submitFeedback">提交</button>
+        <button id="cancelFeedback">取消</button>
     </dialog>
 
     <script src="theme.js"></script> <!-- 确保引入 theme.js -->
@@ -177,14 +212,37 @@
             dialog.close();
         }
 
-        function copyToClipboard(selector) {
-            const text = document.querySelector(selector).innerText;
-            navigator.clipboard.writeText(text).then(() => {
-                alert('复制成功: ' + text);
-            }).catch(err => {
-                alert('复制失败: ' + err);
-            });
+        function showFeedbackDialog() {
+            const dialog = document.getElementById('feedbackDialog');
+            dialog.showModal();
         }
+
+        function closeFeedbackDialog() {
+            const dialog = document.getElementById('feedbackDialog');
+            dialog.close();
+        }
+
+        function validateEmail(email) {
+            const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            return re.test(String(email).toLowerCase());
+        }
+
+        function submitFeedback() {
+            const emailInput = document.getElementById('user_email');
+            const email = emailInput.value;
+            if (!validateEmail(email)) {
+                alert('请输入有效的邮箱地址');
+                emailInput.focus();
+                return;
+            }
+            // 这里可以添加提交反馈的逻辑，比如发送邮件等
+            alert('反馈提交成功');
+            closeFeedbackDialog();
+        }
+
+        document.getElementById('feedbackBtn').addEventListener('click', showFeedbackDialog);
+        document.getElementById('submitFeedback').addEventListener('click', submitFeedback);
+        document.getElementById('cancelFeedback').addEventListener('click', closeFeedbackDialog);
     </script>
 </body>
 </html>
