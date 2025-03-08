@@ -135,28 +135,32 @@
                 <h2 class="section-title">为什么要编写Spark？</h2>
                 <p>Spark的灵感主要是开发者在编程社区中闲逛时，看到了一个名为Windows 10操作系统的模拟编程作品，于是便有了开发一款操作系统的想法。 Spark操作系统最早编写于2021年，每一代操作系统都随着上一代的迭代而更新，操作也变得更加流畅和稳定。随着越来越多的Java插件的发现和云存储的发现，在Spark 4发布结束后，首次出现了联网的一批代表性编程作品。主要以多个用户移动不同的区块来进行图形交互操作。在spark 5之后，操作系统就支持了联网， Spark也就顺理成章地进入了互联网时代。Java插件是一个非常有用的东西，它允许开发者可以通过Java的带入来进行更多有趣的操作。比如spark 5的一项功能："聊天"就采用了"汉字转换英文1.0"</p>
             </section>
-            
+
             <section>
                 <h2 class="section-title">如何正确部署Spark？</h2>
-                <p style="font-size: 16px;">手机版：<br>
-                跳转到 <a href="https://spark-home.pages.dev/download" target="_blank" style="color: #0366d6; text-decoration: underline;">https://spark-home.pages.dev/download</a>，点击下载按钮，下载apk安装包：<br>
-                <img src="img/apk下载介绍.png" alt="APK 下载示例" style="max-width: 100%; height: auto; margin-top: 10px;"> <!-- 这里插入一个图片1 -->
+                <p style="font-size: 16px;">
+                    手机版：<br>
+                    跳转到 <a href="https://spark-home.pages.dev/download" target="_blank" style="color: #0366d6; text-decoration: underline;">https://spark-home.pages.dev/download</a>，点击下载按钮，下载apk安装包：<br>
+                    <img src="img/apk下载介绍.png" alt="APK 下载示例" style="max-width: 100%; height: auto; margin-top: 10px;"> <!-- 这里插入一个图片1 -->
                 </p>
-                
+
                 <br><br> <!-- 插入两行换行 -->
-                
-                <p style="font-size: 16px;">Windows版：<br>
-                跳转到 <a href="https://spark-home.pages.dev/download" target="_blank" style="color: #0366d6; text-decoration: underline;">https://spark-home.pages.dev/download</a>，点击下载按钮，下载Zip文件<br>
-                <img src="img/Windows下载介绍.png" alt="APK 下载示例" style="max-width: 100%; height: auto; margin-top: 10px;"> <br><!-- 这里插入一个图片2 -->
-                解压文件<br>
-                <span id="commandPath">打开命令行终端运行：<br>
-                (这里替换成解压后的位置)\spark\spark.exe</span>
-                <button onclick="copyToClipboard('#commandPath')" style="margin-left: 10px; border: none; border-radius: 5px; background-color: rgba(76, 175, 80, 0.5); color: white; padding: 5px 10px; cursor: pointer;">复制</button><br>
-                例如：<br>
-                <span id="examplePath">D:\Spark 5\Windows\spark\spark.exe</span>
-                <button onclick="copyToClipboard('#examplePath')" style="margin-left: 10px; border: none; border-radius: 5px; background-color: rgba(76, 175, 80, 0.5); color: white; padding: 5px 10px; cursor: pointer;">复制</button>
+
+                <p style="font-size: 16px;">
+                    Windows版：<br>
+                    跳转到 <a href="https://spark-home.pages.dev/download" target="_blank" style="color: #0366d6; text-decoration: underline;">https://spark-home.pages.dev/download</a>，点击下载按钮，下载Zip文件<br>
+                    <img src="img/Windows下载介绍.png" alt="APK 下载示例" style="max-width: 100%; height: auto; margin-top: 10px;"> <br><!-- 这里插入一个图片2 -->
+                    解压文件<br>
+                    <span id="commandPath">
+                        打开命令行终端运行：<br>
+                        (这里替换成解压后的位置)\spark\spark.exe
+                    </span>
+                    <button onclick="copyToClipboard('#commandPath')" style="margin-left: 10px; border: none; border-radius: 5px; background-color: rgba(76, 175, 80, 0.5); color: white; padding: 5px 10px; cursor: pointer;">复制</button><br>
+                    例如：<br>
+                    <span id="examplePath">D:\Spark 5\Windows\spark\spark.exe</span>
+                    <button onclick="copyToClipboard('#examplePath')" style="margin-left: 10px; border: none; border-radius: 5px; background-color: rgba(76, 175, 80, 0.5); color: white; padding: 5px 10px; cursor: pointer;">复制</button>
                 </p>
-                
+
                 <p style="font-size: 16px;">(Linux和Mac文件可参阅解压后的txt文件进行操作)</p>
             </section>
         </main>
@@ -170,7 +174,8 @@
 
     <dialog id="announcementDialog">
         <h2>公告</h2>
-        <p>以下是新版本说明<br>
+        <p>
+            以下是新版本说明<br>
             1.目前最新版：5.3.3.1<br>
             2.修复了修复了无法打开应用的Bug<br>
             3.修复了因登录/注册名字识别错误的Bug<br>
@@ -179,10 +184,9 @@
             1.欢迎大家来参加先遣版的报名！<br>
             2.网站和应用是免费无广告的<br>
             3.本作品只是一个演示文件，娱乐所做<br>
-            4.修复了提供反馈按钮无法使用的Bug<br>
-            5.增加了相关说明<br>
-            6.欢迎大家来反馈！
-            </p>
+            4.增加了相关说明<br>
+            5.欢迎大家来反馈！
+        </p>
         <button onclick="closeAnnouncementDialog()">关闭</button>
     </dialog>
 
@@ -195,10 +199,9 @@
         <button id="cancelFeedback">取消</button>
     </dialog>
 
-    <script src="theme.js"></script> <!-- 确保引入 theme.js -->
     <script>
         // 页面加载完成后隐藏加载动画
-        window.onload = function() {
+        window.onload = function () {
             document.getElementById('loading').style.display = 'none';
         };
 
@@ -212,37 +215,107 @@
             dialog.close();
         }
 
-        function showFeedbackDialog() {
-            const dialog = document.getElementById('feedbackDialog');
+        // 获取提交反馈按钮
+        const submitFeedbackBtn = document.getElementById('submitFeedback');
+        submitFeedbackBtn.addEventListener('click', function () {
+            // 获取用户输入的邮箱地址
+            const userEmail = document.getElementById('user_email').value;
+
+            // 邮箱格式验证的正则表达式
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            // 验证邮箱格式
+            if (!emailRegex.test(userEmail)) {
+                alert('请输入有效的邮箱地址！');
+                return;
+            }
+
+            // 如果邮箱格式有效，可以继续处理提交逻辑
+            // 这里可以添加发送邮件或其他处理逻辑
+            alert('感谢你！');
+            const feedbackDialog = document.getElementById('feedbackDialog');
+            feedbackDialog.close();
+        });
+
+        // 获取反馈按钮并显示反馈对话框
+        const feedbackBtn = document.getElementById('feedbackBtn');
+        feedbackBtn.addEventListener('click', function () {
+            const feedbackDialog = document.getElementById('feedbackDialog');
+            feedbackDialog.showModal();
+        });
+
+        // 获取取消反馈按钮并关闭反馈对话框
+        const cancelFeedbackBtn = document.getElementById('cancelFeedback');
+        cancelFeedbackBtn.addEventListener('click', function () {
+            const feedbackDialog = document.getElementById('feedbackDialog');
+            feedbackDialog.close();
+        });
+    </script>
+
+    <script src="theme.js"></script> <!-- 确保引入 theme.js -->
+    <script>
+        // 页面加载完成后隐藏加载动画
+        window.onload = function () {
+            document.getElementById('loading').style.display = 'none';
+        };
+
+        function showAnnouncement() {
+            const dialog = document.getElementById('announcementDialog');
             dialog.showModal();
         }
 
-        function closeFeedbackDialog() {
-            const dialog = document.getElementById('feedbackDialog');
+        function closeAnnouncementDialog() {
+            const dialog = document.getElementById('announcementDialog');
             dialog.close();
         }
 
-        function validateEmail(email) {
-            const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-            return re.test(String(email).toLowerCase());
+        function copyToClipboard(selector) {
+            const text = document.querySelector(selector).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('复制成功: ' + text);
+            }).catch(err => {
+                alert('复制失败: ' + err);
+            });
         }
 
-        function submitFeedback() {
-            const emailInput = document.getElementById('user_email');
-            const email = emailInput.value;
-            if (!validateEmail(email)) {
-                alert('请输入有效的邮箱地址');
-                emailInput.focus();
-                return;
+        // 初始化 EmailJS
+        emailjs.init("rKqKFW56LbtOlXMxd");
+
+        // 处理反馈按钮点击事件
+        document.getElementById('feedbackBtn').addEventListener('click', function () {
+            const dialog = document.getElementById('feedbackDialog');
+            dialog.showModal();
+        });
+
+        // 处理提交按钮点击事件
+        document.getElementById('submitFeedback').addEventListener('click', function () {
+            const userName = document.getElementById('user_name').value;
+            const userEmail = document.getElementById('user_email').value;
+            const message = document.getElementById('message').value;
+
+            if (userName && userEmail && message) {
+                emailjs.send("service_x1ryoog", "template_8wyjz97", {
+                    user_name: userName,
+                    user_email: userEmail,
+                    message: message
+                })
+                    .then(function (response) {
+                        alert('反馈提交成功！');
+                        const dialog = document.getElementById('feedbackDialog');
+                        dialog.close();
+                    }, function (error) {
+                        alert('反馈提交失败：' + error.text);
+                    });
+            } else {
+                alert('请填写所有必填字段！');
             }
-            // 这里可以添加提交反馈的逻辑，比如发送邮件等
-            alert('反馈提交成功');
-            closeFeedbackDialog();
-        }
+        });
 
-        document.getElementById('feedbackBtn').addEventListener('click', showFeedbackDialog);
-        document.getElementById('submitFeedback').addEventListener('click', submitFeedback);
-        document.getElementById('cancelFeedback').addEventListener('click', closeFeedbackDialog);
+        // 处理取消按钮点击事件
+        document.getElementById('cancelFeedback').addEventListener('click', function () {
+            const dialog = document.getElementById('feedbackDialog');
+            dialog.close();
+        });
     </script>
 </body>
 </html>
