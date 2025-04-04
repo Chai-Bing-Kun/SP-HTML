@@ -163,6 +163,162 @@
             font-size: 12px;
             font-weight: bold;
         }
+
+        /* 加密选项面板样式 */
+        .encryption-options {
+            margin: 20px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .options-header {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .options-header:hover {
+            background-color: #2980b9;
+        }
+        
+        .options-content {
+            background-color: white;
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .options-content.show {
+            padding: 15px;
+            max-height: 300px;
+        }
+        
+        .encryption-level {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .encryption-level:hover {
+            background-color: #f0f8ff;
+        }
+        
+        .encryption-level.selected {
+            background-color: #e1f0fa;
+            border-left: 4px solid #3498db;
+        }
+        
+        .level-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .level-desc {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        
+        .level-badge {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        .level-basic {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        .level-medium {
+            background-color: #f39c12;
+            color: white;
+        }
+        
+        .level-high {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        /* 密码强度指示器 */
+        .password-strength {
+            height: 4px;
+            background: #eee;
+            margin-top: 5px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .strength-bar {
+            height: 100%;
+            width: 0;
+            transition: width 0.3s, background 0.3s;
+        }
+        
+        .strength-weak {
+            background: #e74c3c;
+            width: 30%;
+        }
+        
+        .strength-medium {
+            background: #f39c12;
+            width: 60%;
+        }
+        
+        .strength-strong {
+            background: #2ecc71;
+            width: 100%;
+        }
+
+        /* 进度条样式 */
+        .progress-container {
+            width: 100%;
+            margin: 15px 0;
+            display: none;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background-color: #ecf0f1;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: #3498db;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #2c3e50;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        
+        .progress-complete .progress-fill {
+            background-color: #2ecc71;
+        }
+        
+        .progress-error .progress-fill {
+            background-color: #e74c3c;
+        }
     </style>
 </head>
 <body>
@@ -176,12 +332,62 @@
             <input type="file" id="fileInput" class="hidden">
         </div>
         
+        <!-- 加密选项面板 -->
+        <div class="encryption-options">
+            <div class="options-header" id="optionsHeader">
+                <span>加密选项 (点击展开)</span>
+                <span>▼</span>
+            </div>
+            <div class="options-content" id="optionsContent">
+                <div class="encryption-level" data-level="basic">
+                    <div class="level-title">
+                        <span class="level-badge level-basic">普通</span>
+                        <span>快速加密 (AES-256-GCM)</span>
+                    </div>
+                    <div class="level-desc">
+                        加密速度快，适合日常使用。PBKDF2迭代10,000次。
+                    </div>
+                </div>
+                
+                <div class="encryption-level selected" data-level="medium">
+                    <div class="level-title">
+                        <span class="level-badge level-medium">中等</span>
+                        <span>平衡加密 (AES-256-GCM)</span>
+                    </div>
+                    <div class="level-desc">
+                        速度与安全性的平衡选择。PBKDF2迭代50,000次。
+                    </div>
+                </div>
+                
+                <div class="encryption-level" data-level="high">
+                    <div class="level-title">
+                        <span class="level-badge level-high">高等</span>
+                        <span>最强加密 (AES-256-GCM)</span>
+                    </div>
+                    <div class="level-desc">
+                        最高安全级别，适合敏感数据。PBKDF2迭代100,000次。
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <div id="passwordContainer" class="hidden">
             <input type="password" id="passwordInput" placeholder="输入加密密码(至少8个字符)" autocomplete="off">
+            <div class="password-strength">
+                <div class="strength-bar" id="strengthBar"></div>
+            </div>
         </div>
         
         <div id="fileInfo"></div>
         <div id="status"></div>
+        
+        <!-- 进度条容器 -->
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+                <div class="progress-text" id="progressText">0%</div>
+            </div>
+        </div>
         
         <div class="buttons">
             <button id="encryptBtn" class="hidden">加密为 .sp 文件</button>
@@ -201,9 +407,59 @@
         const cancelBtn = document.getElementById('cancelBtn');
         const passwordContainer = document.getElementById('passwordContainer');
         const passwordInput = document.getElementById('passwordInput');
+        const optionsHeader = document.getElementById('optionsHeader');
+        const optionsContent = document.getElementById('optionsContent');
+        const encryptionLevels = document.querySelectorAll('.encryption-level');
+        const strengthBar = document.getElementById('strengthBar');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
         
+        // 加密配置
+        const encryptionSettings = {
+            basic: {
+                iterations: 10000,
+                label: "普通加密"
+            },
+            medium: {
+                iterations: 50000,
+                label: "中等加密"
+            },
+            high: {
+                iterations: 100000,
+                label: "高等加密"
+            }
+        };
+
         let currentFile = null;
         let fileType = '';
+        let currentEncryptionLevel = 'medium'; // 默认中等加密
+        let cancelRequested = false;
+
+        // 更新进度函数
+        function updateProgress(percent, isComplete = false, isError = false) {
+            progressContainer.style.display = 'block';
+            progressFill.style.width = `${percent}%`;
+            progressText.textContent = `${percent}%`;
+            
+            if (isComplete) {
+                progressContainer.classList.add('progress-complete');
+                progressContainer.classList.remove('progress-error');
+            } else if (isError) {
+                progressContainer.classList.add('progress-error');
+                progressContainer.classList.remove('progress-complete');
+            } else {
+                progressContainer.classList.remove('progress-complete', 'progress-error');
+            }
+        }
+        
+        // 重置进度条
+        function resetProgress() {
+            progressContainer.style.display = 'none';
+            progressFill.style.width = '0%';
+            progressText.textContent = '0%';
+            progressContainer.classList.remove('progress-complete', 'progress-error');
+        }
 
         // 初始化页面状态
         function initPage() {
@@ -217,7 +473,60 @@
             encryptBtn.classList.add('hidden');
             decryptBtn.classList.add('hidden');
             cancelBtn.classList.add('hidden');
+            strengthBar.className = 'strength-bar';
+            cancelRequested = false;
+            resetProgress();
+            selectEncryptionLevel('medium'); // 重置为默认加密级别
         }
+
+        // 选择加密级别
+        function selectEncryptionLevel(level) {
+            currentEncryptionLevel = level;
+            encryptionLevels.forEach(el => {
+                if (el.dataset.level === level) {
+                    el.classList.add('selected');
+                } else {
+                    el.classList.remove('selected');
+                }
+            });
+        }
+
+        // 密码强度检测
+        function checkPasswordStrength(password) {
+            if (password.length === 0) return '';
+            
+            let strength = 0;
+            // 长度评分
+            if (password.length >= 8) strength += 1;
+            if (password.length >= 12) strength += 1;
+            // 复杂度评分
+            if (/[A-Z]/.test(password)) strength += 1;
+            if (/[0-9]/.test(password)) strength += 1;
+            if (/[^A-Za-z0-9]/.test(password)) strength += 1;
+            
+            return strength >= 4 ? 'strong' : 
+                   strength >= 2 ? 'medium' : 'weak';
+        }
+
+        // 更新密码强度指示器
+        passwordInput.addEventListener('input', () => {
+            const strength = checkPasswordStrength(passwordInput.value);
+            strengthBar.className = 'strength-bar strength-' + strength;
+        });
+
+        // 折叠面板切换
+        optionsHeader.addEventListener('click', () => {
+            optionsContent.classList.toggle('show');
+            optionsHeader.querySelector('span:last-child').textContent = 
+                optionsContent.classList.contains('show') ? '▲' : '▼';
+        });
+
+        // 加密级别选择
+        encryptionLevels.forEach(level => {
+            level.addEventListener('click', () => {
+                selectEncryptionLevel(level.dataset.level);
+            });
+        });
 
         // 点击拖拽区域触发文件选择
         dropArea.addEventListener('click', () => {
@@ -339,16 +648,28 @@
             }
             
             showStatus('加密处理中，请稍候...', 'progress');
+            resetProgress();
+            progressContainer.style.display = 'block';
+            cancelRequested = false;
             
             try {
-                const encryptedData = await encryptFile(currentFile, password);
+                const encryptedData = await encryptFile(currentFile, password, currentEncryptionLevel);
+                if (cancelRequested) return;
+                
                 const outputFileName = currentFile.name + '.sp';
                 downloadFile(encryptedData, outputFileName);
                 showStatus('加密成功! 文件已准备好下载', 'success');
+                updateProgress(100, true);
+                
                 // 操作完成后重置页面
-                setTimeout(initPage, 2000);
+                setTimeout(() => {
+                    initPage();
+                }, 2000);
             } catch (e) {
-                showStatus('加密失败: ' + e.message, 'error');
+                if (!cancelRequested) {
+                    showStatus('加密失败: ' + e.message, 'error');
+                    updateProgress(0, false, true);
+                }
                 console.error(e);
             }
         });
@@ -367,23 +688,44 @@
             }
             
             showStatus('解密处理中，请稍候...', 'progress');
+            resetProgress();
+            progressContainer.style.display = 'block';
+            cancelRequested = false;
             
             try {
                 const decryptedData = await decryptFile(currentFile, password);
+                if (cancelRequested) return;
+                
                 const outputFileName = currentFile.name.replace('.sp', '');
                 downloadFile(decryptedData, outputFileName);
                 showStatus('解密成功! 文件已准备好下载', 'success');
+                updateProgress(100, true);
+                
                 // 操作完成后重置页面
-                setTimeout(initPage, 2000);
+                setTimeout(() => {
+                    initPage();
+                }, 2000);
             } catch (e) {
-                showStatus('解密失败: ' + e.message, 'error');
+                if (!cancelRequested) {
+                    if (e.message.includes('解密失败')) {
+                        showStatus('解密失败: 密码错误或文件已损坏', 'error');
+                    } else {
+                        showStatus('解密失败: ' + e.message, 'error');
+                    }
+                    updateProgress(0, false, true);
+                }
                 console.error(e);
             }
         });
 
         // 取消按钮点击事件
         cancelBtn.addEventListener('click', () => {
-            initPage();
+            cancelRequested = true;
+            showStatus('操作已取消', 'error');
+            updateProgress(0, false, true);
+            setTimeout(() => {
+                initPage();
+            }, 1500);
         });
 
         // 显示状态信息
@@ -392,15 +734,54 @@
             statusDiv.className = type || '';
         }
 
+        // 获取加密级别代码
+        function getLevelCode(level) {
+            switch(level) {
+                case 'basic': return 0x01;
+                case 'medium': return 0x02;
+                case 'high': return 0x03;
+                default: return 0x02;
+            }
+        }
+
+        // 获取加密级别名称
+        function getLevelName(code) {
+            switch(code) {
+                case 0x01: return 'basic';
+                case 0x02: return 'medium';
+                case 0x03: return 'high';
+                default: return 'medium';
+            }
+        }
+
         // 使用Web Crypto API加密文件
-        async function encryptFile(file, password) {
+        async function encryptFile(file, password, level) {
+            const settings = encryptionSettings[level];
+            
+            // 更新进度：准备阶段 (10%)
+            updateProgress(10);
+            if (cancelRequested) throw new Error('操作已取消');
+            
             const fileData = await readFileAsArrayBuffer(file);
             const salt = crypto.getRandomValues(new Uint8Array(16));
             const iv = crypto.getRandomValues(new Uint8Array(12));
             
+            // 更新进度：生成密钥材料 (20%)
+            updateProgress(20);
+            if (cancelRequested) throw new Error('操作已取消');
+            
             // 从密码生成密钥
             const keyMaterial = await getKeyMaterial(password);
-            const key = await deriveKey(keyMaterial, salt, ['encrypt']);
+            
+            // 更新进度：派生密钥 (40%)
+            updateProgress(40);
+            if (cancelRequested) throw new Error('操作已取消');
+            
+            const key = await deriveKey(keyMaterial, salt, ['encrypt'], settings.iterations, 256);
+            
+            // 更新进度：开始加密 (50%)
+            updateProgress(50);
+            if (cancelRequested) throw new Error('操作已取消');
             
             // 加密数据
             const encryptedContent = await crypto.subtle.encrypt(
@@ -412,32 +793,62 @@
                 fileData
             );
             
-            // 组合最终数据: salt(16) + iv(12) + encryptedData
-            const result = new Uint8Array(salt.length + iv.length + encryptedContent.byteLength);
-            result.set(salt, 0);
-            result.set(iv, salt.length);
-            result.set(new Uint8Array(encryptedContent), salt.length + iv.length);
+            // 更新进度：处理加密数据 (80%)
+            updateProgress(80);
+            if (cancelRequested) throw new Error('操作已取消');
+            
+            // 组合最终数据: level(1) + salt(16) + iv(12) + encryptedData
+            const levelByte = new Uint8Array([getLevelCode(level)]);
+            const result = new Uint8Array(1 + salt.length + iv.length + encryptedContent.byteLength);
+            result.set(levelByte, 0);
+            result.set(salt, 1);
+            result.set(iv, 17);
+            result.set(new Uint8Array(encryptedContent), 29);
+            
+            // 更新进度：完成 (95%)
+            updateProgress(95);
             
             return result;
         }
 
         // 使用Web Crypto API解密文件
         async function decryptFile(file, password) {
+            // 更新进度：开始解密 (10%)
+            updateProgress(10);
+            if (cancelRequested) throw new Error('操作已取消');
+            
             const fileData = await readFileAsArrayBuffer(file);
             const dataView = new Uint8Array(fileData);
             
-            // 提取salt和iv
-            if (dataView.length < 28) { // salt(16) + iv(12) = 28
+            // 提取加密级别、salt和iv
+            if (dataView.length < 29) { // level(1) + salt(16) + iv(12) = 29
                 throw new Error('无效的加密文件格式');
             }
             
-            const salt = dataView.slice(0, 16);
-            const iv = dataView.slice(16, 28);
-            const encryptedData = dataView.slice(28);
+            const levelCode = dataView[0];
+            const level = getLevelName(levelCode);
+            const settings = encryptionSettings[level] || encryptionSettings.medium;
+            
+            const salt = dataView.slice(1, 17);
+            const iv = dataView.slice(17, 29);
+            const encryptedData = dataView.slice(29);
+            
+            // 更新进度：提取数据完成 (30%)
+            updateProgress(30);
+            if (cancelRequested) throw new Error('操作已取消');
             
             // 从密码生成密钥
             const keyMaterial = await getKeyMaterial(password);
-            const key = await deriveKey(keyMaterial, salt, ['decrypt']);
+            
+            // 更新进度：密钥生成中 (50%)
+            updateProgress(50);
+            if (cancelRequested) throw new Error('操作已取消');
+            
+            const key = await deriveKey(keyMaterial, salt, ['decrypt'], settings.iterations, 256);
+            
+            // 更新进度：开始解密 (70%)
+            updateProgress(70);
+            if (cancelRequested) throw new Error('操作已取消');
             
             // 解密数据
             try {
@@ -449,6 +860,10 @@
                     key,
                     encryptedData
                 );
+                
+                // 更新进度：解密完成 (90%)
+                updateProgress(90);
+                if (cancelRequested) throw new Error('操作已取消');
                 
                 return new Uint8Array(decryptedContent);
             } catch (e) {
@@ -479,16 +894,16 @@
         }
 
         // 派生密钥
-        function deriveKey(keyMaterial, salt, keyUsages) {
+        function deriveKey(keyMaterial, salt, keyUsages, iterations = 100000, keyLength = 256) {
             return crypto.subtle.deriveKey(
                 {
                     name: 'PBKDF2',
                     salt: salt,
-                    iterations: 100000,
+                    iterations: iterations,
                     hash: 'SHA-256'
                 },
                 keyMaterial,
-                { name: 'AES-GCM', length: 256 },
+                { name: 'AES-GCM', length: keyLength },
                 false,
                 keyUsages
             );
