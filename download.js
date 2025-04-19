@@ -40,7 +40,7 @@ function download(type) {
     if (type === 'all') {
         if (currentProduct === 'spark5') {
             // Spark 5 的全部下载链接
-            window.open('https://ghproxy.cn/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.2.6.zip', '_blank');
+            window.open('https://ghproxy.cn/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.4.0.zip', '_blank');
         } else if (currentProduct === 'spark4') {
             // Spark 4 的全部下载链接
             window.open('https://ghproxy.cn/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.4.1.1.0.zip', '_blank');
