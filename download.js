@@ -15,14 +15,14 @@ function download(type) {
     let files;
     if (currentProduct === 'spark5') {
         files = {
-            'apk': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/H53034E71__20250418180022.apk',
-            'windows': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0.zip',
-            'mac': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0.WKWebView.macOS.zip',
-            'linux': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0.64.Electron.Linux.zip',
-            'fastapk': 'https://ghproxy.cn/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/H53034E71__20250418180022.apk',
-            'fastwindows': 'https://ghproxy.cn/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0.zip',
-            'fastmac': 'https://ghproxy.cn/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0.WKWebView.macOS.zip',
-            'fastlinux': 'https://ghproxy.cn/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0.64.Electron.Linux.zip'
+            'apk': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/H53034E71__20250607175308.apk',
+            'windows': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark-5.3.4.1-x32.msi',
+            'mac': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1.WKWebView.macOS.zip',
+            'linux': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1.64.Electron.Linux.zip',
+            'fastapk': 'https://ghproxy.cn/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/H53034E71__20250607175308.apk',
+            'fastwindows': 'https://ghproxy.cn/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark-5.3.4.1-x32.msi',
+            'fastmac': 'https://ghproxy.cn/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1.WKWebView.macOS.zip',
+            'fastlinux': 'https://ghproxy.cn/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1.64.Electron.Linux.zip'
         };
     } else if (currentProduct === 'spark4') {
         files = {
@@ -40,7 +40,7 @@ function download(type) {
     if (type === 'all') {
         if (currentProduct === 'spark5') {
             // Spark 5 的全部下载链接
-            window.open('https://ghproxy.cn/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.4.0.zip', '_blank');
+            window.open('https://ghproxy.cn/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.4.1.zip', '_blank');
         } else if (currentProduct === 'spark4') {
             // Spark 4 的全部下载链接
             window.open('https://ghproxy.cn/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.4.1.1.0.zip', '_blank');
