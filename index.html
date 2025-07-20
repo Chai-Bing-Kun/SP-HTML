@@ -120,7 +120,6 @@
                 <ul>
                     <li><a href="index.html">主页</a></li>
                     <li><a href="products.html" onclick="showAnnouncement(); return false;">公告</a></li>
-                    <li><a href="lock.html">加密</a></li>
                     <li><a href="download.html">下载 Spark</a></li>
                 </ul>
             </nav>
@@ -167,25 +166,26 @@
         </main>
 
         <footer>
-            <p>&copy; 2024 柴炳坤. 保留所有权利。</p>
-            <button id="feedbackBtn">向我们提供你的建议</button>
-            <button id="themeToggle">切换主题</button>
-        </footer>
+           <p>&copy; 2024 柴炳坤. 保留所有权利。</p>
+           <button id="feedbackBtn">向我们提供你的建议</button>
+           <button id="themeToggle">切换主题</button>
+           <p style="font-size: 12px; margin-top: 10px;">你是否在寻找班级的网站？跳转到 <a href="https://cn-202208-y.pages.dev/" target="_blank" style="color: #0366d6; text-decoration: underline;">班级网站</a></p>
+         </footer>
     </div>
 
     <dialog id="announcementDialog">
         <h2>公告</h2>
         <p>
             以下是新版本说明<br>
-            1.目前最新版：5.3.4.1<br>
-            2.🚫 移除全屏按钮（改为自动全屏逻辑）<br>
-            3.🖼️ 更新操作系统启动界面图片<br>
-            4.📦 新增Windows平台安装包<br><br>
+            1.目前最新版：5.3.3.1<br>
+            2.修复了修复了无法打开应用的Bug<br>
+            3.修复了因登录/注册名字识别错误的Bug<br>
+            3.增大了图形显示性能（可能会使内存崩溃）<br><br>
             以下是网站公告<br>
             1.欢迎大家来参加先遣版的报名！<br>
             2.网站和应用是免费无广告的<br>
             3.本作品只是一个演示文件，娱乐所做<br>
-            4.网站仅提供部分安装包（x32）如需更多的安装包，请转到github<br>
+            4.修改了加载背景显示<br>
             5.欢迎大家来反馈！
         </p>
         <button onclick="closeAnnouncementDialog()">关闭</button>
