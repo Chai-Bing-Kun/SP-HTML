@@ -12,23 +12,32 @@
             font-family: 'Roboto', sans-serif; /* 使用指定字体 */
         }
 
-        /* 加载动画样式 */
+        /* 修改加载动画样式为第二个文件的效果 */
         #loading {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgb(255, 255, 255); /* 不透明背景 */
+            background-color: rgba(255, 255, 255, 0.95);
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 9999; /* 确保在最上层 */
+            z-index: 9999;
+            transition: opacity 0.4s ease;
         }
 
-        #loading img {
-            width: 500px; /* 设置加载动画的宽度为原来的十倍 */
-            height: auto; /* 自适应高度 */
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(76, 175, 80, 0.2);
+            border-radius: 50%;
+            border-top-color: rgba(76, 175, 80, 0.8);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         /* 其他样式保持不变 */
@@ -106,20 +115,22 @@
     </style>
 </head>
 <body>
+    <!-- 修改加载动画为第二个文件的效果 -->
     <div id="loading">
-        <img src="img/loading10.gif" alt="加载中..."> <!-- 加载动画 -->
+        <div class="loader"></div>
     </div>
 
     <div class="background-container">
         <header>
             <div class="header-left">
-                <img src="img/MAIN.jpg" alt="Spark 商标" class="logo">
+                
                 <h1>Spark 操作系统</h1>
             </div>
             <nav>
                 <ul>
                     <li><a href="index.html">主页</a></li>
                     <li><a href="products.html" onclick="showAnnouncement(); return false;">公告</a></li>
+                    <li><a href="lock.html">加密</a></li>
                     <li><a href="download.html">下载 Spark</a></li>
                 </ul>
             </nav>
@@ -141,7 +152,7 @@
                 <p style="font-size: 16px;">
                     手机版：<br>
                     跳转到 <a href="https://spark-home.pages.dev/download" target="_blank" style="color: #0366d6; text-decoration: underline;">https://spark-home.pages.dev/download</a>，点击下载按钮，下载apk安装包：<br>
-                    <img src="img/apk下载介绍.png" alt="APK 下载示例" style="max-width: 100%; height: auto; margin-top: 10px;"> <!-- 这里插入一个图片1 -->
+                     <!-- 这里插入一个图片1 -->
                 </p>
 
                 <br><br> <!-- 插入两行换行 -->
@@ -149,7 +160,7 @@
                 <p style="font-size: 16px;">
                     Windows版：<br>
                     跳转到 <a href="https://spark-home.pages.dev/download" target="_blank" style="color: #0366d6; text-decoration: underline;">https://spark-home.pages.dev/download</a>，点击下载按钮，下载Zip文件<br>
-                    <img src="img/Windows下载介绍.png" alt="APK 下载示例" style="max-width: 100%; height: auto; margin-top: 10px;"> <br><!-- 这里插入一个图片2 -->
+                     <br><!-- 这里插入一个图片2 -->
                     解压文件<br>
                     <span id="commandPath">
                         打开命令行终端运行：<br>
@@ -174,7 +185,7 @@
     </div>
 
     <dialog id="announcementDialog">
-        <h2>公告</h2>
+        <h2>  公告</h2>
         <p>
             以下是新版本说明<br>
             1.目前最新版：5.3.3.1<br>
@@ -185,8 +196,10 @@
             1.欢迎大家来参加先遣版的报名！<br>
             2.网站和应用是免费无广告的<br>
             3.本作品只是一个演示文件，娱乐所做<br>
-            4.修改了加载背景显示<br>
-            5.欢迎大家来反馈！
+            4.更新了下载界面的样式<br>
+            5.新增了邮件回访功能<br>
+            6.修复了网站加密功能无法跳转的Bug<br>
+            7.欢迎大家来反馈！
         </p>
         <button onclick="closeAnnouncementDialog()">关闭</button>
     </dialog>
@@ -201,10 +214,18 @@
     </dialog>
 
     <script>
-        // 页面加载完成后隐藏加载动画
-        window.onload = function () {
-            document.getElementById('loading').style.display = 'none';
-        };
+        // 修改页面加载完成后隐藏加载动画的方式为第二个文件的效果
+        window.addEventListener('load', function() {
+            const loading = document.getElementById('loading');
+            
+            // 隐藏加载动画
+            setTimeout(function() {
+                loading.style.opacity = '0';
+                setTimeout(function() {
+                    loading.style.display = 'none';
+                }, 400);
+            }, 800);
+        });
 
         function showAnnouncement() {
             const dialog = document.getElementById('announcementDialog');
