@@ -3,803 +3,634 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spark 下载站</title>
+    <title>下载 Spark - 柴炳坤</title>
+    <link rel="stylesheet" href="style.css">
     <style>
-        /* 原网站所有样式保留 */
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            font-family: Arial, sans-serif;
-        }
-        .background-container {
-            background-image: url('https://bing.biturl.top/?resolution=1920&format=image');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            min-height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-        header, footer {
-            background-color: rgba(255, 255, 255, 0.5);
-            margin: 20px;
-            padding: 20px;
-            border-radius: 10px;
-        }
-        main {
-            flex-grow: 1;
-            background-color: rgba(255, 255, 255, 0.5);
-            margin: 20px;
-            padding: 20px;
-            border-radius: 10px;
-        }
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .header-left {
-            display: flex;
-            align-items: center;
-        }
-        .logo {
-            width: 50px;
-            height: auto;
-            margin-right: 15px;
-        }
-        nav ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        nav ul li {
-            display: inline;
-            margin-right: 20px;
-        }
-        nav ul li a {
-            text-decoration: none;
-            color: #333;
-        }
-        footer {
-            text-align: center;
-        }
-        .product-showcase {
-            background-color: rgba(255, 255, 255, 0.5);
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-            text-align: center;
-        }
-        .product-image {
-            max-width: 100%;
-            height: auto;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-        .product-description {
-            font-size: 18px;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-        .download-button {
+        /* 基础按钮样式 - 确保文字颜色不变 */
+        .download-button, .run-button, .github-link {
             display: inline-block;
-            background-color: rgba(76, 175, 80, 0.9);
-            color: white;
+            color: white !important;
             padding: 15px 25px;
             text-decoration: none;
             font-size: 18px;
             border-radius: 5px;
-            transition: background-color 0.3s, transform 0.2s;
+            transition: all 0.3s ease;
             border: none;
             cursor: pointer;
-        }
-        .download-button:hover {
-            background-color: rgba(69, 160, 73, 0.9);
-            transform: scale(1.05);
-        }
-        .download-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-        .github-link {
-            font-size: 14px;
-            color: #0366d6;
-            text-decoration: none;
-        }
-        .github-link:hover {
-            text-decoration: underline;
-        }
-        .run-button {
-            background: none;
-            border: none;
-            color: #0366d6;
-            font-size: 14px;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .run-button:hover {
-            text-decoration: underline;
-        }
-        dialog {
-            padding: 20px;
-            border-radius: 10px;
-            border: none;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        dialog::backdrop {
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-        dialog button {
-            margin: 5px;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            background-color: #4CAF50;
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        dialog button:hover {
-            background-color: #45a049;
-        }
-        #feedbackBtn {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        textarea {
-            width: 100%;
-            height: 100px;
-            resize: vertical;
-        }
-        #feedbackText {
-            width: 100%;
-            height: 150px;
-            margin-bottom: 10px;
-        }
-        .section-title {
-            color: #000;
-            font-size: 28px;
-            font-weight: bold;
-            padding: 10px 0;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #4CAF50;
-        }
-        /* Dark theme styles */
-        body.dark-theme {
-            background-color: rgba(18, 18, 18, 0.5);
-            color: #ffffff;
-        }
-        .dark-theme header,
-        .dark-theme footer,
-        .dark-theme .background-container {
-            background-color: rgba(30, 30, 30, 0.5);
-        }
-        .dark-theme main {
-            background-color: rgba(30, 30, 30, 0.5);
-        }
-        .dark-theme .product-showcase {
-            background-color: rgba(30, 30, 30, 0.5);
-        }
-        .dark-theme nav ul li a {
-            color: #ffffff;
-        }
-        .dark-theme .download-button,
-        .dark-theme .github-link {
-            color: #ffffff;
-        }
-        .dark-theme .download-button:hover,
-        .dark-theme .github-link:hover {
-            color: #3700b3;
-        }
-        .dark-theme .section-title {
-            color: #ffffff;
-        }
-        #themeToggle {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s, transform 0.2s;
-        }
-        #themeToggle:hover {
-            background-color: #0056b3;
-            transform: scale(1.05);
-        }
-        #themeToggle:active {
-            transform: scale(0.95);
+            margin: 10px 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(0);
         }
 
-        /* 新增：重构下载模块样式 - 版本列表+抽屉式搜索 */
-        .spark-download-mod {
+        /* 按钮颜色 */
+        .download-button {
+            background-color: rgba(76, 175, 80, 0.9);
+        }
+        .run-button {
+            background-color: rgba(52, 152, 219, 0.9);
+        }
+        .github-link {
+            background-color: rgba(155, 89, 182, 0.9);
+        }
+
+        /* 鼠标悬停光晕效果 */
+        .download-button::before, .run-button::before, .github-link::before {
+            content: '';
+            position: absolute;
+            top: var(--mouse-y);
+            left: var(--mouse-x);
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: width 0.4s ease-out, height 0.4s ease-out, opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .download-button:hover::before, 
+        .run-button:hover::before, 
+        .github-link:hover::before {
+            width: 200px;
+            height: 200px;
+            opacity: 1;
+        }
+
+        /* 按钮悬停状态 */
+        .download-button:hover, .run-button:hover, .github-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            color: white !important;
+        }
+
+        /* 按钮点击效果 */
+        .download-button:active, .run-button:active, .github-link:active {
+            transform: translateY(1px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            color: white !important;
+        }
+
+        /* 产品展示区域 */
+        .product-showcase {
+            transition: all 0.4s ease;
+            transform: translateY(10px);
+            opacity: 0;
+            animation: fadeInUp 0.6s forwards;
+            animation-delay: 0.3s;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(8px);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(10px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* 产品图片 */
+        .product-image {
+            transition: all 0.4s ease;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            max-width: 100%;
+            height: auto;
+            margin: 20px 0;
+            max-height: 300px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .product-image:hover {
+            transform: scale(1.01);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 下载区域样式 */
+        .download-section {
             display: flex;
-            gap: 20px;
-            width: 100%;
-            margin: 30px 0;
             flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
         }
-        .version-list {
-            flex: 1;
-            min-width: 280px;
-            max-height: 600px;
-            overflow-y: auto;
-            background: rgba(255,255,255,0.8);
+
+        /* 对话框样式 - 多页下载选项 */
+        dialog {
+            border: none;
             border-radius: 8px;
-            padding: 15px;
-        }
-        .dark-theme .version-list {
-            background: rgba(50,50,50,0.8);
-        }
-        .version-item {
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-bottom: 8px;
-            transition: background 0.3s;
-        }
-        .dark-theme .version-item {
-            color: #fff;
-        }
-        .version-item:hover {
-            background: rgba(76,175,80,0.3);
-        }
-        .version-item.active {
-            background: rgba(76,175,80,0.6);
-            color: #fff;
-        }
-        .drawer-mod {
-            flex: 2;
-            min-width: 320px;
-            background: rgba(255,255,255,0.8);
-            border-radius: 8px;
-            padding: 20px;
+            padding: 0;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            animation: dialogFadeIn 0.3s ease-out;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e6e9f0 100%);
             position: relative;
         }
-        .dark-theme .drawer-mod {
-            background: rgba(50,50,50,0.8);
+
+        @keyframes dialogFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        .drawer-search {
-            width: 100%;
-            padding: 12px 15px;
+
+        /* 对话框标题栏 */
+        .dialog-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dialog-title {
+            margin: 0;
+            font-size: 20px;
+            color: #333;
+        }
+
+        /* 关闭按钮 */
+        .close-button {
+            background: none;
             border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #777;
+            padding: 0 10px;
+            transition: all 0.2s ease;
+        }
+
+        .close-button:hover {
+            color: #333;
+            transform: scale(1.1);
+        }
+
+        /* 下载选项页面容器 */
+        .download-pages {
+            position: relative;
+            min-height: 300px;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        /* 单个下载选项页面 */
+        .download-page {
+            position: absolute;
+            width: calc(100% - 40px);
+            top: 20px;
+            left: 20px;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+        }
+
+        .download-page.active {
+            opacity: 1;
+            transform: translateX(0);
+            position: relative;
+        }
+
+        .download-page.prev {
+            transform: translateX(-100%);
+        }
+
+        /* 导航按钮 */
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.1);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .nav-button:hover {
+            background: rgba(0,0,0,0.2);
+        }
+
+        .prev-button {
+            left: 10px;
+        }
+
+        .next-button {
+            right: 10px;
+        }
+
+        /* 页面指示器 */
+        .page-indicator {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+            padding-bottom: 15px;
+        }
+
+        .indicator-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ccc;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator-dot.active {
+            background: #555;
+            transform: scale(1.2);
+        }
+
+        /* 预留图片接口 */
+        .download-preview-image {
+            width: 100%;
+            max-height: 150px;
+            object-fit: contain;
+            margin-bottom: 15px;
             border-radius: 5px;
-            margin-bottom: 20px;
-            font-size: 16px;
-            outline: none;
-            background: rgba(245,245,245,0.9);
-        }
-        .dark-theme .drawer-search {
-            background: rgba(60,60,60,0.9);
-            color: #fff;
-            border: 1px solid #777;
-        }
-        .drawer-search::placeholder {
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: #999;
+            font-style: italic;
         }
-        .dark-theme .drawer-search::placeholder {
-            color: #ccc;
-        }
-        .download-link-list {
-            max-height: 500px;
-            overflow-y: auto;
-        }
-        .link-item {
-            padding: 10px 15px;
+
+        /* 预留描述文字 */
+        .download-description {
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #f8f9fa;
             border-radius: 5px;
-            margin-bottom: 10px;
-            background: rgba(245,245,245,0.9);
-            transition: background 0.3s;
+            font-size: 14px;
+            color: #555;
         }
-        .dark-theme .link-item {
-            background: rgba(60,60,60,0.9);
-            color: #fff;
-        }
-        .link-item:hover {
-            background: rgba(76,175,80,0.2);
-        }
-        .dark-theme .link-item:hover {
-            background: rgba(76,175,80,0.3);
-        }
-        .link-item a {
-            color: #0366d6;
-            text-decoration: none;
-            display: block;
+
+        /* 加载动画 */
+        #loading {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.4s ease;
         }
-        .dark-theme .link-item a {
-            color: #61dafb;
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(76, 175, 80, 0.2);
+            border-radius: 50%;
+            border-top-color: rgba(76, 175, 80, 0.8);
+            animation: spin 1s ease-in-out infinite;
         }
-        .link-item a:hover {
-            text-decoration: underline;
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
-        .empty-tip {
-            text-align: center;
-            padding: 30px;
-            color: #666;
-        }
-        .dark-theme .empty-tip {
-            color: #ccc;
-        }
-        /* 新增：快速链接标识样式 */
-        .fast-tag {
-            color: #ff5722;
-            font-size: 12px;
-            margin-left: 8px;
-            font-weight: bold;
-        }
-        .dark-theme .fast-tag {
-            color: #ff9800;
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .download-section {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .download-button, .run-button, .github-link {
+                width: 100%;
+                margin: 5px 0;
+            }
+            
+            .product-image {
+                max-height: 200px;
+            }
         }
     </style>
 </head>
-<body class="">
+<body>
+    <div id="loading">
+        <div class="loader"></div>
+    </div>
+
     <div class="background-container">
-        <!-- 头部：修改logo为你的相对地址img\MAIN.jpg -->
         <header>
-            <div class="header-left">
-                <img src="img/MAIN.jpg" alt="Spark Logo" class="logo">
-                <h1>Spark 官方下载站</h1>
-            </div>
+            <h1>下载 Spark</h1>
             <nav>
                 <ul>
-                    <li><a href="#">首页</a></li>
-                    <li><a href="#">下载中心</a></li>
-                    <li><a href="#">关于我们</a></li>
+                    <li><a href="index.html">主页</a></li>
+                    <li><a href="javascript:void(0);" onclick="showAnnouncement();">公告</a></li>
+                    <li><a href="lock.html">加密</a></li>
+                    <li><a href="download.html">下载 Spark</a></li>
                 </ul>
             </nav>
-            <button id="themeToggle">切换深色模式</button>
         </header>
 
-        <!-- 主内容 -->
         <main>
-            <div class="product-showcase">
-                <h2 class="section-title">Spark 系列版本下载</h2>
-                <p class="product-description">Spark 全版本安装包下载，支持Windows、macOS、Linux、Android多平台，提供官方直链与<span style="color:#ff5722">快速加速链接</span></p>
-                <!-- 重构后的下载模块 -->
-                <div class="spark-download-mod">
-                    <!-- 版本列表 -->
-                    <div class="version-list" id="versionList">
-                        <!-- JS动态生成版本项 -->
-                    </div>
-                    <!-- 抽屉式下载区 -->
-                    <div class="drawer-mod">
-                        <input type="text" class="drawer-search" id="drawerSearch" placeholder="搜索平台/包类型（如：Windows、apk、macOS、快速）">
-                        <div class="download-link-list" id="downloadLinkList">
-                            <p class="empty-tip">请选择左侧Spark版本，或在上方搜索</p>
-                        </div>
-                    </div>
+            <section class="product-showcase">
+                <h2>Spark 5</h2>
+                
+                <p class="product-description">Spark 5 是目前最新的spark系列操作系统，你可以用它进行联网等操作。(当前最新版本：5.3.3.1）<br>目前网站只提供部分下载方式，具体请看Github网站</p>
+                <div class="download-section">
+                    <button onclick="window.location.href='Spark for the web/Spark 5.html'" class="run-button">在网页中运行</button>
+                    <button onclick="showDownloadOptions('spark5')" class="download-button">下载最新版 Spark 5</button>
+                    <a href="https://github.com/Chai-Bing-Kun/Spark-X" class="github-link" target="_blank">在GitHub中查看</a>
                 </div>
-            </div>
+            </section>
 
-            <!-- 反馈按钮 -->
-            <button id="feedbackBtn">提交反馈</button>
+            <section class="product-showcase">
+                <h2>Spark 4</h2>
+    
+                <p class="product-description">Spark 4 是 Spark 系列的前代版本，现在已停止更新，请你转为下载最新版的spark 5。</p>
+                    <div class="download-section">
+                    <button onclick="window.location.href='Spark for the web/Spark 4.html'" class="run-button">在网页中运行</button>
+                    <button onclick="showDownloadOptions('spark4')" class="download-button">下载最新版 Spark 4</button>
+                    <a href="https://github.com/Chai-Bing-Kun/Spark-X" class="github-link" target="_blank">在GitHub中查看</a>
+                </div>
+            </section>
         </main>
 
-        <!-- 页脚 -->
         <footer>
-            <p>© 2025 Spark 官方下载站 | 源码地址 <a href="https://github.com/Chai-Bing-Kun/Spark-X" class="github-link">GitHub</a></p>
+            <p>&copy; 2024 柴炳坤. 保留所有权利。</p>
+            <button id="themeToggle">切换主题</button>
         </footer>
     </div>
 
-    <!-- 反馈弹窗 -->
-    <dialog id="feedbackDialog">
-        <h3>提交使用反馈</h3>
-        <form id="feedbackForm">
-            <textarea id="feedbackText" placeholder="请输入你的反馈内容..."></textarea>
-            <button type="submit">提交</button>
-            <button type="button" onclick="document.getElementById('feedbackDialog').close()">取消</button>
-        </form>
+    <dialog id="downloadDialog">
+        <div class="dialog-header">
+            <h2 class="dialog-title">选择下载选项</h2>
+            <button class="close-button" onclick="closeDialog()">×</button>
+        </div>
+        <div class="download-pages">
+            <!-- 标准下载页面 -->
+            <div class="download-page active" data-page="0">
+                <div class="download-preview-image">
+                    <!-- 预留图片插入接口 -->
+                    <span>从github上下载</span>
+                </div>
+                <div class="download-description">
+                    <!-- 预留描述文字 -->
+                    <p>这是github上的直链下载链接下载方式，请点击下方按钮，选择合适的内容下载</p>
+                </div>
+                <div style="display: flex; flex-wrap: wrap; justify-content: center;">
+                    <button onclick="download('apk')" class="download-button">Android</button>
+                    <button onclick="download('windows')" class="download-button">Windows</button>
+                    <button onclick="download('mac')" class="download-button">Mac</button>
+                    <button onclick="download('linux')" class="download-button">Linux</button>
+                </div>
+            </div>
+            
+            <!-- 快速下载页面 -->
+            <div class="download-page" data-page="1">
+                <div class="download-preview-image">
+                    <!-- 预留图片插入接口 -->
+                    <span>从ghproxy上下载</span>
+                </div>
+                <div class="download-description">
+                    <!-- 预留描述文字 -->
+                    <p>这是ghproxy上的下载链接，请点击下方按钮，选择合适的内容下载</p>
+                </div>
+                <div style="display: flex; flex-wrap: wrap; justify-content: center;">
+                    <button onclick="download('fastapk')" class="download-button">Android</button>
+                    <button onclick="download('fastwindows')" class="download-button">Windows</button>
+                    <button onclick="download('fastmac')" class="download-button">Mac</button>
+                    <button onclick="download('fastlinux')" class="download-button">Linux</button>
+                </div>
+            </div>
+            
+            <!-- 批量下载页面 -->
+            <div class="download-page" data-page="2">
+                <div class="download-preview-image">
+                    <!-- 预留图片插入接口 -->
+                    <span>从ghproxy上下载</span>
+                </div>
+                <div class="download-description">
+                    <!-- 预留描述文字 -->
+                    <p>这是ghproxy上的批量下载链接，请点击下方按钮，选择合适的内容下载</p>
+                </div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <button onclick="download('all')" class="download-button" style="background-color: #e74c3c;">全部下载</button>
+                </div>
+            </div>
+            
+            <button class="nav-button prev-button" onclick="prevPage()">❮</button>
+            <button class="nav-button next-button" onclick="nextPage()">❯</button>
+        </div>
+        
+        <div class="page-indicator">
+            <div class="indicator-dot active" data-page="0"></div>
+            <div class="indicator-dot" data-page="1"></div>
+            <div class="indicator-dot" data-page="2"></div>
+        </div>
+    </dialog>
+
+    <dialog id="announcementDialog">
+        <h2>  公告</h2>
+        <div style="max-height: 400px; overflow-y: auto; padding: 10px;">
+            <h3>新版本说明</h3>
+            <ul>
+                <li>目前最新版：5.3.3.1</li>
+                <li>修复了无法打开应用的Bug</li>
+                <li>修复了因登录/注册名字识别错误的Bug</li>
+                <li>增大了图形显示性能（可能会使内存崩溃）</li>
+            </ul>
+            
+            <h3>网站公告</h3>
+            <ul>
+                <li>欢迎大家来参加先遣版的报名！</li>
+                <li>网站和应用是免费无广告的</li>
+                <li>本作品只是一个演示文件，娱乐所做</li>
+                <li>更新了下载界面的样式</li>
+                <li>新增了邮件回访功能</li>
+                <li>修复了网站加密功能无法跳转的Bug</li>
+                <li>欢迎大家来反馈！</li>
+            </ul>
+        </div>
+        <div style="text-align: center; margin-top: 20px;">
+            <button onclick="closeAnnouncementDialog()" style="background-color: #95a5a6; color: white;">关闭</button>
+        </div>
     </dialog>
 
     <script>
-        // 1. 深色模式切换
-        const themeToggle = document.getElementById('themeToggle');
-        const body = document.body;
-        themeToggle.addEventListener('click', () => {
-            body.classList.toggle('dark-theme');
-            themeToggle.textContent = body.classList.contains('dark-theme') ? '切换浅色模式' : '切换深色模式';
-        });
+        let currentProduct = '';
+        let currentPage = 0;
+        const totalPages = 3;
 
-        // 2. 反馈弹窗
-        const feedbackBtn = document.getElementById('feedbackBtn');
-        const feedbackDialog = document.getElementById('feedbackDialog');
-        const feedbackForm = document.getElementById('feedbackForm');
-        feedbackBtn.addEventListener('click', () => {
-            feedbackDialog.showModal();
-        });
-        feedbackForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('反馈提交成功！感谢你的建议');
-            feedbackDialog.close();
-            feedbackForm.reset();
-        });
-
-        // 3. Spark全版本下载链接数据（整合官方直链+快速加速链接）
-        const sparkDownloadData = {
-    "5.3.4.1": {
-        "Windows x64免安装(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1-Electron-x64.zip",
-        "Windows x64安装程序(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark-5.3.4.1-x64.msi",
-        "Windows x32免安装(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1.zip",
-        "Windows x32安装程序(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark-5.3.4.1-x32.msi",
-        "Linux x64(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1.64.Electron.Linux.zip",
-        "Linux ARM x32(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1-Linux-Electron-ARM-x32.zip",
-        "macOS(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1.WKWebView.macOS.zip",
-        
-        "Android apk(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/H53034E71__20250607175308.apk",
-        "版本总包(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.4.1.zip",
-        "Windows x64免安装(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1-Electron-x64.zip",
-        "Windows x64安装程序(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark-5.3.4.1-x64.msi",
-        "Windows x32免安装(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1.zip",
-        "Windows x32安装程序(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark-5.3.4.1-x32.msi",
-        "Linux x64(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1.64.Electron.Linux.zip",
-        "Linux ARM x32(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1-Linux-Electron-ARM-x32.zip",
-        "macOS(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1.WKWebView.macOS.zip",
-        "Android apk(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/H53034E71__20250607175308.apk",
-        "版本总包(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.4.1.zip"
-    },
-    "5.3.4.0": {
-        "Windows x64免安装(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0-Electron-x64.zip",
-        "Windows x32免安装(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0.zip",
-        "Linux x64(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0.64.Electron.Linux.zip",
-        "Linux ARM x32(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0-Linux-Electron-ARM-x32.zip",
-        "macOS(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0.WKWebView.macOS.zip",
-        "Android apk(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/H53034E71__20250418180022.apk",
-        "版本总包(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.4.0.zip",
-        "Windows x64免安装(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0-Electron-x64.zip",
-        "Windows x32免安装(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0.zip",
-        "Linux x64(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0.64.Electron.Linux.zip",
-        "Linux ARM x32(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0-Linux-Electron-ARM-x32.zip",
-        "macOS(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0.WKWebView.macOS.zip",
-        "Android apk(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/H53034E71__20250418180022.apk",
-        "版本总包(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.4.0.zip"
-    },
-    "5.3.3.1": {
-        "Windows x64免安装(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1-Electron-x64.zip",
-        "Windows x32免安装(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1.zip",
-        "Linux x64(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1.64.Electron.Linux.zip",
-        "Linux ARM x32(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1-Linux-Electron-ARM-x32.zip",
-        "macOS(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1.WKWebView.macOS.zip",
-        "Android apk(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/H53034E71__20250302073119.apk",
-        "版本总包(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.3.1.zip",
-        "Windows x64免安装(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1-Electron-x64.zip",
-        "Windows x32免安装(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1.zip",
-        "Linux x64(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1.64.Electron.Linux.zip",
-        "Linux ARM x32(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1-Linux-Electron-ARM-x32.zip",
-        "macOS(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1.WKWebView.macOS.zip",
-        "Android apk(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/H53034E71__20250302073119.apk",
-        "版本总包(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.3.1.zip"
-    },
-    "5.3.3.0": {
-        "Windows x32免安装(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.0/Spark.5.3.3.0.zip",
-        "Linux x64(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.0/Spark.5.3.3.0.64.Electron.Linux.zip",
-        "macOS(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.0/Spark.5.3.3.0.WKWebView.macOS.zip",
-        "Android apk(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.0/H53034E71__20250223121349.apk",
-        "版本总包(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.3.0.zip",
-        "Windows x32免安装(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.0/Spark.5.3.3.0.zip",
-        "Linux x64(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.0/Spark.5.3.3.0.64.Electron.Linux.zip",
-        "macOS(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.0/Spark.5.3.3.0.WKWebView.macOS.zip",
-        "Android apk(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.0/H53034E71__20250223121349.apk",
-        "版本总包(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.3.0.zip"
-    },
-    "5.3.2.6": {
-        "Windows x32免安装(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.6/Spark.5.3.2.6.zip",
-        "Linux x64(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.6/Spark.5.3.2.6.64.Electron.Linux.zip",
-        "macOS(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.6/Spark.5.3.2.6.WKWebView.macOS.zip",
-        "Android apk(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.6/H53034E71__20250127215051.apk",
-        "版本总包(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.2.6.zip",
-        "Windows x32免安装(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.6/Spark.5.3.2.6.zip",
-        "Linux x64(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.6/Spark.5.3.2.6.64.Electron.Linux.zip",
-        "macOS(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.6/Spark.5.3.2.6.WKWebView.macOS.zip",
-        "Android apk(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.6/H53034E71__20250127215051.apk",
-        "版本总包(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.2.6.zip"
-    },
-    "5.3.2.5": {
-        "Windows x32免安装(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.5/Spark.5.3.2.5.zip",
-        "Linux x64(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.5/Spark.5.3.2.5.64.Electron.Linux.zip",
-        "macOS(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.5/Spark.5.3.2.5.WKWebView.macOS.zip",
-        "Android apk(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.5/H53034E71__20250123093440.apk",
-        "版本总包(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.2.5.zip",
-        "Windows x32免安装(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.5/Spark.5.3.2.5.zip",
-        "Linux x64(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.5/Spark.5.3.2.5.64.Electron.Linux.zip",
-        "macOS(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.5/Spark.5.3.2.5.WKWebView.macOS.zip",
-        "Android apk(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.5/H53034E71__20250123093440.apk",
-        "版本总包(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.2.5.zip"
-    },
-    "5.3.2.3": {
-        "Windows x32免安装(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.3/Spark.5.3.2.3.zip",
-        "Linux x64(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.3/Spark.5.3.2.3.64.Electron.Linux.zip",
-        "macOS(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.3/Spark.5.3.2.3.WKWebView.macOS.zip",
-        "Android apk(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.3/H53034E71__20250110214406.apk",
-        "版本总包(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.2.3.zip",
-        "Windows x32免安装(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.3/Spark.5.3.2.3.zip",
-        "Linux x64(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.3/Spark.5.3.2.3.64.Electron.Linux.zip",
-        "macOS(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.3/Spark.5.3.2.3.WKWebView.macOS.zip",
-        "Android apk(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.3/H53034E71__20250110214406.apk",
-        "版本总包(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.2.3.zip"
-    },
-    "5.3.2.1": {
-        "Windows x32免安装(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.1/Spark.5.3.2.1.zip",
-        "Linux x64(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.1/Spark.5.3.2.1.64.Electron.Linux.zip",
-        "macOS(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.1/Spark.5.3.2.1.WKWebView.macOS.zip",
-        "Android apk(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.1/H53034E71__20241227205118.apk",
-        "版本总包(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.2.1.zip",
-        "Windows x32免安装(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.1/Spark.5.3.2.1.zip",
-        "Linux x64(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.1/Spark.5.3.2.1.64.Electron.Linux.zip",
-        "macOS(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.1/Spark.5.3.2.1.WKWebView.macOS.zip",
-        "Android apk(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.1/H53034E71__20241227205118.apk",
-        "版本总包(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.2.1.zip"
-    },
-    "5.3.1.0": {
-        "Windows x32免安装(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.1.0/Spark.5.3.1.0.zip",
-        "Linux x64(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.1.0/Spark.5.3.1.0.64.Electron.Linux.zip",
-        "macOS(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.1.0/Spark.5.3.1.0.WKWebView.macOS.zip",
-        "Android apk(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.1.0/H53034E71__20241214084109.apk",
-        "版本总包(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.1.0.zip",
-        "Windows x32免安装(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.1.0/Spark.5.3.1.0.zip",
-        "Linux x64(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.1.0/Spark.5.3.1.0.64.Electron.Linux.zip",
-        "macOS(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.1.0/Spark.5.3.1.0.WKWebView.macOS.zip",
-        "Android apk(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.1.0/H53034E71__20241214084109.apk",
-        "版本总包(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.1.0.zip"
-    },
-    "5.3.0.0": {
-        "Windows x32免安装(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.0.0/Spark.5.3.0.0.zip",
-        "Linux x64(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.0.0/Spark.5.3.0.0.64.Electron.Linux.zip",
-        "macOS(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.0.0/Spark.5.3.0.0.WKWebView.macOS.zip",
-        "Android apk(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.0.0/H53034E71__20241201145055.apk",
-        "版本总包(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.0.0.zip",
-        "Windows x32免安装(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.0.0/Spark.5.3.0.0.zip",
-        "Linux x64(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.0.0/Spark.5.3.0.0.64.Electron.Linux.zip",
-        "macOS(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.0.0/Spark.5.3.0.0.WKWebView.macOS.zip",
-        "Android apk(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.0.0/H53034E71__20241201145055.apk",
-        "版本总包(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.0.0.zip"
-    },
-    "5.2.1.2": {
-        "Windows x32免安装(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.2/Spark.5.2.1.2.zip",
-        "Linux x64(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.2/Spark.5.2.1.2.64.Electron.Linux.zip",
-        "macOS(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.2/Spark.5.2.1.2.WKWebView.macOS.zip",
-        "Android apk(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.2/H53034E71__20241124121937.apk",
-        "版本总包(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.2.1.2.zip",
-        "Windows x32免安装(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.2/Spark.5.2.1.2.zip",
-        "Linux x64(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.2/Spark.5.2.1.2.64.Electron.Linux.zip",
-        "macOS(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.2/Spark.5.2.1.2.WKWebView.macOS.zip",
-        "Android apk(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.2/H53034E71__20241124121937.apk",
-        "版本总包(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.2.1.2.zip"
-    },
-    "5.2.1.1": {
-        "Windows x32免安装(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.1/Spark.5.2.1.0.zip",
-        "Linux x64(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.1/Spark.5.2.1.1.64.Electron.Linux.zip",
-        "macOS(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.1/Spark.5.2.1.0.WKWebView.macOS.zip",
-        "Android apk(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.1/H53034E71__20241102070843.apk",
-        "版本总包(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.2.1.1.zip",
-        "Windows x32免安装(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.1/Spark.5.2.1.0.zip",
-        "Linux x64(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.1/Spark.5.2.1.1.64.Electron.Linux.zip",
-        "macOS(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.1/Spark.5.2.1.0.WKWebView.macOS.zip",
-        "Android apk(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.1/H53034E71__20241102070843.apk",
-        "版本总包(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.2.1.1.zip"
-    },
-    "5.2.1.0": {
-            "Windows x32免安装(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.0/Spark.5.2.1.0.zip",
-            "Linux x64(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.0/Spark.5.2.1.0.64.Electron.Linux.zip",
-            "macOS(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.0/Spark.5.2.1.0.WKWebView.macOS.zip",
-            "Android apk(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.0/H53034E71__20241101221931.apk",
-            "版本总包(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.2.1.0.zip",
-            "Windows x32免安装(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.0/Spark.5.2.1.0.zip",
-            "Linux x64(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.0/Spark.5.2.1.0.64.Electron.Linux.zip",
-            "macOS(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.0/Spark.5.2.1.0.WKWebView.macOS.zip",
-            "Android apk(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.0/H53034E71__20241101221931.apk",
-            "版本总包(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.2.1.0.zip"
-        },
-    "5.2.0.0": {
-        "Windows x32免安装(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.0.0/Spark.5.2.0.0.zip",
-        "Linux x64(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.0.0/Spark.5.2.0.0.64.Electron.Linux.zip",
-        "macOS(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.0.0/Spark.5.2.0.0.WKWebView.macOS.zip",            
-        "Android apk(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.0.0/H53034E71__20241002205009.apk",
-        "版本总包(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.2.0.0.zip",
-        "Windows x32免安装(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.0.0/Spark.5.2.0.0.zip",
-        "Linux x64(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.0.0/Spark.5.2.0.0.64.Electron.Linux.zip",
-        "macOS(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.0.0/Spark.5.2.0.0.WKWebView.macOS.zip",
-        "Android apk(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.0.0/H53034E71__20241002205009.apk",
-        "版本总包(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.2.0.0.zip"
-        },
-    "5.1.4.1": {
-        "Windows x32免安装(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.4.1/Spark.5.1.4.1.zip",
-        "macOS(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.4.1/Spark.5.1.4.1.WKWebView.macOS.zip",
-        "Android apk(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.4.1/H53034E71__20240827181518.apk",
-        "版本总包(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.1.4.1.zip",
-        "Windows x32免安装(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.4.1/Spark.5.1.4.1.zip",
-        "macOS(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.4.1/Spark.5.1.4.1.WKWebView.macOS.zip",
-        "Android apk(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.4.1/H53034E71__20240827181518.apk",
-        "版本总包(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.1.4.1.zip"
-        },
-    "5.1.3.1": {
-        "Windows x32免安装(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.3.1/Spark.5.1.3.1.zip",
-        "Android apk(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.3.1/H53034E71__20240804211807.apk",
-        "版本总包(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.1.3.1.zip",
-        "Windows x32免安装(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.3.1/Spark.5.1.3.1.zip",
-        "Android apk(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.3.1/H53034E71__20240804211807.apk",
-        "版本总包(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.1.3.1.zip"
-        },
-    "5.1.3.0": {
-        "Windows x32免安装(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.3.0/Spark.5.1.3.0.zip",
-        "Android apk(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.3.0/H53034E71__20240803212046.apk",
-        "版本总包(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.1.3.0.zip",
-        "Windows x32免安装(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.3.0/Spark.5.1.3.0.zip",
-        "Android apk(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.3.0/H53034E71__20240803212046.apk",
-        "版本总包(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.1.3.0.zip"
-        },
-    "5.1.2.0": {
-        "Windows x32免安装(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.2.0/Spark.5.1.2.0.zip",
-        "Android apk(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.2.0/H53034E71__20240731180538.apk",
-        "版本总包(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.1.2.0.zip",
-        "Windows x32免安装(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.2.0/Spark.5.1.2.0.zip",
-        "Android apk(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.2.0/H53034E71__20240731180538.apk",
-        "版本总包(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.1.2.0.zip"
-        },
-    "5.1.1.1": {
-        "Windows x32免安装(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.1.1/Spark.5.1.1.1.zip",
-        "Android apk(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.1.1/H53034E71__20240727173653.apk",
-        "版本总包(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.1.1.1.zip",
-        "Windows x32免安装(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.1.1/Spark.5.1.1.1.zip",
-        "Android apk(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.1.1/H53034E71__20240727173653.apk",
-        "版本总包(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.1.1.1.zip"
-        },
-    "5.1.1.0": {
-        "Windows x32免安装(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.1.0/Spark.5.1.1.zip",
-        "Android apk(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.1.0/H53034E71__20240727171927.apk",
-        "版本总包(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.1.1.0.zip",
-        "Windows x32免安装(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.1.0/Spark.5.1.1.zip",
-        "Android apk(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.1.0/H53034E71__20240727171927.apk",
-        "版本总包(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.1.1.0.zip"
-        },
-        "5.1.0.0": {
-            "Windows x32免安装(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.0.0/Spark.5.1.0.zip",
-            "Android apk(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.0.0/H53034E71__20240727171039.apk",
-            "版本总包(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.1.0.0.zip",
-            "Windows x32免安装(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.0.0/Spark.5.1.0.zip",
-            "Android apk(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.0.0/H53034E71__20240727171039.apk",
-            "版本总包(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.1.0.0.zip"
-        },
-        "5.0.0.0": {
-            "Windows x32免安装(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v5.0.0.0/spark-5.zip",
-            "Android apk(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v5.0.0.0/H53034E71__20240727082236.apk",
-            "版本总包(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v5.0.0.0.zip",
-            "Windows x32免安装(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v5.0.0.0/spark-5.zip",
-            "Android apk(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v5.0.0.0/H53034E71__20240727082236.apk",
-            "版本总包(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v5.0.0.0.zip"
-        },
-        "4.1.1.0": {
-            "Android apk(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.4.1.1.0/H5DD2E11E__20240727081549.apk",
-            "版本总包(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.4.1.1.0.zip",
-            "Android apk(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.4.1.1.0/H5DD2E11E__20240727081549.apk",
-            "版本总包(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.4.1.1.0.zip"
-        },
-        "4.0.0.0": {
-            "Android apk(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.4.0.0.0/H5612C787__20240727081044.apk",
-            "版本总包(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.4.0.0.0.zip",
-            "Android apk(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.4.0.0.0/H5612C787__20240727081044.apk",
-            "版本总包(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.4.0.0.0.zip"
-        },
-        "3.0.1.0": {
-            "Windows x32免安装(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v3.0.1.0/Spark.3.0.spa3ap3.1.zip",
-            "Android apk(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v3.0.1.0/H5EFB41FC__20240727073359.apk",
-            "版本总包(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v3.0.1.0.zip",
-            "Windows x32免安装(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v3.0.1.0/Spark.3.0.spa3ap3.1.zip",
-            "Android apk(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v3.0.1.0/H5EFB41FC__20240727073359.apk",
-            "版本总包(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v3.0.1.0.zip"
-        },
-        "3.0.0.0": {
-            "Android apk(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.3.0.0.0/H5FEEB2D8__20240727074843.apk",
-            "版本总包(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.3.0.0.0.zip",
-            "Android apk(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.3.0.0.0/H5FEEB2D8__20240727074843.apk",
-            "版本总包(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.3.0.0.0.zip"
-        },
-        "2.2.0.0": {
-            "Windows x32免安装(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.2.2.0.0/spark.2.2.0.0.zip",
-            "Android apk(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.2.2.0.0/H505B2286__20240726173713.apk",
-            "版本总包(官方)": "https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.2.2.0.0.zip",
-            "Windows x32免安装(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.2.2.0.0/spark.2.2.0.0.zip",
-            "Android apk(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.2.2.0.0/H505B2286__20240726173713.apk",
-            "版本总包(快速)": "https://gh.llkk.cc/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.2.2.0.0.zip"
-        }
-    };
-
-        // 4. 初始化版本列表
-        const versionList = document.getElementById('versionList');
-        const downloadLinkList = document.getElementById('downloadLinkList');
-        const drawerSearch = document.getElementById('drawerSearch');
-        let currentVersion = '';
-
-        // 生成版本项
-        const versions = Object.keys(sparkDownloadData).sort((a, b) => {
-            // 版本号从高到低排序
-            const aArr = a.split('.').map(Number);
-            const bArr = b.split('.').map(Number);
-            for (let i = 0; i < 4; i++) {
-                if (aArr[i] !== bArr[i]) return bArr[i] - aArr[i];
-            }
-            return 0;
-        });
-        versions.forEach(ver => {
-            const div = document.createElement('div');
-            div.className = 'version-item';
-            div.textContent = `Spark ${ver}`;
-            div.dataset.version = ver;
-            versionList.appendChild(div);
-            // 绑定版本点击事件
-            div.addEventListener('click', () => {
-                // 移除其他激活状态
-                document.querySelectorAll('.version-item').forEach(item => item.classList.remove('active'));
-                // 添加当前激活状态
-                div.classList.add('active');
-                currentVersion = ver;
-                // 渲染对应下载链接
-                renderDownloadLinks(ver);
+        // 为按钮添加鼠标位置追踪
+        document.querySelectorAll('.download-button, .run-button, .github-link').forEach(button => {
+            button.addEventListener('mousemove', (e) => {
+                const rect = button.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                button.style.setProperty('--mouse-x', `${x}px`);
+                button.style.setProperty('--mouse-y', `${y}px`);
+            });
+            
+            // 确保链接文字颜色不会变化
+            button.addEventListener('mouseenter', () => {
+                button.style.color = 'white';
+            });
+            button.addEventListener('mouseleave', () => {
+                button.style.color = 'white';
             });
         });
 
-        // 5. 渲染下载链接
-        function renderDownloadLinks(version, searchKey = '') {
-            const links = sparkDownloadData[version];
-            if (!links) {
-                downloadLinkList.innerHTML = '<p class="empty-tip">该版本暂无下载链接</p>';
-                return;
-            }
-            // 过滤链接
-            const filteredKeys = Object.keys(links).filter(key => {
-                return key.toLowerCase().includes(searchKey.toLowerCase());
+        // 切换下载页面
+        function changePage(pageIndex) {
+            const pages = document.querySelectorAll('.download-page');
+            const dots = document.querySelectorAll('.indicator-dot');
+            
+            pages.forEach((page, index) => {
+                if (index === pageIndex) {
+                    page.classList.add('active');
+                    page.classList.remove('prev');
+                } else {
+                    page.classList.remove('active');
+                    if (index < pageIndex) {
+                        page.classList.add('prev');
+                    } else {
+                        page.classList.remove('prev');
+                    }
+                }
             });
-            if (filteredKeys.length === 0) {
-                downloadLinkList.innerHTML = '<p class="empty-tip">未找到匹配的下载链接</p>';
-                return;
-            }
-            // 生成链接项
-            let html = '';
-            filteredKeys.forEach(key => {
-                const url = links[key];
-                // 给快速链接加红色标识
-                const fastFlag = key.includes('(快速)') ? '<span class="fast-tag">⚡</span>' : '';
-                html += `
-                    <div class="link-item">
-                        <a href="${url}" target="_blank" rel="noopener noreferrer">${key} ${fastFlag}</a>
-                    </div>
-                `;
+            
+            dots.forEach((dot, index) => {
+                if (index === pageIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
             });
-            downloadLinkList.innerHTML = html;
+            
+            currentPage = pageIndex;
         }
 
-        // 6. 搜索框绑定事件
-        drawerSearch.addEventListener('input', (e) => {
-            const searchKey = e.target.value.trim();
-            if (currentVersion) {
-                renderDownloadLinks(currentVersion, searchKey);
-            } else {
-                downloadLinkList.innerHTML = '<p class="empty-tip">请先选择左侧Spark版本</p>';
-            }
+        function prevPage() {
+            const newPage = (currentPage - 1 + totalPages) % totalPages;
+            changePage(newPage);
+        }
+
+        function nextPage() {
+            const newPage = (currentPage + 1) % totalPages;
+            changePage(newPage);
+        }
+
+        // 点击指示器切换页面
+        document.querySelectorAll('.indicator-dot').forEach(dot => {
+            dot.addEventListener('click', () => {
+                const pageIndex = parseInt(dot.getAttribute('data-page'));
+                changePage(pageIndex);
+            });
+        });
+
+        function showAnnouncement() {
+            const dialog = document.getElementById('announcementDialog');
+            dialog.showModal();
+        }
+
+        function closeAnnouncementDialog() {
+            const dialog = document.getElementById('announcementDialog');
+            dialog.close();
+        }
+
+        function showDownloadOptions(product) {
+            currentProduct = product;
+            currentPage = 0;
+            changePage(0);
+            const dialog = document.getElementById('downloadDialog');
+            dialog.showModal();
+        }
+
+        function closeDialog() {
+            const dialog = document.getElementById('downloadDialog');
+            dialog.close();
+        }
+
+        function download(type) {
+    let files;
+    if (currentProduct === 'spark5') {
+        files = {
+            'apk': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/H53034E71__20250302073119.apk',
+            'windows': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1.zip',
+            'mac': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1.WKWebView.macOS.zip',
+            'linux': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1.64.Electron.Linux.zip',
+            'fastapk': 'https://ghproxy.cn/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/H53034E71__20250302073119.apk',
+            'fastwindows': 'https://ghproxy.cn/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1.zip',
+            'fastmac': 'https://ghproxy.cn/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1.WKWebView.macOS.zip',
+            'fastlinux': 'https://ghproxy.cn/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1.64.Electron.Linux.zip'
+        };
+    } else if (currentProduct === 'spark4') {
+        files = {
+            'apk': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.4.1.1.0/H5DD2E11E__20240727081549.apk',
+            'windows': 'download/致歉声明.txt',
+            'mac': 'download/致歉声明.txt',
+            'linux': 'download/致歉声明.txt',
+            'fastapk': 'https://ghproxy.cn/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.4.1.1.0/H5DD2E11E__20240727081549.apk',
+            'fastwindows': 'download/致歉声明.txt',
+            'fastmac': 'download/致歉声明.txt',
+            'fastlinux': 'download/致歉声明.txt'
+        };
+    }
+
+    if (type === 'all') {
+        if (currentProduct === 'spark5') {
+            window.open('https://ghproxy.cn/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.3.1.zip', '_blank');
+        } else if (currentProduct === 'spark4') {
+            window.open('https://ghproxy.cn/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.4.1.1.0.zip', '_blank');
+        }
+    } else {
+        window.open(files[type], '_blank');
+    }
+
+    closeDialog();
+}
+
+        // 页面加载完成后执行
+        window.addEventListener('load', function() {
+            const loading = document.getElementById('loading');
+            
+            // 隐藏加载动画
+            setTimeout(function() {
+                loading.style.opacity = '0';
+                setTimeout(function() {
+                    loading.style.display = 'none';
+                }, 400);
+            }, 800);
+            
+            // 触发产品展示区域的动画
+            document.querySelectorAll('.product-showcase').forEach((el, index) => {
+                el.style.animationDelay = `${index * 0.2}s`;
+            });
         });
     </script>
+    <script src="theme.js"></script>
 </body>
 </html>
