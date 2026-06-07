@@ -9,10 +9,10 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         body, html {
-            font-family: 'Roboto', sans-serif; /* 使用指定字体 */
+            font-family: 'Roboto', sans-serif;
         }
 
-        /* 修改加载动画样式为第二个文件的效果 */
+        /* ===== 加载动画样式 (与 download.html 一致) ===== */
         #loading {
             position: fixed;
             top: 0;
@@ -40,82 +40,280 @@
             to { transform: rotate(360deg); }
         }
 
-        /* 其他样式保持不变 */
+        /* ===== 通用按钮样式 (与 download.html 一致) ===== */
+        .action-button {
+            display: inline-block;
+            color: white !important;
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin: 10px 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(0);
+        }
+
+        .action-button::before {
+            content: '';
+            position: absolute;
+            top: var(--mouse-y);
+            left: var(--mouse-x);
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: width 0.4s ease-out, height 0.4s ease-out, opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .action-button:hover::before {
+            width: 200px;
+            height: 200px;
+            opacity: 1;
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            color: white !important;
+        }
+
+        .action-button:active {
+            transform: translateY(1px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            color: white !important;
+        }
+
+        /* ===== Section 区域动画 (与 download.html 一致) ===== */
+        main section {
+            transition: all 0.4s ease;
+            transform: translateY(10px);
+            opacity: 0;
+            animation: fadeInUp 0.6s forwards;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(8px);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(10px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* ===== 对话框样式 (与 download.html 一致) ===== */
+        dialog {
+            border: none;
+            border-radius: 8px;
+            padding: 0;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            animation: dialogFadeIn 0.3s ease-out;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e6e9f0 100%);
+        }
+
+        @keyframes dialogFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .dialog-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dialog-title {
+            margin: 0;
+            font-size: 20px;
+            color: #333;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #777;
+            padding: 0 10px;
+            transition: all 0.2s ease;
+        }
+
+        .close-button:hover {
+            color: #333;
+            transform: scale(1.1);
+        }
+
+        /* ===== 原有按钮保留，但升级过渡效果 ===== */
+        #feedbackBtn, #themeToggle, #submitFeedback, #cancelFeedback {
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(0);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
         #feedbackBtn {
-            background-color: #4CAF50; /* 按钮背景色 */
-            color: white; /* 按钮文字颜色 */
-            border: none; /* 去掉边框 */
-            padding: 10px 20px; /* 内边距 */
-            text-align: center; /* 文字居中 */
-            text-decoration: none; /* 去掉下划线 */
-            display: inline-block; /* 使按钮为块级元素 */
-            font-size: 16px; /* 字体大小 */
-            margin: 4px 2px; /* 外边距 */
-            cursor: pointer; /* 鼠标悬停时显示手型 */
-            border-radius: 5px; /* 圆角 */
-            transition: background-color 0.3s, transform 0.2s; /* 添加过渡效果 */
+            background-color: #4CAF50;
         }
 
         #feedbackBtn:hover {
-            background-color: #45a049; /* 悬停时的背景色 */
-            transform: scale(1.05); /* 悬停时放大效果 */
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
         #feedbackBtn:active {
-            transform: scale(0.95); /* 点击时缩小效果 */
+            transform: translateY(1px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         #themeToggle {
-            background-color: #007BFF; /* 按钮背景色 */
-            color: white; /* 按钮文字颜色 */
-            border: none; /* 去掉边框 */
-            padding: 10px 20px; /* 内边距 */
-            text-align: center; /* 文字居中 */
-            text-decoration: none; /* 去掉下划线 */
-            display: inline-block; /* 使按钮为块级元素 */
-            font-size: 16px; /* 字体大小 */
-            margin: 4px 2px; /* 外边距 */
-            cursor: pointer; /* 鼠标悬停时显示手型 */
-            border-radius: 5px; /* 圆角 */
-            transition: background-color 0.3s, transform 0.2s; /* 添加过渡效果 */
+            background-color: #007BFF;
         }
 
         #themeToggle:hover {
-            background-color: #0056b3; /* 悬停时的背景色 */
-            transform: scale(1.05); /* 悬停时放大效果 */
+            background-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
         #themeToggle:active {
-            transform: scale(0.95); /* 点击时缩小效果 */
+            transform: translateY(1px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
-        #submitFeedback, #cancelFeedback {
-            background-color: #4CAF50; /* 按钮背景色 */
-            color: white; /* 按钮文字颜色 */
-            border: none; /* 去掉边框 */
-            padding: 10px 20px; /* 内边距 */
-            text-align: center; /* 文字居中 */
-            text-decoration: none; /* 去掉下划线 */
-            display: inline-block; /* 使按钮为块级元素 */
-            font-size: 16px; /* 字体大小 */
-            margin: 4px 2px; /* 外边距 */
-            cursor: pointer; /* 鼠标悬停时显示手型 */
-            border-radius: 5px; /* 圆角 */
-            transition: background-color 0.3s, transform 0.2s; /* 添加过渡效果 */
+        #submitFeedback {
+            background-color: #4CAF50;
+        }
+
+        #cancelFeedback {
+            background-color: #95a5a6;
         }
 
         #submitFeedback:hover, #cancelFeedback:hover {
-            background-color: #45a049; /* 悬停时的背景色 */
-            transform: scale(1.05); /* 悬停时放大效果 */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
         #submitFeedback:active, #cancelFeedback:active {
-            transform: scale(0.95); /* 点击时缩小效果 */
+            transform: translateY(1px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ===== 响应式调整 ===== */
+        @media (max-width: 768px) {
+            .action-button {
+                width: 100%;
+                margin: 5px 0;
+            }
+        }
+
+        /* ===== 暗色主题 - index.html 对话框覆盖 ===== */
+        .dark-theme dialog {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%) !important;
+            color: #e0e0e0;
+        }
+
+        .dark-theme .dialog-title {
+            color: #e0e0e0;
+        }
+
+        .dark-theme .dialog-header {
+            border-bottom-color: #444;
+        }
+
+        .dark-theme .close-button {
+            color: #aaa;
+        }
+
+        .dark-theme .close-button:hover {
+            color: #fff;
+        }
+
+        .dark-theme #announcementDialog .dialog-title {
+            color: #e0e0e0;
+        }
+
+        .dark-theme #announcementDialog .dialog-header {
+            border-bottom-color: #444;
+        }
+
+        .dark-theme #announcementDialog .close-button {
+            color: #aaa;
+        }
+
+        .dark-theme #announcementDialog .close-button:hover {
+            color: #fff;
+        }
+
+        .dark-theme #announcementDialog div[style*="border-top"] {
+            border-top-color: #444 !important;
+        }
+
+        .dark-theme #announcementDialog li {
+            color: #ccc;
+        }
+
+        .dark-theme #announcementDialog li[style*="rgba(76, 175, 80"] {
+            background: rgba(76, 175, 80, 0.15) !important;
+        }
+
+        .dark-theme #announcementDialog li[style*="rgba(33, 150, 243"] {
+            background: rgba(33, 150, 243, 0.15) !important;
+        }
+
+        .dark-theme #feedbackDialog h2 {
+            color: #e0e0e0;
+        }
+
+        .dark-theme #feedbackDialog input,
+        .dark-theme #feedbackDialog textarea {
+            background: #333;
+            color: #e0e0e0;
+            border: 1px solid #555;
+        }
+
+        .dark-theme #feedbackDialog input::placeholder,
+        .dark-theme #feedbackDialog textarea::placeholder {
+            color: #888;
         }
     </style>
 </head>
 <body>
-    <!-- 修改加载动画为第二个文件的效果 -->
     <div id="loading">
         <div class="loader"></div>
     </div>
@@ -123,14 +321,14 @@
     <div class="background-container">
         <header>
             <div class="header-left">
-                
+                <img src="img/MAIN.jpg" alt="Spark 商标" class="logo">
                 <h1>Spark 操作系统</h1>
             </div>
             <nav>
                 <ul>
                     <li><a href="index.html">主页</a></li>
                     <li><a href="products.html" onclick="showAnnouncement(); return false;">公告</a></li>
-                    <li><a href="lock.html">加密</a></li>
+                    <li><a href="javascript:void(0);" onclick="showToolsDialog();">工具</a></li>
                     <li><a href="download.html">下载 Spark</a></li>
                 </ul>
             </nav>
@@ -152,7 +350,7 @@
                 <p style="font-size: 16px;">
                     手机版：<br>
                     跳转到 <a href="https://spark-home.pages.dev/download" target="_blank" style="color: #0366d6; text-decoration: underline;">https://spark-home.pages.dev/download</a>，点击下载按钮，下载apk安装包：<br>
-                     <!-- 这里插入一个图片1 -->
+                    <img src="img/apk下载介绍.png" alt="APK 下载示例" style="max-width: 100%; height: auto; margin-top: 10px;"> <!-- 这里插入一个图片1 -->
                 </p>
 
                 <br><br> <!-- 插入两行换行 -->
@@ -160,7 +358,7 @@
                 <p style="font-size: 16px;">
                     Windows版：<br>
                     跳转到 <a href="https://spark-home.pages.dev/download" target="_blank" style="color: #0366d6; text-decoration: underline;">https://spark-home.pages.dev/download</a>，点击下载按钮，下载Zip文件<br>
-                     <br><!-- 这里插入一个图片2 -->
+                    <img src="img/Windows下载介绍.png" alt="APK 下载示例" style="max-width: 100%; height: auto; margin-top: 10px;"> <br><!-- 这里插入一个图片2 -->
                     解压文件<br>
                     <span id="commandPath">
                         打开命令行终端运行：<br>
@@ -177,31 +375,45 @@
         </main>
 
         <footer>
-           <p>&copy; 2024 柴炳坤. 保留所有权利。</p>
-           <button id="feedbackBtn">向我们提供你的建议</button>
-           <button id="themeToggle">切换主题</button>
-           <p style="font-size: 12px; margin-top: 10px;">你是否在寻找班级的网站？跳转到 <a href="https://cn-202208-y.pages.dev/" target="_blank" style="color: #0366d6; text-decoration: underline;">班级网站</a></p>
-         </footer>
+            <p>&copy; 2024 柴炳坤. 保留所有权利。</p>
+            <button id="feedbackBtn">向我们提供你的建议</button>
+            <button id="themeToggle">切换主题</button>
+        </footer>
     </div>
 
     <dialog id="announcementDialog">
-        <h2>  公告</h2>
-        <p>
-            以下是新版本说明<br>
-            1.目前最新版：5.3.3.1<br>
-            2.修复了修复了无法打开应用的Bug<br>
-            3.修复了因登录/注册名字识别错误的Bug<br>
-            3.增大了图形显示性能（可能会使内存崩溃）<br><br>
-            以下是网站公告<br>
-            1.欢迎大家来参加先遣版的报名！<br>
-            2.网站和应用是免费无广告的<br>
-            3.本作品只是一个演示文件，娱乐所做<br>
-            4.更新了下载界面的样式<br>
-            5.新增了邮件回访功能<br>
-            6.修复了网站加密功能无法跳转的Bug<br>
-            7.欢迎大家来反馈！
-        </p>
-        <button onclick="closeAnnouncementDialog()">关闭</button>
+        <div class="dialog-header">
+            <h2 class="dialog-title">📢 公告</h2>
+            <button class="close-button" onclick="closeAnnouncementDialog()">×</button>
+        </div>
+        <div style="padding: 20px; max-height: 400px; overflow-y: auto;">
+            <div style="margin-bottom: 20px;">
+                <h3 style="color: #4CAF50; margin: 0 0 12px 0; font-size: 16px; display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 20px;">🆕</span> 新版本说明
+                </h3>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="padding: 8px 12px; background: rgba(76, 175, 80, 0.08); border-radius: 6px; margin-bottom: 6px; font-size: 14px;">✅ 目前最新版：5.3.3.1</li>
+                    <li style="padding: 8px 12px; background: rgba(76, 175, 80, 0.08); border-radius: 6px; margin-bottom: 6px; font-size: 14px;">✅ 修复了无法打开应用的 Bug</li>
+                    <li style="padding: 8px 12px; background: rgba(76, 175, 80, 0.08); border-radius: 6px; margin-bottom: 6px; font-size: 14px;">✅ 修复了因登录/注册名字识别错误的 Bug</li>
+                    <li style="padding: 8px 12px; background: rgba(76, 175, 80, 0.08); border-radius: 6px; margin-bottom: 6px; font-size: 14px;">✅ 增大了图形显示性能（可能会使内存崩溃）</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: #2196F3; margin: 0 0 12px 0; font-size: 16px; display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 20px;">🌐</span> 网站公告
+                </h3>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="padding: 8px 12px; background: rgba(33, 150, 243, 0.08); border-radius: 6px; margin-bottom: 6px; font-size: 14px;">📌 欢迎大家来参加先遣版的报名！</li>
+                    <li style="padding: 8px 12px; background: rgba(33, 150, 243, 0.08); border-radius: 6px; margin-bottom: 6px; font-size: 14px;">📌 网站和应用是免费无广告的</li>
+                    <li style="padding: 8px 12px; background: rgba(33, 150, 243, 0.08); border-radius: 6px; margin-bottom: 6px; font-size: 14px;">📌 本作品只是一个演示文件，娱乐所做</li>
+                    <li style="padding: 8px 12px; background: rgba(33, 150, 243, 0.08); border-radius: 6px; margin-bottom: 6px; font-size: 14px;">📌 修改了加载背景显示</li>
+                    <li style="padding: 8px 12px; background: rgba(33, 150, 243, 0.08); border-radius: 6px; margin-bottom: 6px; font-size: 14px;">📌 欢迎大家来反馈！</li>
+                </ul>
+            </div>
+        </div>
+        <div style="text-align: center; padding: 15px 20px; border-top: 1px solid #e0e0e0;">
+            <button onclick="closeAnnouncementDialog()" style="background: linear-gradient(135deg, #95a5a6, #7f8c8d); color: white; border: none; padding: 10px 30px; border-radius: 6px; font-size: 14px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)';" onmouseout="this.style.transform='';this.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)';">关闭</button>
+        </div>
     </dialog>
 
     <dialog id="feedbackDialog">
@@ -214,49 +426,17 @@
     </dialog>
 
     <script>
-        // 新增：检测设备是否为手机并检查横屏状态
-        function checkMobileAndOrientation() {
-            // 检测是否为移动设备
-            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            
-            if (isMobile) {
-                // 检测是否为竖屏
-                const isPortrait = window.matchMedia("(orientation: portrait)").matches;
-                
-                if (isPortrait) {
-                    // 创建并显示提示框
-                    const orientationDialog = document.createElement('dialog');
-                    orientationDialog.innerHTML = `
-                        <h2>提示</h2>
-                        <p>为了获得更好的体验，请将您的手机横屏使用</p>
-                        <button onclick="this.parentElement.close()">我知道了</button>
-                    `;
-                    document.body.appendChild(orientationDialog);
-                    orientationDialog.showModal();
-                    
-                    // 监听屏幕方向变化
-                    window.addEventListener('orientationchange', function() {
-                        if (!window.matchMedia("(orientation: portrait)").matches) {
-                            orientationDialog.close();
-                        }
-                    });
-                }
-            }
-        }
-
-        // 修改页面加载完成后隐藏加载动画的方式为第二个文件的效果
-        window.addEventListener('load', function() {
-            const loading = document.getElementById('loading');
-            
-            // 隐藏加载动画
-            setTimeout(function() {
-                loading.style.opacity = '0';
-                setTimeout(function() {
-                    loading.style.display = 'none';
-                    // 新增：页面加载完成后检查设备和方向
-                    checkMobileAndOrientation();
-                }, 400);
-            }, 800);
+        // 为按钮添加鼠标位置追踪 (与 download.html 一致)
+        document.querySelectorAll('.action-button, #feedbackBtn, #themeToggle, #submitFeedback, #cancelFeedback').forEach(button => {
+            button.addEventListener('mousemove', (e) => {
+                const rect = button.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                button.style.setProperty('--mouse-x', `${x}px`);
+                button.style.setProperty('--mouse-y', `${y}px`);
+            });
+            button.addEventListener('mouseenter', () => { button.style.color = 'white'; });
+            button.addEventListener('mouseleave', () => { button.style.color = 'white'; });
         });
 
         function showAnnouncement() {
@@ -272,20 +452,12 @@
         // 获取提交反馈按钮
         const submitFeedbackBtn = document.getElementById('submitFeedback');
         submitFeedbackBtn.addEventListener('click', function () {
-            // 获取用户输入的邮箱地址
             const userEmail = document.getElementById('user_email').value;
-
-            // 邮箱格式验证的正则表达式
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-            // 验证邮箱格式
             if (!emailRegex.test(userEmail)) {
                 alert('请输入有效的邮箱地址！');
                 return;
             }
-
-            // 如果邮箱格式有效，可以继续处理提交逻辑
-            // 这里可以添加发送邮件或其他处理逻辑
             alert('感谢你！');
             const feedbackDialog = document.getElementById('feedbackDialog');
             feedbackDialog.close();
@@ -305,6 +477,30 @@
             feedbackDialog.close();
         });
 
+        // 页面加载完成后执行 (与 download.html 一致的淡出效果)
+        window.addEventListener('load', function() {
+            const loading = document.getElementById('loading');
+            setTimeout(function() {
+                loading.style.opacity = '0';
+                setTimeout(function() {
+                    loading.style.display = 'none';
+                }, 400);
+            }, 800);
+
+            // 触发 section 的动画延迟
+            document.querySelectorAll('main section').forEach((el, index) => {
+                el.style.animationDelay = `${index * 0.2}s`;
+            });
+        });
+    </script>
+
+    <script src="tools-dialog.js"></script>
+    <script>
+        // 初始化工具导航弹窗
+        initToolsDialog();
+    </script>
+    <script src="theme.js"></script>
+    <script>
         function copyToClipboard(selector) {
             const text = document.querySelector(selector).innerText;
             navigator.clipboard.writeText(text).then(() => {
@@ -352,14 +548,6 @@
             const dialog = document.getElementById('feedbackDialog');
             dialog.close();
         });
-    </script>
-
-    <script src="theme.js"></script> <!-- 确保引入 theme.js -->
-    <script>
-        // 页面加载完成后隐藏加载动画
-        window.onload = function () {
-            document.getElementById('loading').style.display = 'none';
-        };
     </script>
 </body>
 </html>
