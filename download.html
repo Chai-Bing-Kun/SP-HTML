@@ -8,15 +8,289 @@
     <style>
         /* 基础按钮样式 - 确保文字颜色不变 */
         .download-button, .run-button, .github-link {
+        /* 基础按钮样式 - 确保文字颜色不变 */
+        .download-button, .run-button, .github-link {
             display: inline-block;
+            color: white !important;
             color: white !important;
             padding: 15px 25px;
             text-decoration: none;
             font-size: 18px;
             border-radius: 5px;
             transition: all 0.3s ease;
+            transition: all 0.3s ease;
             border: none;
             cursor: pointer;
+            margin: 10px 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(0);
+        }
+
+        /* 按钮颜色 */
+        .download-button {
+            background-color: rgba(76, 175, 80, 0.9);
+        }
+        .run-button {
+            background-color: rgba(52, 152, 219, 0.9);
+        }
+        .github-link {
+            background-color: rgba(155, 89, 182, 0.9);
+        }
+
+        /* 鼠标悬停光晕效果 */
+        .download-button::before, .run-button::before, .github-link::before {
+            content: '';
+            position: absolute;
+            top: var(--mouse-y);
+            left: var(--mouse-x);
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: width 0.4s ease-out, height 0.4s ease-out, opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .download-button:hover::before, 
+        .run-button:hover::before, 
+        .github-link:hover::before {
+            width: 200px;
+            height: 200px;
+            opacity: 1;
+        }
+
+        /* 按钮悬停状态 */
+        .download-button:hover, .run-button:hover, .github-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            color: white !important;
+        }
+
+        /* 按钮点击效果 */
+        .download-button:active, .run-button:active, .github-link:active {
+            transform: translateY(1px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            color: white !important;
+        }
+
+        /* 产品展示区域 */
+        .product-showcase {
+            transition: all 0.4s ease;
+            transform: translateY(10px);
+            opacity: 0;
+            animation: fadeInUp 0.6s forwards;
+            animation-delay: 0.3s;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(8px);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(10px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* 产品图片 */
+        .product-image {
+            transition: all 0.4s ease;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            max-width: 100%;
+            height: auto;
+            margin: 20px 0;
+            max-height: 300px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .product-image:hover {
+            transform: scale(1.01);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 下载区域样式 */
+        .download-section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        /* 对话框样式 - 多页下载选项 */
+        dialog {
+            border: none;
+            border-radius: 8px;
+            padding: 0;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            animation: dialogFadeIn 0.3s ease-out;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e6e9f0 100%);
+            position: relative;
+        }
+
+        @keyframes dialogFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 对话框标题栏 */
+        .dialog-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dialog-title {
+            margin: 0;
+            font-size: 20px;
+            color: #333;
+        }
+
+        /* 关闭按钮 */
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #777;
+            padding: 0 10px;
+            transition: all 0.2s ease;
+        }
+
+        .close-button:hover {
+            color: #333;
+            transform: scale(1.1);
+        }
+
+        /* 下载选项页面容器 */
+        .download-pages {
+            position: relative;
+            min-height: 300px;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        /* 单个下载选项页面 */
+        .download-page {
+            position: absolute;
+            width: calc(100% - 40px);
+            top: 20px;
+            left: 20px;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+        }
+
+        .download-page.active {
+            opacity: 1;
+            transform: translateX(0);
+            position: relative;
+        }
+
+        .download-page.prev {
+            transform: translateX(-100%);
+        }
+
+        /* 导航按钮 */
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.1);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .nav-button:hover {
+            background: rgba(0,0,0,0.2);
+        }
+
+        .prev-button {
+            left: 10px;
+        }
+
+        .next-button {
+            right: 10px;
+        }
+
+        /* 页面指示器 */
+        .page-indicator {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+            padding-bottom: 15px;
+        }
+
+        .indicator-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ccc;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator-dot.active {
+            background: #555;
+            transform: scale(1.2);
+        }
+
+        /* 预留图片接口 */
+        .download-preview-image {
+            width: 100%;
+            max-height: 150px;
+            object-fit: contain;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-style: italic;
+        }
+
+        /* 预留描述文字 */
+        .download-description {
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #555;
             margin: 10px 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             position: relative;
