@@ -264,3 +264,297 @@ body.dark-theme {
 #themeToggle:active {
     transform: scale(0.95); /* 点击时缩小效果 */
 }
+
+/* ===== 工具导航弹窗样式 ===== */
+#toolsDialog {
+    border: none;
+    border-radius: 8px;
+    padding: 0;
+    max-width: 600px;
+    width: 90%;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    animation: dialogFadeIn 0.3s ease-out;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e6e9f0 100%);
+}
+
+#toolsDialog .dialog-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#toolsDialog .dialog-title {
+    margin: 0;
+    font-size: 20px;
+    color: #333;
+}
+
+#toolsDialog .close-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #777;
+    padding: 0 10px;
+    transition: all 0.2s ease;
+}
+
+#toolsDialog .close-button:hover {
+    color: #333;
+    transform: scale(1.1);
+}
+
+/* 工具页面容器 */
+.tools-pages-container {
+    position: relative;
+    min-height: 320px;
+    overflow: hidden;
+    padding: 20px;
+}
+
+/* 单个工具页面 */
+.tools-page {
+    position: absolute;
+    width: calc(100% - 40px);
+    top: 20px;
+    left: 20px;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.tools-page.active {
+    opacity: 1;
+    transform: translateX(0);
+    position: relative;
+}
+
+.tools-page.prev {
+    transform: translateX(-100%);
+}
+
+.tools-page-icon {
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+
+.tools-page-title {
+    font-size: 22px;
+    color: #333;
+    margin: 0 0 15px 0;
+}
+
+.tools-page-description {
+    font-size: 15px;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 25px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 8px;
+    border: 1px dashed #ccc;
+}
+
+.tools-page-button {
+    display: inline-block;
+    color: white !important;
+    padding: 12px 30px;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.tools-page-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    color: white !important;
+}
+
+.tools-page-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    color: white !important;
+}
+
+/* 导航按钮 */
+.tools-prev-button,
+.tools-next-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.1);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+    color: #333;
+}
+
+.tools-prev-button:hover,
+.tools-next-button:hover {
+    background: rgba(0,0,0,0.2);
+}
+
+.tools-prev-button {
+    left: 10px;
+}
+
+.tools-next-button {
+    right: 10px;
+}
+
+/* 页面指示器 */
+.tools-indicator {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    padding-bottom: 15px;
+}
+
+.tools-indicator-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ccc;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tools-indicator-dot.active {
+    background: #555;
+    transform: scale(1.2);
+}
+
+@keyframes dialogFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== 暗色主题 - 对话框样式 ===== */
+.dark-theme dialog,
+.dark-theme #downloadDialog,
+.dark-theme #toolsDialog,
+.dark-theme #announcementDialog,
+.dark-theme #feedbackDialog {
+    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%) !important;
+    color: #e0e0e0;
+}
+
+.dark-theme .dialog-header,
+.dark-theme #toolsDialog .dialog-header {
+    border-bottom-color: #444;
+}
+
+.dark-theme .dialog-title,
+.dark-theme #toolsDialog .dialog-title {
+    color: #e0e0e0;
+}
+
+.dark-theme .close-button,
+.dark-theme #toolsDialog .close-button {
+    color: #aaa;
+}
+
+.dark-theme .close-button:hover,
+.dark-theme #toolsDialog .close-button:hover {
+    color: #fff;
+}
+
+.dark-theme .download-description {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ccc;
+}
+
+.dark-theme .download-preview-image {
+    background: #333;
+    color: #aaa;
+}
+
+.dark-theme .tools-page-title {
+    color: #e0e0e0;
+}
+
+.dark-theme .tools-page-description {
+    background: rgba(0, 0, 0, 0.3);
+    border-color: #555;
+    color: #ccc;
+}
+
+.dark-theme .tools-prev-button,
+.dark-theme .tools-next-button {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ccc;
+}
+
+.dark-theme .tools-prev-button:hover,
+.dark-theme .tools-next-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.dark-theme .tools-indicator-dot {
+    background: #555;
+}
+
+.dark-theme .tools-indicator-dot.active {
+    background: #aaa;
+}
+
+.dark-theme .nav-button {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ccc;
+}
+
+.dark-theme .nav-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.dark-theme .indicator-dot {
+    background: #555;
+}
+
+.dark-theme .indicator-dot.active {
+    background: #aaa;
+}
+
+.dark-theme #announcementDialog h2,
+.dark-theme #announcementDialog h3,
+.dark-theme #feedbackDialog h2 {
+    color: #e0e0e0;
+}
+
+.dark-theme #announcementDialog ul li {
+    color: #ccc;
+}
+
+.dark-theme #feedbackDialog input,
+.dark-theme #feedbackDialog textarea {
+    background: #333;
+    color: #e0e0e0;
+    border: 1px solid #555;
+}
+
+.dark-theme #feedbackDialog input::placeholder,
+.dark-theme #feedbackDialog textarea::placeholder {
+    color: #888;
+}

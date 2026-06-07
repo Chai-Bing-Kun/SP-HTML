@@ -9,105 +9,313 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         body, html {
-            font-family: 'Roboto', sans-serif; /* 使用指定字体 */
+            font-family: 'Roboto', sans-serif;
         }
 
-        /* 加载动画样式 */
+        /* ===== 加载动画样式 (与 download.html 一致) ===== */
         #loading {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgb(255, 255, 255); /* 不透明背景 */
+            background-color: rgba(255, 255, 255, 0.95);
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 9999; /* 确保在最上层 */
+            z-index: 9999;
+            transition: opacity 0.4s ease;
         }
 
-        #loading img {
-            width: 500px; /* 设置加载动画的宽度为原来的十倍 */
-            height: auto; /* 自适应高度 */
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(76, 175, 80, 0.2);
+            border-radius: 50%;
+            border-top-color: rgba(76, 175, 80, 0.8);
+            animation: spin 1s ease-in-out infinite;
         }
 
-        /* 其他样式保持不变 */
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ===== 通用按钮样式 (与 download.html 一致) ===== */
+        .action-button {
+            display: inline-block;
+            color: white !important;
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin: 10px 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(0);
+        }
+
+        .action-button::before {
+            content: '';
+            position: absolute;
+            top: var(--mouse-y);
+            left: var(--mouse-x);
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: width 0.4s ease-out, height 0.4s ease-out, opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .action-button:hover::before {
+            width: 200px;
+            height: 200px;
+            opacity: 1;
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            color: white !important;
+        }
+
+        .action-button:active {
+            transform: translateY(1px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            color: white !important;
+        }
+
+        /* ===== Section 区域动画 (与 download.html 一致) ===== */
+        main section {
+            transition: all 0.4s ease;
+            transform: translateY(10px);
+            opacity: 0;
+            animation: fadeInUp 0.6s forwards;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(8px);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(10px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* ===== 对话框样式 (与 download.html 一致) ===== */
+        dialog {
+            border: none;
+            border-radius: 8px;
+            padding: 0;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            animation: dialogFadeIn 0.3s ease-out;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e6e9f0 100%);
+        }
+
+        @keyframes dialogFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .dialog-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dialog-title {
+            margin: 0;
+            font-size: 20px;
+            color: #333;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #777;
+            padding: 0 10px;
+            transition: all 0.2s ease;
+        }
+
+        .close-button:hover {
+            color: #333;
+            transform: scale(1.1);
+        }
+
+        /* ===== 原有按钮保留，但升级过渡效果 ===== */
+        #feedbackBtn, #themeToggle, #submitFeedback, #cancelFeedback {
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(0);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
         #feedbackBtn {
-            background-color: #4CAF50; /* 按钮背景色 */
-            color: white; /* 按钮文字颜色 */
-            border: none; /* 去掉边框 */
-            padding: 10px 20px; /* 内边距 */
-            text-align: center; /* 文字居中 */
-            text-decoration: none; /* 去掉下划线 */
-            display: inline-block; /* 使按钮为块级元素 */
-            font-size: 16px; /* 字体大小 */
-            margin: 4px 2px; /* 外边距 */
-            cursor: pointer; /* 鼠标悬停时显示手型 */
-            border-radius: 5px; /* 圆角 */
-            transition: background-color 0.3s, transform 0.2s; /* 添加过渡效果 */
+            background-color: #4CAF50;
         }
 
         #feedbackBtn:hover {
-            background-color: #45a049; /* 悬停时的背景色 */
-            transform: scale(1.05); /* 悬停时放大效果 */
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
         #feedbackBtn:active {
-            transform: scale(0.95); /* 点击时缩小效果 */
+            transform: translateY(1px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         #themeToggle {
-            background-color: #007BFF; /* 按钮背景色 */
-            color: white; /* 按钮文字颜色 */
-            border: none; /* 去掉边框 */
-            padding: 10px 20px; /* 内边距 */
-            text-align: center; /* 文字居中 */
-            text-decoration: none; /* 去掉下划线 */
-            display: inline-block; /* 使按钮为块级元素 */
-            font-size: 16px; /* 字体大小 */
-            margin: 4px 2px; /* 外边距 */
-            cursor: pointer; /* 鼠标悬停时显示手型 */
-            border-radius: 5px; /* 圆角 */
-            transition: background-color 0.3s, transform 0.2s; /* 添加过渡效果 */
+            background-color: #007BFF;
         }
 
         #themeToggle:hover {
-            background-color: #0056b3; /* 悬停时的背景色 */
-            transform: scale(1.05); /* 悬停时放大效果 */
+            background-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
         #themeToggle:active {
-            transform: scale(0.95); /* 点击时缩小效果 */
+            transform: translateY(1px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
-        #submitFeedback, #cancelFeedback {
-            background-color: #4CAF50; /* 按钮背景色 */
-            color: white; /* 按钮文字颜色 */
-            border: none; /* 去掉边框 */
-            padding: 10px 20px; /* 内边距 */
-            text-align: center; /* 文字居中 */
-            text-decoration: none; /* 去掉下划线 */
-            display: inline-block; /* 使按钮为块级元素 */
-            font-size: 16px; /* 字体大小 */
-            margin: 4px 2px; /* 外边距 */
-            cursor: pointer; /* 鼠标悬停时显示手型 */
-            border-radius: 5px; /* 圆角 */
-            transition: background-color 0.3s, transform 0.2s; /* 添加过渡效果 */
+        #submitFeedback {
+            background-color: #4CAF50;
+        }
+
+        #cancelFeedback {
+            background-color: #95a5a6;
         }
 
         #submitFeedback:hover, #cancelFeedback:hover {
-            background-color: #45a049; /* 悬停时的背景色 */
-            transform: scale(1.05); /* 悬停时放大效果 */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
         #submitFeedback:active, #cancelFeedback:active {
-            transform: scale(0.95); /* 点击时缩小效果 */
+            transform: translateY(1px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ===== 响应式调整 ===== */
+        @media (max-width: 768px) {
+            .action-button {
+                width: 100%;
+                margin: 5px 0;
+            }
+        }
+
+        /* ===== 暗色主题 - index.html 对话框覆盖 ===== */
+        .dark-theme dialog {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%) !important;
+            color: #e0e0e0;
+        }
+
+        .dark-theme .dialog-title {
+            color: #e0e0e0;
+        }
+
+        .dark-theme .dialog-header {
+            border-bottom-color: #444;
+        }
+
+        .dark-theme .close-button {
+            color: #aaa;
+        }
+
+        .dark-theme .close-button:hover {
+            color: #fff;
+        }
+
+        .dark-theme #announcementDialog .dialog-title {
+            color: #e0e0e0;
+        }
+
+        .dark-theme #announcementDialog .dialog-header {
+            border-bottom-color: #444;
+        }
+
+        .dark-theme #announcementDialog .close-button {
+            color: #aaa;
+        }
+
+        .dark-theme #announcementDialog .close-button:hover {
+            color: #fff;
+        }
+
+        .dark-theme #announcementDialog div[style*="border-top"] {
+            border-top-color: #444 !important;
+        }
+
+        .dark-theme #announcementDialog li {
+            color: #ccc;
+        }
+
+        .dark-theme #announcementDialog li[style*="rgba(76, 175, 80"] {
+            background: rgba(76, 175, 80, 0.15) !important;
+        }
+
+        .dark-theme #announcementDialog li[style*="rgba(33, 150, 243"] {
+            background: rgba(33, 150, 243, 0.15) !important;
+        }
+
+        .dark-theme #feedbackDialog h2 {
+            color: #e0e0e0;
+        }
+
+        .dark-theme #feedbackDialog input,
+        .dark-theme #feedbackDialog textarea {
+            background: #333;
+            color: #e0e0e0;
+            border: 1px solid #555;
+        }
+
+        .dark-theme #feedbackDialog input::placeholder,
+        .dark-theme #feedbackDialog textarea::placeholder {
+            color: #888;
         }
     </style>
 </head>
 <body>
     <div id="loading">
-        <img src="img/loading10.gif" alt="加载中..."> <!-- 加载动画 -->
+        <div class="loader"></div>
     </div>
 
     <div class="background-container">
@@ -120,7 +328,7 @@
                 <ul>
                     <li><a href="index.html">主页</a></li>
                     <li><a href="products.html" onclick="showAnnouncement(); return false;">公告</a></li>
-                    <li><a href="lock.html">加密</a></li>
+                    <li><a href="javascript:void(0);" onclick="showToolsDialog();">工具</a></li>
                     <li><a href="download.html">下载 Spark</a></li>
                 </ul>
             </nav>
@@ -174,21 +382,38 @@
     </div>
 
     <dialog id="announcementDialog">
-        <h2>公告</h2>
-        <p>
-            以下是新版本说明<br>
-            1.目前最新版：5.3.3.1<br>
-            2.修复了修复了无法打开应用的Bug<br>
-            3.修复了因登录/注册名字识别错误的Bug<br>
-            3.增大了图形显示性能（可能会使内存崩溃）<br><br>
-            以下是网站公告<br>
-            1.欢迎大家来参加先遣版的报名！<br>
-            2.网站和应用是免费无广告的<br>
-            3.本作品只是一个演示文件，娱乐所做<br>
-            4.修改了加载背景显示<br>
-            5.欢迎大家来反馈！
-        </p>
-        <button onclick="closeAnnouncementDialog()">关闭</button>
+        <div class="dialog-header">
+            <h2 class="dialog-title">📢 公告</h2>
+            <button class="close-button" onclick="closeAnnouncementDialog()">×</button>
+        </div>
+        <div style="padding: 20px; max-height: 400px; overflow-y: auto;">
+            <div style="margin-bottom: 20px;">
+                <h3 style="color: #4CAF50; margin: 0 0 12px 0; font-size: 16px; display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 20px;">🆕</span> 新版本说明
+                </h3>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="padding: 8px 12px; background: rgba(76, 175, 80, 0.08); border-radius: 6px; margin-bottom: 6px; font-size: 14px;">✅ 目前最新版：5.3.3.1</li>
+                    <li style="padding: 8px 12px; background: rgba(76, 175, 80, 0.08); border-radius: 6px; margin-bottom: 6px; font-size: 14px;">✅ 修复了无法打开应用的 Bug</li>
+                    <li style="padding: 8px 12px; background: rgba(76, 175, 80, 0.08); border-radius: 6px; margin-bottom: 6px; font-size: 14px;">✅ 修复了因登录/注册名字识别错误的 Bug</li>
+                    <li style="padding: 8px 12px; background: rgba(76, 175, 80, 0.08); border-radius: 6px; margin-bottom: 6px; font-size: 14px;">✅ 增大了图形显示性能（可能会使内存崩溃）</li>
+                </ul>
+            </div>
+            <div>
+                <h3 style="color: #2196F3; margin: 0 0 12px 0; font-size: 16px; display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 20px;">🌐</span> 网站公告
+                </h3>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="padding: 8px 12px; background: rgba(33, 150, 243, 0.08); border-radius: 6px; margin-bottom: 6px; font-size: 14px;">📌 欢迎大家来参加先遣版的报名！</li>
+                    <li style="padding: 8px 12px; background: rgba(33, 150, 243, 0.08); border-radius: 6px; margin-bottom: 6px; font-size: 14px;">📌 网站和应用是免费无广告的</li>
+                    <li style="padding: 8px 12px; background: rgba(33, 150, 243, 0.08); border-radius: 6px; margin-bottom: 6px; font-size: 14px;">📌 本作品只是一个演示文件，娱乐所做</li>
+                    <li style="padding: 8px 12px; background: rgba(33, 150, 243, 0.08); border-radius: 6px; margin-bottom: 6px; font-size: 14px;">📌 修改了加载背景显示</li>
+                    <li style="padding: 8px 12px; background: rgba(33, 150, 243, 0.08); border-radius: 6px; margin-bottom: 6px; font-size: 14px;">📌 欢迎大家来反馈！</li>
+                </ul>
+            </div>
+        </div>
+        <div style="text-align: center; padding: 15px 20px; border-top: 1px solid #e0e0e0;">
+            <button onclick="closeAnnouncementDialog()" style="background: linear-gradient(135deg, #95a5a6, #7f8c8d); color: white; border: none; padding: 10px 30px; border-radius: 6px; font-size: 14px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)';" onmouseout="this.style.transform='';this.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)';">关闭</button>
+        </div>
     </dialog>
 
     <dialog id="feedbackDialog">
@@ -201,10 +426,18 @@
     </dialog>
 
     <script>
-        // 页面加载完成后隐藏加载动画
-        window.onload = function () {
-            document.getElementById('loading').style.display = 'none';
-        };
+        // 为按钮添加鼠标位置追踪 (与 download.html 一致)
+        document.querySelectorAll('.action-button, #feedbackBtn, #themeToggle, #submitFeedback, #cancelFeedback').forEach(button => {
+            button.addEventListener('mousemove', (e) => {
+                const rect = button.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                button.style.setProperty('--mouse-x', `${x}px`);
+                button.style.setProperty('--mouse-y', `${y}px`);
+            });
+            button.addEventListener('mouseenter', () => { button.style.color = 'white'; });
+            button.addEventListener('mouseleave', () => { button.style.color = 'white'; });
+        });
 
         function showAnnouncement() {
             const dialog = document.getElementById('announcementDialog');
@@ -219,20 +452,12 @@
         // 获取提交反馈按钮
         const submitFeedbackBtn = document.getElementById('submitFeedback');
         submitFeedbackBtn.addEventListener('click', function () {
-            // 获取用户输入的邮箱地址
             const userEmail = document.getElementById('user_email').value;
-
-            // 邮箱格式验证的正则表达式
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-            // 验证邮箱格式
             if (!emailRegex.test(userEmail)) {
                 alert('请输入有效的邮箱地址！');
                 return;
             }
-
-            // 如果邮箱格式有效，可以继续处理提交逻辑
-            // 这里可以添加发送邮件或其他处理逻辑
             alert('感谢你！');
             const feedbackDialog = document.getElementById('feedbackDialog');
             feedbackDialog.close();
@@ -251,25 +476,31 @@
             const feedbackDialog = document.getElementById('feedbackDialog');
             feedbackDialog.close();
         });
+
+        // 页面加载完成后执行 (与 download.html 一致的淡出效果)
+        window.addEventListener('load', function() {
+            const loading = document.getElementById('loading');
+            setTimeout(function() {
+                loading.style.opacity = '0';
+                setTimeout(function() {
+                    loading.style.display = 'none';
+                }, 400);
+            }, 800);
+
+            // 触发 section 的动画延迟
+            document.querySelectorAll('main section').forEach((el, index) => {
+                el.style.animationDelay = `${index * 0.2}s`;
+            });
+        });
     </script>
 
-    <script src="theme.js"></script> <!-- 确保引入 theme.js -->
+    <script src="tools-dialog.js"></script>
     <script>
-        // 页面加载完成后隐藏加载动画
-        window.onload = function () {
-            document.getElementById('loading').style.display = 'none';
-        };
-
-        function showAnnouncement() {
-            const dialog = document.getElementById('announcementDialog');
-            dialog.showModal();
-        }
-
-        function closeAnnouncementDialog() {
-            const dialog = document.getElementById('announcementDialog');
-            dialog.close();
-        }
-
+        // 初始化工具导航弹窗
+        initToolsDialog();
+    </script>
+    <script src="theme.js"></script>
+    <script>
         function copyToClipboard(selector) {
             const text = document.querySelector(selector).innerText;
             navigator.clipboard.writeText(text).then(() => {
