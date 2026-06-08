@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spark 操作系统 - 主页</title>
+    <title>Spark 模拟系统 - 主页</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> <!-- 引入字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-
 </head>
 <body>
     <div id="loading">
@@ -15,65 +15,152 @@
     </div>
 
     <div class="background-container">
+        <!-- 粒子背景 -->
+        <div class="particles" id="particles"></div>
+
         <header>
             <div class="header-left">
-                <img src="img/MAIN.jpg" alt="Spark 商标" class="logo">
-                <h1>Spark 操作系统</h1>
+                <div class="logo-wrapper">
+                    <img src="img/MAIN.jpg" alt="Spark 商标" class="logo">
+                    <div class="logo-glow"></div>
+                </div>
+                <div class="brand-text">
+                    <h1>Spark <span class="highlight">模拟系统</span></h1>
+                    <span class="subtitle">创意模拟桌面展示</span>
+                </div>
             </div>
             <nav>
                 <ul>
-                    <li><a href="index.html">主页</a></li>
-                    <li><a href="products.html" onclick="showAnnouncement(); return false;">公告</a></li>
-                    <li><a href="javascript:void(0);" onclick="showToolsDialog();">工具</a></li>
-                    <li><a href="download.html">下载 Spark</a></li>
+                    <li><a href="index.html" class="active"><i class="fas fa-home"></i> 主页</a></li>
+                    <li><a href="javascript:void(0);" onclick="showAnnouncement();"><i class="fas fa-bullhorn"></i> 公告</a></li>
+                    <li><a href="javascript:void(0);" onclick="showToolsDialog();"><i class="fas fa-tools"></i> 工具</a></li>
+                    <li><a href="download.html"><i class="fas fa-download"></i> 下载 Spark</a></li>
                 </ul>
             </nav>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
         </header>
 
         <main>
-            <section>
-                <h2 class="section-title">什么是Spark？</h2>
-                <p>Spark是一款初（网名）编写的模拟操作系统（虽然不是真正的操作系统，但是也颇具几分姿色）Spark系统主要由安装界面和主要图形操作界面为主。Spark第一代并不叫作Spark 1.0.0.0，而是被称作dictionary 1.0，开发者也许是希望他能查阅到很多信息吧……不过可惜的是dictionary 1.0系统的源代码已经找不到了……</p>
+            <!-- Hero 区域 -->
+            <section class="hero-section">
+                <div class="hero-content">
+                    <div class="hero-badge">✨ 全新一代</div>
+                    <h2 class="hero-title">探索 <span class="gradient-text">Spark</span> 模拟系统</h2>
+                    <p class="hero-desc">创意展示 · 模拟桌面 · 仅供娱乐</p>
+                    <div class="hero-actions">
+                        <a href="download.html" class="hero-btn primary"><i class="fas fa-download"></i> 立即下载</a>
+                        <a href="javascript:void(0);" onclick="showAnnouncement();" class="hero-btn secondary"><i class="fas fa-bullhorn"></i> 查看公告</a>
+                    </div>
+                </div>
+                <div class="hero-decoration">
+                    <div class="floating-shape shape-1"></div>
+                    <div class="floating-shape shape-2"></div>
+                    <div class="floating-shape shape-3"></div>
+                </div>
             </section>
 
-            <section>
-                <h2 class="section-title">为什么要编写Spark？</h2>
-                <p>Spark的灵感主要是开发者在编程社区中闲逛时，看到了一个名为Windows 10操作系统的模拟编程作品，于是便有了开发一款操作系统的想法。 Spark操作系统最早编写于2021年，每一代操作系统都随着上一代的迭代而更新，操作也变得更加流畅和稳定。随着越来越多的Java插件的发现和云存储的发现，在Spark 4发布结束后，首次出现了联网的一批代表性编程作品。主要以多个用户移动不同的区块来进行图形交互操作。在spark 5之后，操作系统就支持了联网， Spark也就顺理成章地进入了互联网时代。Java插件是一个非常有用的东西，它允许开发者可以通过Java的带入来进行更多有趣的操作。比如spark 5的一项功能："聊天"就采用了"汉字转换英文1.0"</p>
+            <!-- 关于 Spark -->
+            <section class="content-section">
+                <div class="section-header">
+                    <span class="section-icon"><i class="fas fa-info-circle"></i></span>
+                    <h2 class="section-title">什么是 Spark？</h2>
+                    <div class="section-line"></div>
+                </div>
+                <div class="section-body">
+                    <div class="text-card">
+                        <div class="card-icon"><i class="fas fa-rocket"></i></div>
+                        <p>Spark 是初（网名）编写的一款模拟操作系统展示页面，它并非真正的操作系统，无法在电脑上实际运行程序，仅作为一个创意展示项目供大家观赏。Spark 主要由模拟的安装界面和图形操作界面组成。第一代 Spark 并不叫作 Spark 1.0.0.0，而是被称作 dictionary 1.0，开发者也许是希望它能查阅到很多信息吧……不过可惜的是 dictionary 1.0 的源代码已经找不到了……</p>
+                    </div>
+                </div>
             </section>
 
-            <section>
-                <h2 class="section-title">如何正确部署Spark？</h2>
-                <p class="deploy-text">
-                    手机版：<br>
-                    跳转到 <a href="https://spark-home.pages.dev/download" target="_blank" class="deploy-link">https://spark-home.pages.dev/download</a>，点击下载按钮，下载apk安装包：<br>
-                    <img src="img/apk下载介绍.png" alt="APK 下载示例" class="deploy-image">
-                </p>
+            <!-- 为什么要编写 Spark -->
+            <section class="content-section">
+                <div class="section-header">
+                    <span class="section-icon"><i class="fas fa-lightbulb"></i></span>
+                    <h2 class="section-title">为什么要编写 Spark？</h2>
+                    <div class="section-line"></div>
+                </div>
+                <div class="section-body">
+                    <div class="text-card">
+                        <div class="card-icon"><i class="fas fa-history"></i></div>
+                        <p>Spark 的灵感来源于开发者在编程社区中闲逛时，看到了一个名为 Windows 10 的模拟桌面编程作品，于是便有了制作一款模拟系统展示的想法。Spark 最早编写于 2021 年，每一代展示页面都随着上一代的迭代而更新，视觉效果也变得更加流畅和精致。随着越来越多的 Java 插件和云存储功能的引入，在 Spark 4 发布结束后，首次出现了联网的一批代表性展示作品，主要以多个用户移动不同的区块来进行图形交互操作。在 Spark 5 之后，模拟系统就支持了联网功能，Spark 也就顺理成章地进入了互联网时代。Java 插件是一个非常有用的东西，它允许开发者通过 Java 的引入来进行更多有趣的展示操作，比如 Spark 5 的一项功能——"聊天"就采用了"汉字转换英文 1.0"。</p>
+                    </div>
+                </div>
+            </section>
 
-                <br><br>
+            <!-- 如何部署 Spark -->
+            <section class="content-section">
+                <div class="section-header">
+                    <span class="section-icon"><i class="fas fa-cog"></i></span>
+                    <h2 class="section-title">如何获取 Spark 展示项目？</h2>
+                    <div class="section-line"></div>
+                </div>
+                <div class="section-body">
+                    <div class="deploy-grid">
+                        <div class="deploy-card">
+                            <div class="deploy-card-header">
+                                <div class="deploy-icon"><i class="fas fa-mobile-alt"></i></div>
+                                <h3>手机版</h3>
+                            </div>
+                            <div class="deploy-card-body">
+                                <p>跳转到 <a href="https://spark-home.pages.dev/download" target="_blank" class="deploy-link">下载页面</a>，点击下载按钮，下载 APK 安装包（仅用于展示，无法真正安装运行）：</p>
+                                <div class="deploy-image-wrapper">
+                                    <img src="img/apk下载介绍.png" alt="APK 下载示例" class="deploy-image">
+                                </div>
+                            </div>
+                        </div>
 
-                <p class="deploy-text">
-                    Windows版：<br>
-                    跳转到 <a href="https://spark-home.pages.dev/download" target="_blank" class="deploy-link">https://spark-home.pages.dev/download</a>，点击下载按钮，下载Zip文件<br>
-                    <img src="img/Windows下载介绍.png" alt="APK 下载示例" class="deploy-image"> <br>
-                    解压文件<br>
-                    <span id="commandPath">
-                        打开命令行终端运行：<br>
-                        (这里替换成解压后的位置)\spark\spark.exe
-                    </span>
-                    <button onclick="copyToClipboard('#commandPath')" class="copy-button">复制</button><br>
-                    例如：<br>
-                    <span id="examplePath">D:\Spark 5\Windows\spark\spark.exe</span>
-                    <button onclick="copyToClipboard('#examplePath')" class="copy-button">复制</button>
-                </p>
+                        <div class="deploy-card">
+                            <div class="deploy-card-header">
+                                <div class="deploy-icon windows"><i class="fab fa-windows"></i></div>
+                                <h3>Windows 版</h3>
+                            </div>
+                            <div class="deploy-card-body">
+                                <p>跳转到 <a href="https://spark-home.pages.dev/download" target="_blank" class="deploy-link">下载页面</a>，点击下载按钮，下载 Zip 文件（解压后可在浏览器中打开展示）：</p>
+                                <div class="deploy-image-wrapper">
+                                    <img src="img/Windows下载介绍.png" alt="Windows 下载示例" class="deploy-image">
+                                </div>
+                                <div class="command-block">
+                                    <div class="command-label">解压后运行：</div>
+                                    <div class="command-box">
+                                        <code id="commandPath">(这里替换成解压后的位置)\spark\spark.exe</code>
+                                        <button onclick="copyToClipboard('#commandPath')" class="copy-btn"><i class="fas fa-copy"></i></button>
+                                    </div>
+                                    <div class="command-label">例如：</div>
+                                    <div class="command-box">
+                                        <code id="examplePath">D:\Spark 5\Windows\spark\spark.exe</code>
+                                        <button onclick="copyToClipboard('#examplePath')" class="copy-btn"><i class="fas fa-copy"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                <p class="deploy-text">(Linux和Mac文件可参阅解压后的txt文件进行操作)</p>
+                    <div class="deploy-note">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Linux 和 Mac 文件可参阅解压后的 txt 文件进行操作</span>
+                    </div>
+                </div>
             </section>
         </main>
 
         <footer>
-            <p>&copy; 2024 柴炳坤. 保留所有权利。</p>
-            <button id="feedbackBtn">向我们提供你的建议</button>
-            <button id="themeToggle">切换主题</button>
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="img/MAIN.jpg" alt="Spark" class="footer-logo">
+                    <span>Spark 模拟系统</span>
+                </div>
+                <div class="footer-actions">
+                    <button id="feedbackBtn" class="footer-btn feedback-btn"><i class="fas fa-comment"></i> 提供建议</button>
+                    <button id="themeToggle" class="footer-btn theme-btn"><i class="fas fa-moon"></i> 切换主题</button>
+                </div>
+                <div class="footer-copyright">
+                    &copy; 2024 柴炳坤. 保留所有权利。
+                </div>
+            </div>
         </footer>
     </div>
 
@@ -129,8 +216,31 @@
     </dialog>
 
     <script>
+        // 移动端菜单切换
+        function toggleMobileMenu() {
+            const nav = document.querySelector('nav');
+            const btn = document.getElementById('mobileMenuBtn');
+            nav.classList.toggle('open');
+            const icon = btn.querySelector('i');
+            if (nav.classList.contains('open')) {
+                icon.className = 'fas fa-times';
+            } else {
+                icon.className = 'fas fa-bars';
+            }
+        }
+
+        // 点击导航链接后关闭移动端菜单
+        document.addEventListener('click', function(e) {
+            const nav = document.querySelector('nav');
+            const btn = document.getElementById('mobileMenuBtn');
+            if (nav.classList.contains('open') && !nav.contains(e.target) && !btn.contains(e.target)) {
+                nav.classList.remove('open');
+                btn.querySelector('i').className = 'fas fa-bars';
+            }
+        });
+
         // 为按钮添加鼠标位置追踪 (与 download.html 一致)
-        document.querySelectorAll('.action-button, #feedbackBtn, #themeToggle, #submitFeedback, #cancelFeedback').forEach(button => {
+        document.querySelectorAll('.action-button, #feedbackBtn, #themeToggle, #submitFeedback, #cancelFeedback, .footer-btn').forEach(button => {
             button.addEventListener('mousemove', (e) => {
                 const rect = button.getBoundingClientRect();
                 const x = e.clientX - rect.left;
@@ -138,8 +248,6 @@
                 button.style.setProperty('--mouse-x', `${x}px`);
                 button.style.setProperty('--mouse-y', `${y}px`);
             });
-            button.addEventListener('mouseenter', () => { button.style.color = 'white'; });
-            button.addEventListener('mouseleave', () => { button.style.color = 'white'; });
         });
 
         function showAnnouncement() {
@@ -152,7 +260,31 @@
             dialog.close();
         }
 
-        // 页面加载完成后执行 (与 download.html 一致的淡出效果)
+        // 粒子背景效果
+        function createParticles() {
+            const container = document.getElementById('particles');
+            if (!container) return;
+            const count = 30;
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                const size = Math.random() * 6 + 2;
+                particle.style.cssText = `
+                    position: absolute;
+                    width: ${size}px;
+                    height: ${size}px;
+                    background: rgba(108, 99, 255, ${Math.random() * 0.3 + 0.1});
+                    border-radius: 50%;
+                    left: ${Math.random() * 100}%;
+                    top: ${Math.random() * 100}%;
+                    animation: particleFloat ${Math.random() * 10 + 10}s ease-in-out infinite;
+                    animation-delay: ${Math.random() * 5}s;
+                    pointer-events: none;
+                `;
+                container.appendChild(particle);
+            }
+        }
+
+        // 页面加载完成后执行
         window.addEventListener('load', function() {
             const loading = document.getElementById('loading');
             setTimeout(function() {
@@ -162,8 +294,11 @@
                 }, 400);
             }, 800);
 
+            // 创建粒子背景
+            createParticles();
+
             // 触发 section 的动画延迟
-            document.querySelectorAll('main section').forEach((el, index) => {
+            document.querySelectorAll('main section, .content-section').forEach((el, index) => {
                 el.style.animationDelay = `${index * 0.2}s`;
             });
         });

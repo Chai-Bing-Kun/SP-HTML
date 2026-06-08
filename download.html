@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>下载 Spark - 柴炳坤</title>
     <link rel="stylesheet" href="style.css">
-
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
     <div id="loading">
@@ -13,107 +14,160 @@
     </div>
 
     <div class="background-container">
+        <!-- 粒子背景 -->
+        <div class="particles" id="particles"></div>
+
         <header>
-            <h1>下载 Spark</h1>
+            <div class="header-left">
+                <div class="logo-wrapper">
+                    <img src="img/MAIN.jpg" alt="Spark 商标" class="logo">
+                    <div class="logo-glow"></div>
+                </div>
+                <div class="brand-text">
+                    <h1>Spark <span class="highlight">模拟系统</span></h1>
+                    <span class="subtitle">创意模拟桌面展示</span>
+                </div>
+            </div>
             <nav>
                 <ul>
-                    <li><a href="index.html">主页</a></li>
-                    <li><a href="javascript:void(0);" onclick="showAnnouncement();">公告</a></li>
-                    <li><a href="javascript:void(0);" onclick="showToolsDialog();">工具</a></li>
-                    <li><a href="download.html">下载 Spark</a></li>
+                    <li><a href="index.html"><i class="fas fa-home"></i> 主页</a></li>
+                    <li><a href="javascript:void(0);" onclick="showAnnouncement();"><i class="fas fa-bullhorn"></i> 公告</a></li>
+                    <li><a href="javascript:void(0);" onclick="showToolsDialog();"><i class="fas fa-tools"></i> 工具</a></li>
+                    <li><a href="download.html" class="active"><i class="fas fa-download"></i> 下载 Spark</a></li>
                 </ul>
             </nav>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
         </header>
 
         <main>
-            <section class="product-showcase">
-                <h2>Spark 5</h2>
-                
-                <p class="product-description">Spark 5 是目前最新的spark系列操作系统，你可以用它进行联网等操作。(当前最新版本：5.3.3.1）<br>目前网站只提供部分下载方式，具体请看Github网站</p>
-                <div class="download-section">
-                    <button onclick="window.location.href='Spark for the web/Spark 5.html'" class="run-button">在网页中运行</button>
-                    <button onclick="showDownloadOptions('spark5')" class="download-button">下载最新版 Spark 5</button>
-                    <a href="https://github.com/Chai-Bing-Kun/Spark-X" class="github-link" target="_blank">在GitHub中查看</a>
+            <!-- Hero 区域 -->
+            <section class="hero-section">
+                <div class="hero-content">
+                    <div class="hero-badge">📥 下载中心</div>
+                    <h2 class="hero-title">获取 <span class="gradient-text">Spark</span> 展示项目</h2>
+                    <p class="hero-desc">选择版本 · 一键下载 · 免费无广告</p>
+                    <div class="hero-actions">
+                        <a href="javascript:void(0);" onclick="showDownloadOptions('spark5')" class="hero-btn primary"><i class="fas fa-download"></i> 下载 Spark 5</a>
+                        <a href="https://github.com/Chai-Bing-Kun/Spark-X" target="_blank" class="hero-btn secondary"><i class="fab fa-github"></i> GitHub 仓库</a>
+                    </div>
+                </div>
+                <div class="hero-decoration">
+                    <div class="floating-shape shape-1"></div>
+                    <div class="floating-shape shape-2"></div>
+                    <div class="floating-shape shape-3"></div>
                 </div>
             </section>
 
-            <section class="product-showcase">
-                <h2>Spark 4</h2>
-    
-                <p class="product-description">Spark 4 是 Spark 系列的前代版本，现在已停止更新，请你转为下载最新版的spark 5。</p>
-                    <div class="download-section">
-                    <button onclick="window.location.href='Spark for the web/Spark 4.html'" class="run-button">在网页中运行</button>
-                    <button onclick="showDownloadOptions('spark4')" class="download-button">下载最新版 Spark 4</button>
-                    <a href="https://github.com/Chai-Bing-Kun/Spark-X" class="github-link" target="_blank">在GitHub中查看</a>
+            <!-- Spark 5 卡片 -->
+            <section class="content-section">
+                <div class="section-header">
+                    <span class="section-icon"><i class="fas fa-star"></i></span>
+                    <h2 class="section-title">Spark 5 <span style="font-size:14px;font-weight:400;color:var(--text-secondary);margin-left:8px;">当前最新版本：5.3.3.1</span></h2>
+                    <div class="section-line"></div>
+                </div>
+                <div class="section-body">
+                    <div class="version-card">
+                        <div class="version-info">
+                            <div class="version-badge current">最新版</div>
+                            <p class="version-desc">Spark 5 是目前最新的 Spark 系列模拟系统展示项目，你可以在浏览器中直接体验其模拟桌面界面，也可以下载文件本地查看。目前网站只提供部分下载方式，具体请查看 GitHub 仓库。</p>
+                        </div>
+                        <div class="version-actions">
+                            <button onclick="window.location.href='Spark for the web/Spark 5.html'" class="action-btn run-btn"><i class="fas fa-play"></i> 在网页中运行</button>
+                            <button onclick="showDownloadOptions('spark5')" class="action-btn download-btn"><i class="fas fa-download"></i> 下载 Spark 5</button>
+                            <a href="https://github.com/Chai-Bing-Kun/Spark-X" target="_blank" class="action-btn github-btn"><i class="fab fa-github"></i> GitHub</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Spark 4 卡片 -->
+            <section class="content-section">
+                <div class="section-header">
+                    <span class="section-icon"><i class="fas fa-clock"></i></span>
+                    <h2 class="section-title">Spark 4 <span style="font-size:14px;font-weight:400;color:var(--text-secondary);margin-left:8px;">已停止更新</span></h2>
+                    <div class="section-line"></div>
+                </div>
+                <div class="section-body">
+                    <div class="version-card">
+                        <div class="version-info">
+                            <div class="version-badge old">旧版本</div>
+                            <p class="version-desc">Spark 4 是 Spark 系列的前代展示版本，现已停止更新，建议你下载最新版的 Spark 5 以获得更好的展示体验。</p>
+                        </div>
+                        <div class="version-actions">
+                            <button onclick="window.location.href='Spark for the web/Spark 4.html'" class="action-btn run-btn"><i class="fas fa-play"></i> 在网页中运行</button>
+                            <button onclick="showDownloadOptions('spark4')" class="action-btn download-btn"><i class="fas fa-download"></i> 下载 Spark 4</button>
+                            <a href="https://github.com/Chai-Bing-Kun/Spark-X" class="action-btn github-btn"><i class="fab fa-github"></i> GitHub</a>
+                        </div>
+                    </div>
                 </div>
             </section>
         </main>
 
         <footer>
-            <p>&copy; 2024 柴炳坤. 保留所有权利。</p>
-            <button id="themeToggle">切换主题</button>
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="img/MAIN.jpg" alt="Spark" class="footer-logo">
+                    <span>Spark 模拟系统</span>
+                </div>
+                <div class="footer-actions">
+                    <button id="themeToggle" class="footer-btn theme-btn"><i class="fas fa-moon"></i> 切换主题</button>
+                </div>
+                <div class="footer-copyright">
+                    &copy; 2024 柴炳坤. 保留所有权利。
+                </div>
+            </div>
         </footer>
     </div>
 
     <dialog id="downloadDialog">
         <div class="dialog-header">
-            <h2 class="dialog-title">选择下载选项</h2>
+            <h2 class="dialog-title"><i class="fas fa-download" style="margin-right:8px;"></i>选择下载选项</h2>
             <button class="close-button" onclick="closeDialog()">×</button>
         </div>
         <div class="download-pages">
             <!-- 标准下载页面 -->
             <div class="download-page active" data-page="0">
-                <div class="download-preview-image">
-                    <!-- 预留图片插入接口 -->
-                    <span>从github上下载</span>
-                </div>
+                <div class="download-source-badge"><i class="fab fa-github"></i> GitHub 直链</div>
                 <div class="download-description">
-                    <!-- 预留描述文字 -->
-                    <p>这是github上的直链下载链接下载方式，请点击下方按钮，选择合适的内容下载</p>
+                    <p>这是 GitHub 上的直链下载方式，请点击下方按钮选择合适的内容下载。</p>
                 </div>
                 <div class="download-button-row">
-                    <button onclick="download('apk')" class="download-button">Android</button>
-                    <button onclick="download('windows')" class="download-button">Windows</button>
-                    <button onclick="download('mac')" class="download-button">Mac</button>
-                    <button onclick="download('linux')" class="download-button">Linux</button>
+                    <button onclick="download('apk')" class="dl-option-btn android"><i class="fab fa-android"></i> Android</button>
+                    <button onclick="download('windows')" class="dl-option-btn windows"><i class="fab fa-windows"></i> Windows</button>
+                    <button onclick="download('mac')" class="dl-option-btn mac"><i class="fab fa-apple"></i> Mac</button>
+                    <button onclick="download('linux')" class="dl-option-btn linux"><i class="fab fa-linux"></i> Linux</button>
                 </div>
             </div>
             
             <!-- 快速下载页面 -->
             <div class="download-page" data-page="1">
-                <div class="download-preview-image">
-                    <!-- 预留图片插入接口 -->
-                    <span>从gh.bugdey.us.kg上下载</span>
-                </div>
+                <div class="download-source-badge fast"><i class="fas fa-bolt"></i> 镜像加速</div>
                 <div class="download-description">
-                    <!-- 预留描述文字 -->
-                    <p>这是gh.bugdey.us.kg上的下载链接，请点击下方按钮，选择合适的内容下载</p>
+                    <p>这是 gh.bugdey.us.kg 上的镜像下载链接，速度可能更快，请点击下方按钮选择合适的内容下载。</p>
                 </div>
                 <div class="download-button-row">
-                    <button onclick="download('fastapk')" class="download-button">Android</button>
-                    <button onclick="download('fastwindows')" class="download-button">Windows</button>
-                    <button onclick="download('fastmac')" class="download-button">Mac</button>
-                    <button onclick="download('fastlinux')" class="download-button">Linux</button>
+                    <button onclick="download('fastapk')" class="dl-option-btn android"><i class="fab fa-android"></i> Android</button>
+                    <button onclick="download('fastwindows')" class="dl-option-btn windows"><i class="fab fa-windows"></i> Windows</button>
+                    <button onclick="download('fastmac')" class="dl-option-btn mac"><i class="fab fa-apple"></i> Mac</button>
+                    <button onclick="download('fastlinux')" class="dl-option-btn linux"><i class="fab fa-linux"></i> Linux</button>
                 </div>
             </div>
             
             <!-- 批量下载页面 -->
             <div class="download-page" data-page="2">
-                <div class="download-preview-image">
-                    <!-- 预留图片插入接口 -->
-                    <span>从gh.bugdey.us.kg上下载</span>
-                </div>
+                <div class="download-source-badge fast"><i class="fas fa-box"></i> 批量下载</div>
                 <div class="download-description">
-                    <!-- 预留描述文字 -->
-                    <p>这是gh.bugdey.us.kg上的批量下载链接，请点击下方按钮，选择合适的内容下载</p>
+                    <p>这是 gh.bugdey.us.kg 上的批量下载链接，一键下载全部源码包。</p>
                 </div>
                 <div class="download-button-row">
-                    <button onclick="download('all')" class="download-button download-all-btn">全部下载</button>
+                    <button onclick="download('all')" class="dl-option-btn all"><i class="fas fa-download"></i> 全部下载</button>
                 </div>
             </div>
             
-            <button class="nav-button prev-button" onclick="prevPage()">❮</button>
-            <button class="nav-button next-button" onclick="nextPage()">❯</button>
+            <button class="nav-button prev-button" onclick="prevPage()"><i class="fas fa-chevron-left"></i></button>
+            <button class="nav-button next-button" onclick="nextPage()"><i class="fas fa-chevron-right"></i></button>
         </div>
         
         <div class="page-indicator">
@@ -125,7 +179,7 @@
 
     <dialog id="announcementDialog">
         <div class="dialog-header">
-            <h2 class="dialog-title">📢 公告</h2>
+            <h2 class="dialog-title"><i class="fas fa-bullhorn" style="margin-right:8px;"></i>公告</h2>
             <button class="close-button" onclick="closeAnnouncementDialog()">×</button>
         </div>
         <div class="dialog-content">
@@ -165,23 +219,37 @@
         let currentPage = 0;
         const totalPages = 3;
 
+        // 移动端菜单切换
+        function toggleMobileMenu() {
+            const nav = document.querySelector('nav');
+            const btn = document.getElementById('mobileMenuBtn');
+            nav.classList.toggle('open');
+            const icon = btn.querySelector('i');
+            if (nav.classList.contains('open')) {
+                icon.className = 'fas fa-times';
+            } else {
+                icon.className = 'fas fa-bars';
+            }
+        }
+
+        // 点击导航链接后关闭移动端菜单
+        document.addEventListener('click', function(e) {
+            const nav = document.querySelector('nav');
+            const btn = document.getElementById('mobileMenuBtn');
+            if (nav.classList.contains('open') && !nav.contains(e.target) && !btn.contains(e.target)) {
+                nav.classList.remove('open');
+                btn.querySelector('i').className = 'fas fa-bars';
+            }
+        });
+
         // 为按钮添加鼠标位置追踪
-        document.querySelectorAll('.download-button, .run-button, .github-link').forEach(button => {
+        document.querySelectorAll('.action-btn, .dl-option-btn').forEach(button => {
             button.addEventListener('mousemove', (e) => {
                 const rect = button.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
-                
                 button.style.setProperty('--mouse-x', `${x}px`);
                 button.style.setProperty('--mouse-y', `${y}px`);
-            });
-            
-            // 确保链接文字颜色不会变化
-            button.addEventListener('mouseenter', () => {
-                button.style.color = 'white';
-            });
-            button.addEventListener('mouseleave', () => {
-                button.style.color = 'white';
             });
         });
 
@@ -295,6 +363,30 @@
     closeDialog();
 }
 
+        // 粒子背景效果
+        function createParticles() {
+            const container = document.getElementById('particles');
+            if (!container) return;
+            const count = 30;
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                const size = Math.random() * 6 + 2;
+                particle.style.cssText = `
+                    position: absolute;
+                    width: ${size}px;
+                    height: ${size}px;
+                    background: rgba(108, 99, 255, ${Math.random() * 0.3 + 0.1});
+                    border-radius: 50%;
+                    left: ${Math.random() * 100}%;
+                    top: ${Math.random() * 100}%;
+                    animation: particleFloat ${Math.random() * 10 + 10}s ease-in-out infinite;
+                    animation-delay: ${Math.random() * 5}s;
+                    pointer-events: none;
+                `;
+                container.appendChild(particle);
+            }
+        }
+
         // 页面加载完成后执行
         window.addEventListener('load', function() {
             const loading = document.getElementById('loading');
@@ -306,9 +398,12 @@
                     loading.style.display = 'none';
                 }, 400);
             }, 800);
+
+            // 创建粒子背景
+            createParticles();
             
-            // 触发产品展示区域的动画
-            document.querySelectorAll('.product-showcase').forEach((el, index) => {
+            // 触发内容区域的动画
+            document.querySelectorAll('.content-section, .hero-section').forEach((el, index) => {
                 el.style.animationDelay = `${index * 0.2}s`;
             });
         });

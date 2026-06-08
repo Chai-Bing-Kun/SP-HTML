@@ -4,16 +4,17 @@
 function toggleTheme() {
     const body = document.body;
     const themeToggleButton = document.getElementById('themeToggle');
+    const icon = themeToggleButton.querySelector('i');
     
     body.classList.toggle('dark-theme');
 
     // 保存用户的主题选择到 localStorage
     if (body.classList.contains('dark-theme')) {
         localStorage.setItem('theme', 'dark');
-        themeToggleButton.textContent = '亮色主题';
+        themeToggleButton.innerHTML = '<i class="fas fa-sun"></i> 亮色主题';
     } else {
         localStorage.setItem('theme', 'light');
-        themeToggleButton.textContent = '暗色主题';
+        themeToggleButton.innerHTML = '<i class="fas fa-moon"></i> 暗色主题';
     }
 }
 
@@ -29,9 +30,9 @@ function applySavedTheme() {
 
     if (savedTheme === 'dark' || (savedTheme === null && prefersDarkScheme.matches)) {
         document.body.classList.add('dark-theme');
-        themeToggleButton.textContent = '亮色主题';
+        themeToggleButton.innerHTML = '<i class="fas fa-sun"></i> 亮色主题';
     } else {
-        themeToggleButton.textContent = '暗色主题';
+        themeToggleButton.innerHTML = '<i class="fas fa-moon"></i> 暗色主题';
     }
 }
 
