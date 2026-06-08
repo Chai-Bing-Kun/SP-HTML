@@ -2,7 +2,7 @@ body, html {
     margin: 0;
     padding: 0;
     height: 100%;
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', Arial, sans-serif;
 }
 
 .background-container {
@@ -68,18 +68,35 @@ footer {
 }
 
 .product-showcase {
-    background-color: rgba(255, 255, 255, 0.5); /* 默认白色背景 */
+    background-color: rgba(255, 255, 255, 0.5);
     border-radius: 10px;
     padding: 20px;
     margin: 20px 0;
     text-align: center;
+    transition: all 0.4s ease;
+    transform: translateY(10px);
+    opacity: 0;
+    animation: fadeInUp 0.6s forwards;
+    animation-delay: 0.3s;
+    backdrop-filter: blur(8px);
 }
 
 .product-image {
     max-width: 100%;
     height: auto;
-    border-radius: 5px;
+    border-radius: 8px;
     margin-bottom: 20px;
+    transition: all 0.4s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    max-height: 300px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.product-image:hover {
+    transform: scale(1.01);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .product-description {
@@ -88,82 +105,239 @@ footer {
     margin-bottom: 20px;
 }
 
-.download-button {
+/* ===== 下载页面按钮样式 ===== */
+.download-button, .run-button, .github-link {
     display: inline-block;
-    background-color: rgba(76, 175, 80, 0.9);
-    color: white;
+    color: white !important;
     padding: 15px 25px;
     text-decoration: none;
     font-size: 18px;
     border-radius: 5px;
-    transition: background-color 0.3s, transform 0.2s; /* 添加过渡效果 */
+    transition: all 0.3s ease;
     border: none;
     cursor: pointer;
+    margin: 10px 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    transform: translateZ(0);
 }
 
-.download-button:hover {
-    background-color: rgba(69, 160, 73, 0.9);
-    transform: scale(1.05); /* 悬停时放大效果 */
+.download-button {
+    background-color: rgba(76, 175, 80, 0.9);
+}
+
+.run-button {
+    background-color: rgba(52, 152, 219, 0.9);
+}
+
+.github-link {
+    background-color: rgba(155, 89, 182, 0.9);
+}
+
+.download-button::before, .run-button::before, .github-link::before {
+    content: '';
+    position: absolute;
+    top: var(--mouse-y);
+    left: var(--mouse-x);
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: width 0.4s ease-out, height 0.4s ease-out, opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.download-button:hover::before, 
+.run-button:hover::before, 
+.github-link:hover::before {
+    width: 200px;
+    height: 200px;
+    opacity: 1;
+}
+
+.download-button:hover, .run-button:hover, .github-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    color: white !important;
+}
+
+.download-button:active, .run-button:active, .github-link:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    color: white !important;
 }
 
 .download-section {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+/* ===== 加载动画 ===== */
+#loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.95);
+    display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 10px;
+    z-index: 9999;
+    transition: opacity 0.4s ease;
 }
 
-.github-link {
-    font-size: 14px;
-    color: #0366d6;
+.loader {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(76, 175, 80, 0.2);
+    border-radius: 50%;
+    border-top-color: rgba(76, 175, 80, 0.8);
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ===== 通用按钮样式 ===== */
+.action-button {
+    display: inline-block;
+    color: white !important;
+    padding: 15px 25px;
     text-decoration: none;
-}
-
-.github-link:hover {
-    text-decoration: underline;
-}
-
-.run-button {
-    background: none;
+    font-size: 18px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
     border: none;
-    color: #0366d6;
-    font-size: 14px; /* 确保字体大小与 GitHub 链接一致 */
-    text-decoration: none; /* 默认不显示下划线 */
     cursor: pointer;
+    margin: 10px 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    transform: translateZ(0);
 }
 
-.run-button:hover {
-    text-decoration: underline; /* 鼠标悬停时显示下划线 */
+.action-button::before {
+    content: '';
+    position: absolute;
+    top: var(--mouse-y);
+    left: var(--mouse-x);
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: width 0.4s ease-out, height 0.4s ease-out, opacity 0.3s ease;
+    pointer-events: none;
 }
 
-dialog {
-    padding: 20px;
+.action-button:hover::before {
+    width: 200px;
+    height: 200px;
+    opacity: 1;
+}
+
+.action-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    color: white !important;
+}
+
+.action-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    color: white !important;
+}
+
+/* ===== Section 区域动画 ===== */
+main section {
+    transition: all 0.4s ease;
+    transform: translateY(10px);
+    opacity: 0;
+    animation: fadeInUp 0.6s forwards;
+    margin-bottom: 40px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(8px);
+}
+
+@keyframes fadeInUp {
+    from {
+        transform: translateY(10px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ===== 对话框基础样式 ===== */
+dialog {
     border: none;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 0;
+    max-width: 600px;
+    width: 90%;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    animation: dialogFadeIn 0.3s ease-out;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e6e9f0 100%);
+}
+
+@keyframes dialogFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 dialog::backdrop {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-dialog button {
-    margin: 5px;
-    padding: 10px 15px;
+.dialog-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dialog-title {
+    margin: 0;
+    font-size: 20px;
+    color: #333;
+}
+
+.close-button {
+    background: none;
     border: none;
-    border-radius: 5px;
-    background-color: #4CAF50;
-    color: white;
+    font-size: 24px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    color: #777;
+    padding: 0 10px;
+    transition: all 0.2s ease;
 }
 
-dialog button:hover {
-    background-color: #45a049;
+.close-button:hover {
+    color: #333;
+    transform: scale(1.1);
 }
 
-#feedbackBtn {
-    background-color: #4CAF50;
+/* ===== 页面通用按钮 ===== */
+#feedbackBtn, #themeToggle, #submitFeedback, #cancelFeedback {
     color: white;
     border: none;
     padding: 10px 20px;
@@ -174,6 +348,81 @@ dialog button:hover {
     margin: 4px 2px;
     cursor: pointer;
     border-radius: 5px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    transform: translateZ(0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#feedbackBtn {
+    background-color: #4CAF50;
+}
+
+#feedbackBtn:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+#feedbackBtn:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+#themeToggle {
+    background-color: #007BFF;
+}
+
+#themeToggle:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+#themeToggle:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+#submitFeedback {
+    background-color: #4CAF50;
+}
+
+#cancelFeedback {
+    background-color: #95a5a6;
+}
+
+#submitFeedback:hover, #cancelFeedback:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+#submitFeedback:active, #cancelFeedback:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== 响应式调整 ===== */
+@media (max-width: 768px) {
+    .action-button {
+        width: 100%;
+        margin: 5px 0;
+    }
+
+    .download-section {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .download-button, .run-button, .github-link {
+        width: 100%;
+        margin: 5px 0;
+    }
+
+    .product-image {
+        max-height: 200px;
+    }
 }
 
 form {
@@ -241,28 +490,123 @@ body.dark-theme {
     color: #ffffff; /* 标题变为白色 */
 }
 
-#themeToggle {
-    background-color: #007BFF; /* 按钮背景色 */
-    color: white; /* 按钮文字颜色 */
-    border: none; /* 去掉边框 */
-    padding: 10px 20px; /* 内边距 */
-    text-align: center; /* 文字居中 */
-    text-decoration: none; /* 去掉下划线 */
-    display: inline-block; /* 使按钮为块级元素 */
-    font-size: 16px; /* 字体大小 */
-    margin: 4px 2px; /* 外边距 */
-    cursor: pointer; /* 鼠标悬停时显示手型 */
-    border-radius: 5px; /* 圆角 */
-    transition: background-color 0.3s, transform 0.2s; /* 添加过渡效果 */
+/* ===== 下载对话框 - 多页容器 ===== */
+.download-pages {
+    position: relative;
+    min-height: 300px;
+    overflow: hidden;
+    padding: 20px;
 }
 
-#themeToggle:hover {
-    background-color: #0056b3; /* 悬停时的背景色 */
-    transform: scale(1.05); /* 悬停时放大效果 */
+.download-page {
+    position: absolute;
+    width: calc(100% - 40px);
+    top: 20px;
+    left: 20px;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.3s ease;
 }
 
-#themeToggle:active {
-    transform: scale(0.95); /* 点击时缩小效果 */
+.download-page.active {
+    opacity: 1;
+    transform: translateX(0);
+    position: relative;
+}
+
+.download-page.prev {
+    transform: translateX(-100%);
+}
+
+/* 下载对话框导航按钮 */
+.nav-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.1);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.nav-button:hover {
+    background: rgba(0,0,0,0.2);
+}
+
+.prev-button {
+    left: 10px;
+}
+
+.next-button {
+    right: 10px;
+}
+
+/* 页面指示器 */
+.page-indicator {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    padding-bottom: 15px;
+}
+
+.indicator-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ccc;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.indicator-dot.active {
+    background: #555;
+    transform: scale(1.2);
+}
+
+/* 下载预览图片占位 */
+.download-preview-image {
+    width: 100%;
+    max-height: 150px;
+    object-fit: contain;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-style: italic;
+}
+
+/* 下载描述文字 */
+.download-description {
+    margin-bottom: 20px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #555;
+}
+
+/* 下载按钮行 */
+.download-button-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* 全部下载按钮 */
+.download-all-btn {
+    background-color: #e74c3c !important;
 }
 
 /* ===== 工具导航弹窗样式 ===== */
@@ -537,14 +881,9 @@ body.dark-theme {
     background: #aaa;
 }
 
-.dark-theme #announcementDialog h2,
 .dark-theme #announcementDialog h3,
 .dark-theme #feedbackDialog h2 {
     color: #e0e0e0;
-}
-
-.dark-theme #announcementDialog ul li {
-    color: #ccc;
 }
 
 .dark-theme #feedbackDialog input,
@@ -557,4 +896,174 @@ body.dark-theme {
 .dark-theme #feedbackDialog input::placeholder,
 .dark-theme #feedbackDialog textarea::placeholder {
     color: #888;
+}
+
+/* ===== 公告对话框内容样式 ===== */
+#announcementDialog .dialog-content {
+    padding: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+#announcementDialog .announcement-section {
+    margin-bottom: 20px;
+}
+
+#announcementDialog .announcement-section h3 {
+    margin: 0 0 12px 0;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#announcementDialog .announcement-section h3 .icon {
+    font-size: 20px;
+}
+
+#announcementDialog .announcement-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#announcementDialog .announcement-list li {
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+#announcementDialog .announcement-list li.version-item {
+    background: rgba(76, 175, 80, 0.08);
+}
+
+#announcementDialog .announcement-list li.site-item {
+    background: rgba(33, 150, 243, 0.08);
+}
+
+#announcementDialog .dialog-footer {
+    text-align: center;
+    padding: 15px 20px;
+    border-top: 1px solid #e0e0e0;
+}
+
+#announcementDialog .dialog-footer button {
+    background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+#announcementDialog .dialog-footer button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* ===== 反馈对话框内容样式 ===== */
+#feedbackDialog .dialog-content {
+    padding: 20px;
+}
+
+#feedbackDialog input,
+#feedbackDialog textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+#feedbackDialog input:focus,
+#feedbackDialog textarea:focus {
+    border-color: #4CAF50 !important;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+#feedbackDialog input::placeholder,
+#feedbackDialog textarea::placeholder {
+    color: #999;
+}
+
+#feedbackDialog .dialog-actions {
+    text-align: center;
+    padding-top: 5px;
+}
+
+#feedbackDialog .dialog-actions button {
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+#feedbackDialog .dialog-actions button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+#feedbackDialog .dialog-actions button:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* ===== 暗色主题 - 公告/反馈对话框覆盖 ===== */
+.dark-theme #announcementDialog .announcement-list li {
+    color: #ccc;
+}
+
+.dark-theme #announcementDialog .announcement-list li.version-item {
+    background: rgba(76, 175, 80, 0.15) !important;
+}
+
+.dark-theme #announcementDialog .announcement-list li.site-item {
+    background: rgba(33, 150, 243, 0.15) !important;
+}
+
+.dark-theme #feedbackDialog input:focus,
+.dark-theme #feedbackDialog textarea:focus {
+    border-color: #4CAF50 !important;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+/* ===== 复制按钮样式 ===== */
+.copy-button {
+    margin-left: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(76, 175, 80, 0.5);
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+/* ===== 部署说明链接样式 ===== */
+.deploy-link {
+    color: #0366d6;
+    text-decoration: underline;
+}
+
+/* ===== 部署说明图片样式 ===== */
+.deploy-image {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+}
+
+/* ===== 部署说明文本样式 ===== */
+.deploy-text {
+    font-size: 16px;
 }

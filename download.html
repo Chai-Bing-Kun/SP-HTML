@@ -5,401 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>下载 Spark - 柴炳坤</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* 基础按钮样式 - 确保文字颜色不变 */
-        .download-button, .run-button, .github-link {
-            display: inline-block;
-            color: white !important;
-            padding: 15px 25px;
-            text-decoration: none;
-            font-size: 18px;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            margin: 10px 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-            transform: translateZ(0);
-        }
 
-        /* 按钮颜色 */
-        .download-button {
-            background-color: rgba(76, 175, 80, 0.9);
-        }
-        .run-button {
-            background-color: rgba(52, 152, 219, 0.9);
-        }
-        .github-link {
-            background-color: rgba(155, 89, 182, 0.9);
-        }
-
-        /* 鼠标悬停光晕效果 */
-        .download-button::before, .run-button::before, .github-link::before {
-            content: '';
-            position: absolute;
-            top: var(--mouse-y);
-            left: var(--mouse-x);
-            width: 0;
-            height: 0;
-            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
-            transform: translate(-50%, -50%);
-            opacity: 0;
-            transition: width 0.4s ease-out, height 0.4s ease-out, opacity 0.3s ease;
-            pointer-events: none;
-        }
-
-        .download-button:hover::before, 
-        .run-button:hover::before, 
-        .github-link:hover::before {
-            width: 200px;
-            height: 200px;
-            opacity: 1;
-        }
-
-        /* 按钮悬停状态 */
-        .download-button:hover, .run-button:hover, .github-link:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-            color: white !important;
-        }
-
-        /* 按钮点击效果 */
-        .download-button:active, .run-button:active, .github-link:active {
-            transform: translateY(1px);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            color: white !important;
-        }
-
-        /* 产品展示区域 */
-        .product-showcase {
-            transition: all 0.4s ease;
-            transform: translateY(10px);
-            opacity: 0;
-            animation: fadeInUp 0.6s forwards;
-            animation-delay: 0.3s;
-            margin-bottom: 40px;
-            padding: 30px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-            backdrop-filter: blur(8px);
-        }
-
-        @keyframes fadeInUp {
-            from {
-                transform: translateY(10px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        /* 产品图片 */
-        .product-image {
-            transition: all 0.4s ease;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            max-width: 100%;
-            height: auto;
-            margin: 20px 0;
-            max-height: 300px;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .product-image:hover {
-            transform: scale(1.01);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        }
-
-        /* 下载区域样式 */
-        .download-section {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 25px;
-        }
-
-        /* 对话框样式 - 多页下载选项 */
-        dialog {
-            border: none;
-            border-radius: 8px;
-            padding: 0;
-            max-width: 600px;
-            width: 90%;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            animation: dialogFadeIn 0.3s ease-out;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e6e9f0 100%);
-            position: relative;
-        }
-
-        @keyframes dialogFadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* 对话框标题栏 */
-        .dialog-header {
-            padding: 15px 20px;
-            border-bottom: 1px solid #e0e0e0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .dialog-title {
-            margin: 0;
-            font-size: 20px;
-            color: #333;
-        }
-
-        /* 关闭按钮 */
-        .close-button {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: #777;
-            padding: 0 10px;
-            transition: all 0.2s ease;
-        }
-
-        .close-button:hover {
-            color: #333;
-            transform: scale(1.1);
-        }
-
-        /* 下载选项页面容器 */
-        .download-pages {
-            position: relative;
-            min-height: 300px;
-            overflow: hidden;
-            padding: 20px;
-        }
-
-        /* 单个下载选项页面 */
-        .download-page {
-            position: absolute;
-            width: calc(100% - 40px);
-            top: 20px;
-            left: 20px;
-            opacity: 0;
-            transform: translateX(100%);
-            transition: all 0.3s ease;
-        }
-
-        .download-page.active {
-            opacity: 1;
-            transform: translateX(0);
-            position: relative;
-        }
-
-        .download-page.prev {
-            transform: translateX(-100%);
-        }
-
-        /* 导航按钮 */
-        .nav-button {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0,0,0,0.1);
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            z-index: 10;
-        }
-
-        .nav-button:hover {
-            background: rgba(0,0,0,0.2);
-        }
-
-        .prev-button {
-            left: 10px;
-        }
-
-        .next-button {
-            right: 10px;
-        }
-
-        /* 页面指示器 */
-        .page-indicator {
-            display: flex;
-            justify-content: center;
-            margin-top: 15px;
-            padding-bottom: 15px;
-        }
-
-        .indicator-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #ccc;
-            margin: 0 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .indicator-dot.active {
-            background: #555;
-            transform: scale(1.2);
-        }
-
-        /* 预留图片接口 */
-        .download-preview-image {
-            width: 100%;
-            max-height: 150px;
-            object-fit: contain;
-            margin-bottom: 15px;
-            border-radius: 5px;
-            background: #f0f0f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #999;
-            font-style: italic;
-        }
-
-        /* 预留描述文字 */
-        .download-description {
-            margin-bottom: 20px;
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 5px;
-            font-size: 14px;
-            color: #555;
-        }
-
-        /* 加载动画 */
-        #loading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.95);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.4s ease;
-        }
-
-        .loader {
-            width: 50px;
-            height: 50px;
-            border: 3px solid rgba(76, 175, 80, 0.2);
-            border-radius: 50%;
-            border-top-color: rgba(76, 175, 80, 0.8);
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* 响应式调整 */
-        @media (max-width: 768px) {
-            .download-section {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .download-button, .run-button, .github-link {
-                width: 100%;
-                margin: 5px 0;
-            }
-            
-            .product-image {
-                max-height: 200px;
-            }
-        }
-
-        /* ===== 暗色主题 - download.html 对话框覆盖 ===== */
-        .dark-theme dialog {
-            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%) !important;
-            color: #e0e0e0;
-        }
-
-        .dark-theme .dialog-title {
-            color: #e0e0e0;
-        }
-
-        .dark-theme .dialog-header {
-            border-bottom-color: #444;
-        }
-
-        .dark-theme .close-button {
-            color: #aaa;
-        }
-
-        .dark-theme .close-button:hover {
-            color: #fff;
-        }
-
-        .dark-theme .download-preview-image {
-            background: #333;
-            color: #aaa;
-        }
-
-        .dark-theme .download-description {
-            background: rgba(255, 255, 255, 0.08);
-            color: #ccc;
-        }
-
-        .dark-theme .nav-button {
-            background: rgba(255, 255, 255, 0.1);
-            color: #ccc;
-        }
-
-        .dark-theme .nav-button:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .dark-theme .indicator-dot {
-            background: #555;
-        }
-
-        .dark-theme .indicator-dot.active {
-            background: #aaa;
-        }
-
-        /* 暗色主题 - 公告对话框 */
-        .dark-theme #announcementDialog div[style*="border-top"] {
-            border-top-color: #444 !important;
-        }
-
-        .dark-theme #announcementDialog li {
-            color: #ccc;
-        }
-
-        .dark-theme #announcementDialog li[style*="rgba(76, 175, 80"] {
-            background: rgba(76, 175, 80, 0.15) !important;
-        }
-
-        .dark-theme #announcementDialog li[style*="rgba(33, 150, 243"] {
-            background: rgba(33, 150, 243, 0.15) !important;
-        }
-    </style>
 </head>
 <body>
     <div id="loading">
@@ -465,7 +71,7 @@
                     <!-- 预留描述文字 -->
                     <p>这是github上的直链下载链接下载方式，请点击下方按钮，选择合适的内容下载</p>
                 </div>
-                <div style="display: flex; flex-wrap: wrap; justify-content: center;">
+                <div class="download-button-row">
                     <button onclick="download('apk')" class="download-button">Android</button>
                     <button onclick="download('windows')" class="download-button">Windows</button>
                     <button onclick="download('mac')" class="download-button">Mac</button>
@@ -483,7 +89,7 @@
                     <!-- 预留描述文字 -->
                     <p>这是gh.bugdey.us.kg上的下载链接，请点击下方按钮，选择合适的内容下载</p>
                 </div>
-                <div style="display: flex; flex-wrap: wrap; justify-content: center;">
+                <div class="download-button-row">
                     <button onclick="download('fastapk')" class="download-button">Android</button>
                     <button onclick="download('fastwindows')" class="download-button">Windows</button>
                     <button onclick="download('fastmac')" class="download-button">Mac</button>
@@ -501,8 +107,8 @@
                     <!-- 预留描述文字 -->
                     <p>这是gh.bugdey.us.kg上的批量下载链接，请点击下方按钮，选择合适的内容下载</p>
                 </div>
-                <div style="text-align: center; margin-top: 20px;">
-                    <button onclick="download('all')" class="download-button" style="background-color: #e74c3c;">全部下载</button>
+                <div class="download-button-row">
+                    <button onclick="download('all')" class="download-button download-all-btn">全部下载</button>
                 </div>
             </div>
             
@@ -522,35 +128,35 @@
             <h2 class="dialog-title">📢 公告</h2>
             <button class="close-button" onclick="closeAnnouncementDialog()">×</button>
         </div>
-        <div style="padding: 20px; max-height: 400px; overflow-y: auto;">
-            <div style="margin-bottom: 20px;">
-                <h3 style="color: #4CAF50; margin: 0 0 12px 0; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                    <span style="font-size: 20px;">🆕</span> 新版本说明
+        <div class="dialog-content">
+            <div class="announcement-section">
+                <h3 style="color: #4CAF50;">
+                    <span class="icon">🆕</span> 新版本说明
                 </h3>
-                <ul style="list-style: none; padding: 0; margin: 0;">
-                    <li style="padding: 8px 12px; background: rgba(76, 175, 80, 0.08); border-radius: 6px; margin-bottom: 6px; font-size: 14px;">✅ 目前最新版：5.3.3.1</li>
-                    <li style="padding: 8px 12px; background: rgba(76, 175, 80, 0.08); border-radius: 6px; margin-bottom: 6px; font-size: 14px;">✅ 修复了无法打开应用的 Bug</li>
-                    <li style="padding: 8px 12px; background: rgba(76, 175, 80, 0.08); border-radius: 6px; margin-bottom: 6px; font-size: 14px;">✅ 修复了因登录/注册名字识别错误的 Bug</li>
-                    <li style="padding: 8px 12px; background: rgba(76, 175, 80, 0.08); border-radius: 6px; margin-bottom: 6px; font-size: 14px;">✅ 增大了图形显示性能（可能会使内存崩溃）</li>
+                <ul class="announcement-list">
+                    <li class="version-item">✅ 目前最新版：5.3.3.1</li>
+                    <li class="version-item">✅ 修复了无法打开应用的 Bug</li>
+                    <li class="version-item">✅ 修复了因登录/注册名字识别错误的 Bug</li>
+                    <li class="version-item">✅ 增大了图形显示性能（可能会使内存崩溃）</li>
                 </ul>
             </div>
-            <div>
-                <h3 style="color: #2196F3; margin: 0 0 12px 0; font-size: 16px; display: flex; align-items: center; gap: 8px;">
-                    <span style="font-size: 20px;">🌐</span> 网站公告
+            <div class="announcement-section">
+                <h3 style="color: #2196F3;">
+                    <span class="icon">🌐</span> 网站公告
                 </h3>
-                <ul style="list-style: none; padding: 0; margin: 0;">
-                    <li style="padding: 8px 12px; background: rgba(33, 150, 243, 0.08); border-radius: 6px; margin-bottom: 6px; font-size: 14px;">📌 欢迎大家来参加先遣版的报名！</li>
-                    <li style="padding: 8px 12px; background: rgba(33, 150, 243, 0.08); border-radius: 6px; margin-bottom: 6px; font-size: 14px;">📌 网站和应用是免费无广告的</li>
-                    <li style="padding: 8px 12px; background: rgba(33, 150, 243, 0.08); border-radius: 6px; margin-bottom: 6px; font-size: 14px;">📌 本作品只是一个演示文件，娱乐所做</li>
-                    <li style="padding: 8px 12px; background: rgba(33, 150, 243, 0.08); border-radius: 6px; margin-bottom: 6px; font-size: 14px;">📌 更新了下载界面的样式</li>
-                    <li style="padding: 8px 12px; background: rgba(33, 150, 243, 0.08); border-radius: 6px; margin-bottom: 6px; font-size: 14px;">📌 新增了邮件回访功能</li>
-                    <li style="padding: 8px 12px; background: rgba(33, 150, 243, 0.08); border-radius: 6px; margin-bottom: 6px; font-size: 14px;">📌 修复了网站加密功能无法跳转的 Bug</li>
-                    <li style="padding: 8px 12px; background: rgba(33, 150, 243, 0.08); border-radius: 6px; margin-bottom: 6px; font-size: 14px;">📌 欢迎大家来反馈！</li>
+                <ul class="announcement-list">
+                    <li class="site-item">📌 欢迎大家来参加先遣版的报名！</li>
+                    <li class="site-item">📌 网站和应用是免费无广告的</li>
+                    <li class="site-item">📌 本作品只是一个演示文件，娱乐所做</li>
+                    <li class="site-item">📌 更新了下载界面的样式</li>
+                    <li class="site-item">📌 新增了邮件回访功能</li>
+                    <li class="site-item">📌 修复了网站加密功能无法跳转的 Bug</li>
+                    <li class="site-item">📌 欢迎大家来反馈！</li>
                 </ul>
             </div>
         </div>
-        <div style="text-align: center; padding: 15px 20px; border-top: 1px solid #e0e0e0;">
-            <button onclick="closeAnnouncementDialog()" style="background: linear-gradient(135deg, #95a5a6, #7f8c8d); color: white; border: none; padding: 10px 30px; border-radius: 6px; font-size: 14px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)';" onmouseout="this.style.transform='';this.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)';">关闭</button>
+        <div class="dialog-footer">
+            <button onclick="closeAnnouncementDialog()">关闭</button>
         </div>
     </dialog>
 
