@@ -1187,6 +1187,546 @@ dialog::backdrop {
     }
 }
 
+/* ============================================
+   移动端适配 - 全面响应式设计
+   ============================================ */
+
+/* 小屏手机 (< 480px) */
+@media (max-width: 479px) {
+    html { font-size: 14px; }
+}
+
+/* 手机通用 (<= 768px) */
+@media (max-width: 768px) {
+    /* ---- 基础调整 ---- */
+    html { overflow-y: auto; }
+    body { overflow-y: auto; }
+
+    /* ---- 背景修复 ----
+       移动端不支持 background-attachment: fixed，
+       且拖拽时背景会变动。改用 :before 伪元素固定背景。 */
+    .background-container {
+        background-attachment: scroll !important;
+        background-size: cover !important;
+        background-position: center !important;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .background-container::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: inherit;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -1;
+        /* 修复 iOS Safari 上拖拽时背景变动 */
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        will-change: transform;
+    }
+
+    .background-container > * {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* ---- Header 移动端适配 ---- */
+    header {
+        padding: 12px 16px;
+        margin: 10px 12px;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .header-left {
+        gap: 10px;
+    }
+
+    .logo-wrapper {
+        width: 36px;
+        height: 36px;
+    }
+
+    .logo {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+    }
+
+    .brand-text h1 {
+        font-size: 17px;
+    }
+
+    .subtitle {
+        font-size: 10px;
+    }
+
+    /* ---- 导航 - 移动端菜单 ---- */
+    .mobile-menu-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        padding: 6px 10px;
+    }
+
+    nav {
+        width: 100%;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.25s ease;
+        opacity: 0;
+        padding: 0;
+    }
+
+    nav.open {
+        max-height: 300px;
+        opacity: 1;
+        padding-top: 8px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    nav ul li a {
+        padding: 12px 14px;
+        font-size: 15px;
+        border-radius: 10px;
+        justify-content: flex-start;
+    }
+
+    nav ul li a.active::after {
+        display: none;
+    }
+
+    nav ul li a.active {
+        background: rgba(108, 99, 255, 0.15);
+    }
+
+    /* ---- Main 区域 ---- */
+    main {
+        padding: 12px;
+    }
+
+    /* ---- Hero 区域 ---- */
+    .hero-section {
+        padding: 32px 20px;
+        margin-bottom: 20px;
+        border-radius: var(--radius-lg);
+    }
+
+    .hero-badge {
+        font-size: 11px;
+        padding: 4px 14px;
+    }
+
+    .hero-title {
+        font-size: 28px;
+    }
+
+    .hero-desc {
+        font-size: 15px;
+        margin-bottom: 24px;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .hero-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 14px 24px;
+        font-size: 15px;
+    }
+
+    /* Hero 装饰形状 - 移动端缩小 */
+    .shape-1 {
+        width: 120px;
+        height: 120px;
+        top: -30px;
+        right: -20px;
+    }
+
+    .shape-2 {
+        width: 80px;
+        height: 80px;
+        bottom: -20px;
+        left: -10px;
+    }
+
+    .shape-3 {
+        width: 50px;
+        height: 50px;
+    }
+
+    /* ---- 内容区块 ---- */
+    .content-section {
+        padding: 24px 18px;
+        margin-bottom: 16px;
+        border-radius: var(--radius-md);
+    }
+
+    .section-header {
+        gap: 10px;
+        margin-bottom: 14px;
+    }
+
+    .section-icon {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+        border-radius: 8px;
+    }
+
+    .section-title {
+        font-size: 18px;
+    }
+
+    .section-line {
+        display: none;
+    }
+
+    .section-body {
+        font-size: 14px;
+    }
+
+    .text-card {
+        padding: 16px;
+    }
+
+    .card-icon {
+        font-size: 20px;
+        margin-bottom: 8px;
+    }
+
+    /* ---- 部署网格 ---- */
+    .deploy-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .deploy-card-header {
+        padding: 14px 16px;
+    }
+
+    .deploy-card-header h3 {
+        font-size: 16px;
+    }
+
+    .deploy-card-body {
+        padding: 14px 16px;
+    }
+
+    .deploy-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+    }
+
+    .command-box {
+        padding: 8px 12px;
+    }
+
+    .command-box code {
+        font-size: 12px;
+    }
+
+    .deploy-note {
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+
+    /* ---- Footer ---- */
+    footer {
+        margin: 10px 12px 16px;
+        padding: 16px 18px;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+    }
+
+    .footer-brand {
+        justify-content: center;
+    }
+
+    .footer-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 8px;
+    }
+
+    .footer-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+
+    .footer-copyright {
+        font-size: 12px;
+        padding-top: 10px;
+    }
+
+    /* ---- 对话框移动端适配 ---- */
+    dialog {
+        max-width: 94% !important;
+        width: 94% !important;
+        border-radius: 12px !important;
+    }
+
+    #toolsDialog {
+        max-width: 94% !important;
+        width: 94% !important;
+    }
+
+    .tools-pages-container {
+        min-height: 280px;
+        padding: 16px;
+    }
+
+    .tools-page {
+        width: calc(100% - 32px);
+        top: 16px;
+        left: 16px;
+    }
+
+    .tools-page-icon {
+        font-size: 36px;
+        margin-bottom: 10px;
+    }
+
+    .tools-page-title {
+        font-size: 18px;
+    }
+
+    .tools-page-description {
+        font-size: 13px;
+        padding: 10px;
+        margin-bottom: 16px;
+    }
+
+    .tools-page-button {
+        padding: 10px 24px;
+        font-size: 14px;
+    }
+
+    .tools-prev-button,
+    .tools-next-button {
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+    }
+
+    .dialog-title {
+        font-size: 17px;
+    }
+
+    .dialog-header {
+        padding: 12px 16px;
+    }
+
+    #announcementDialog .dialog-content {
+        padding: 14px;
+        max-height: 300px;
+    }
+
+    #feedbackDialog .dialog-content {
+        padding: 14px;
+    }
+
+    /* ---- 下载页移动端 ---- */
+    .version-card {
+        padding: 18px;
+    }
+
+    .version-actions {
+        flex-direction: column;
+    }
+
+    .action-btn {
+        justify-content: center;
+        width: 100%;
+        padding: 12px 20px;
+        font-size: 13px;
+    }
+
+    .dl-option-btn {
+        min-width: calc(50% - 6px);
+        flex: 1;
+        padding: 10px 16px;
+        font-size: 13px;
+    }
+
+    .download-description {
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+
+    .filter-drawer {
+        padding: 12px 14px;
+    }
+
+    .filter-chip {
+        font-size: 11px;
+        padding: 3px 10px;
+    }
+
+    .download-item {
+        padding: 6px 10px;
+    }
+
+    .download-item .platform-name {
+        font-size: 12px;
+    }
+
+    .download-item .download-link-btn {
+        font-size: 11px;
+        padding: 3px 10px;
+    }
+
+    .source-tab {
+        font-size: 12px;
+        padding: 5px 12px;
+    }
+
+    /* ---- 产品展示 ---- */
+    .product-image {
+        max-height: 180px;
+    }
+
+    .product-description {
+        font-size: 15px;
+    }
+
+    /* ---- 加载动画 ---- */
+    .loader {
+        width: 36px;
+        height: 36px;
+        border-width: 3px;
+    }
+
+    /* ---- 粒子 ---- */
+    .particles {
+        display: none;
+    }
+}
+
+/* 平板 (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    main {
+        padding: 20px;
+        max-width: 100%;
+    }
+
+    .hero-title {
+        font-size: 36px;
+    }
+
+    .hero-section {
+        padding: 44px 32px;
+    }
+
+    .deploy-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+
+    header {
+        padding: 14px 24px;
+        margin: 12px 16px;
+    }
+}
+
+/* 横屏手机适配 */
+@media (max-height: 500px) and (orientation: landscape) {
+    header {
+        padding: 8px 14px;
+        margin: 6px 10px;
+    }
+
+    .logo-wrapper {
+        width: 28px;
+        height: 28px;
+    }
+
+    .logo {
+        width: 28px;
+        height: 28px;
+    }
+
+    .brand-text h1 {
+        font-size: 15px;
+    }
+
+    .subtitle {
+        display: none;
+    }
+
+    .hero-section {
+        padding: 20px 16px;
+        margin-bottom: 12px;
+    }
+
+    .hero-title {
+        font-size: 22px;
+    }
+
+    .hero-desc {
+        font-size: 13px;
+        margin-bottom: 14px;
+    }
+
+    .hero-btn {
+        padding: 10px 18px;
+        font-size: 13px;
+    }
+
+    .content-section {
+        padding: 16px 14px;
+        margin-bottom: 10px;
+    }
+
+    .section-title {
+        font-size: 16px;
+    }
+
+    footer {
+        padding: 10px 14px;
+        margin: 6px 10px 10px;
+    }
+
+    .footer-btn {
+        padding: 8px 14px;
+        font-size: 12px;
+    }
+
+    .particles {
+        display: none;
+    }
+
+    main {
+        padding: 8px;
+    }
+
+    nav ul li a {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+}
+
 form {
     display: flex;
     flex-direction: column;

@@ -1048,45 +1048,87 @@
         /* ===== 响应式 ===== */
         @media (max-width: 768px) {
             header {
-                padding: 12px 20px;
+                padding: 12px 16px;
+                margin: 10px 12px;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .header-left {
+                gap: 10px;
+            }
+
+            .logo-wrapper {
+                width: 36px;
+                height: 36px;
+            }
+
+            .logo {
+                width: 36px;
+                height: 36px;
+                border-radius: 8px;
             }
 
             .brand-text h1 {
-                font-size: 18px;
+                font-size: 17px;
             }
 
             .brand-text .subtitle {
                 font-size: 10px;
             }
 
-            nav ul {
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: var(--bg-primary);
-                flex-direction: column;
-                padding: 12px 20px;
-                border-bottom: 1px solid var(--border-color);
-                display: none;
-                box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            .mobile-menu-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 22px;
+                padding: 6px 10px;
             }
 
-            nav ul.open {
+            nav {
+                width: 100%;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.25s ease;
+                opacity: 0;
+                padding: 0;
+            }
+
+            nav.open {
+                max-height: 300px;
+                opacity: 1;
+                padding-top: 8px;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 2px;
+                position: static;
+                background: none;
+                padding: 0;
+                border-bottom: none;
                 display: flex;
+                box-shadow: none;
             }
 
             nav ul li a {
-                padding: 10px 12px;
+                padding: 12px 14px;
+                font-size: 15px;
+                border-radius: 10px;
                 width: 100%;
             }
 
-            .mobile-menu-btn {
-                display: block;
+            nav ul li a.active::after {
+                display: none;
+            }
+
+            nav ul li a.active {
+                background: rgba(108, 99, 255, 0.15);
             }
 
             .hero-section {
-                padding: 40px 20px 30px;
+                padding: 32px 20px;
+                margin-bottom: 20px;
             }
 
             .hero-title {
@@ -1094,15 +1136,28 @@
             }
 
             .hero-desc {
-                font-size: 16px;
+                font-size: 15px;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .hero-btn {
+                width: 100%;
+                justify-content: center;
+                padding: 14px 24px;
+                font-size: 15px;
             }
 
             .content-section {
-                padding: 16px 20px 30px;
+                padding: 24px 18px;
+                margin-bottom: 16px;
             }
 
             .version-card {
-                padding: 18px 20px;
+                padding: 18px;
             }
 
             .version-info {
@@ -1112,13 +1167,14 @@
 
             .version-actions {
                 width: 100%;
+                flex-direction: column;
             }
 
             .action-btn {
-                flex: 1;
+                width: 100%;
                 justify-content: center;
                 font-size: 13px;
-                padding: 8px 12px;
+                padding: 12px 20px;
             }
 
             .footer-content {
@@ -1126,10 +1182,22 @@
                 text-align: center;
             }
 
+            .footer-actions {
+                flex-direction: column;
+                width: 100%;
+                gap: 8px;
+            }
+
+            .footer-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
             dialog {
-                width: 98%;
+                width: 94%;
                 max-height: 95vh;
-                max-width: 98%;
+                max-width: 94%;
+                border-radius: 12px;
             }
 
             .dialog-content-scroll {
@@ -1137,7 +1205,7 @@
             }
 
             .filter-drawer {
-                padding: 12px 16px;
+                padding: 12px 14px;
             }
 
             .filter-group {
@@ -1147,16 +1215,54 @@
             .download-item {
                 flex-wrap: wrap;
                 gap: 8px;
+                padding: 6px 10px;
+            }
+
+            .download-item .platform-name {
+                font-size: 12px;
             }
 
             .download-item .download-link-btn {
+                font-size: 11px;
+                padding: 3px 10px;
                 margin-left: auto;
+            }
+
+            .source-tab {
+                font-size: 12px;
+                padding: 5px 12px;
+            }
+
+            .filter-chip {
+                font-size: 11px;
+                padding: 3px 10px;
+            }
+
+            .version-subtitle {
+                display: block;
+                margin-left: 0 !important;
+                margin-top: 4px;
+                font-size: 13px !important;
+            }
+
+            .section-line {
+                display: none;
+            }
+
+            .particles {
+                display: none;
             }
         }
 
         @media (max-width: 480px) {
+            html { font-size: 14px; }
+
             .hero-title {
-                font-size: 24px;
+                font-size: 22px;
+            }
+
+            .hero-section {
+                padding: 24px 16px;
             }
 
             .hero-actions {
@@ -1205,6 +1311,14 @@
             .download-item .download-link-btn {
                 font-size: 11px;
                 padding: 3px 10px;
+            }
+
+            .dl-option-btn {
+                min-width: 100%;
+            }
+
+            .version-card {
+                padding: 14px;
             }
         }
     </style>
