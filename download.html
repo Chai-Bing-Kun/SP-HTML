@@ -1468,6 +1468,12 @@
             <button class="close-button" onclick="closeDialog()">×</button>
         </div>
         <div class="dialog-content-scroll">
+            <!-- 系统检测提示 -->
+            <div id="osDetectionHint" style="font-size:13px;color:var(--text-secondary);padding:8px 4px 12px 4px;display:flex;align-items:center;gap:8px;">
+                <i class="fas fa-desktop"></i>
+                <span id="osDetectionText">正在检测系统...</span>
+            </div>
+
             <!-- 筛选抽屉 -->
             <div class="filter-drawer">
                 <div class="filter-drawer-header" onclick="toggleDrawer()">
@@ -1562,6 +1568,86 @@
         let currentSource = 'github';
         let currentPlatformFilter = 'all';
         let isDrawerOpen = true;
+        let detectedPlatform = null; // 自动检测到的平台
+
+        // ===== 系统检测 =====
+        function detectOS() {
+            const userAgent = navigator.userAgent || navigator.platform || '';
+            
+            // Android
+            if (/android/i.test(userAgent)) {
+                return { os: 'Android', arch: 'arm', platform: 'Android APK' };
+            }
+            
+            // iOS (iPad/iPhone)
+            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                return { os: 'iOS', arch: 'arm', platform: null }; // iOS没有原生安装包
+            }
+            
+            // macOS
+            if (/macintosh|mac os x/i.test(userAgent)) {
+                return { os: 'macOS', arch: 'x64', platform: 'macOS' };
+            }
+            
+            // Windows
+            if (/windows|win32|win64/i.test(userAgent)) {
+                // 检测是否为 x64 架构
+                const isWin64 = /win64|x64|wow64/i.test(userAgent) || navigator.platform === 'Win64';
+                if (isWin64) {
+                    return { os: 'Windows', arch: 'x64', platform: 'Windows x64 安装程序' };
+                } else {
+                    return { os: 'Windows', arch: 'x32', platform: 'Windows x32 安装程序' };
+                }
+            }
+            
+            // Linux
+            if (/linux/i.test(userAgent)) {
+                // 检测 ARM 架构
+                if (/arm|aarch64/i.test(userAgent)) {
+                    return { os: 'Linux', arch: 'arm', platform: 'Linux x64 (ARM)' };
+                }
+                return { os: 'Linux', arch: 'x64', platform: 'Linux x64 (ARM)' };
+            }
+            
+            return { os: 'unknown', arch: 'unknown', platform: null };
+        }
+
+        // 根据优先级获取推荐平台：镜像安装包 > 镜像免安装 > GitHub安装包 > GitHub免安装
+        function getRecommendedPlatform(product, version) {
+            const osInfo = detectOS();
+            detectedPlatform = osInfo;
+            
+            // 如果检测不到平台，返回null
+            if (!osInfo.platform) return null;
+            
+            const platform = osInfo.platform;
+            
+            // 检查镜像源是否有该平台的安装包
+            const mirrorLinks = getDownloadLinks(product, version, 'mirror');
+            if (mirrorLinks && mirrorLinks[platform]) {
+                return { source: 'mirror', platform: platform };
+            }
+            
+            // 检查GitHub源是否有该平台的安装包
+            const githubLinks = getDownloadLinks(product, version, 'github');
+            if (githubLinks && githubLinks[platform]) {
+                return { source: 'github', platform: platform };
+            }
+            
+            // 如果精确平台不存在，尝试找替代平台
+            // Windows: 安装程序 -> 免安装
+            if (osInfo.os === 'Windows') {
+                const altPlatform = osInfo.arch === 'x64' ? 'Windows x64 免安装' : 'Windows x32 免安装';
+                if (mirrorLinks && mirrorLinks[altPlatform]) {
+                    return { source: 'mirror', platform: altPlatform };
+                }
+                if (githubLinks && githubLinks[altPlatform]) {
+                    return { source: 'github', platform: altPlatform };
+                }
+            }
+            
+            return null;
+        }
 
         // 平台图标映射
         const PLATFORM_ICONS = {
@@ -1628,6 +1714,23 @@
             renderDownloadList();
         }
 
+        // 切换来源时也更新推荐（供用户手动切换后重新评估）
+        function refreshRecommendation() {
+            const recommendation = getRecommendedPlatform(currentProduct, currentVersion);
+            if (recommendation) {
+                // 只更新提示文字，不自动切换选择
+                const osHintText = document.getElementById('osDetectionText');
+                const osInfo = detectedPlatform || detectOS();
+                const osNames = {
+                    'Windows': 'Windows', 'macOS': 'macOS', 'Linux': 'Linux',
+                    'Android': 'Android', 'iOS': 'iOS'
+                };
+                const osName = osNames[osInfo.os] || osInfo.os;
+                const sourceName = recommendation.source === 'mirror' ? '镜像加速' : 'GitHub';
+                osHintText.innerHTML = `检测到您的系统：<strong>${osName}</strong>（${osInfo.arch}），推荐选择 <strong>${recommendation.platform}</strong>（${sourceName}）⭐`;
+            }
+        }
+
         // 选择版本
         function selectVersion(version) {
             currentVersion = version;
@@ -1683,6 +1786,9 @@
             
             container.innerHTML = '';
             
+            // 获取推荐平台信息
+            const recommendation = getRecommendedPlatform(currentProduct, currentVersion);
+            
             // 添加"全部"选项
             const allChip = document.createElement('span');
             allChip.className = 'filter-chip platform-chip' + (currentPlatformFilter === 'all' ? ' active' : '');
@@ -1696,7 +1802,9 @@
                 chip.className = 'filter-chip platform-chip' + (currentPlatformFilter === platform ? ' active' : '');
                 chip.dataset.platform = platform;
                 const icon = PLATFORM_ICONS[platform] || 'fas fa-file';
-                chip.innerHTML = `<i class="${icon}"></i> ${platform}`;
+                // 如果是推荐平台，添加推荐标记
+                const isRecommended = recommendation && recommendation.platform === platform;
+                chip.innerHTML = `<i class="${icon}"></i> ${platform}${isRecommended ? ' ⭐' : ''}`;
                 chip.onclick = () => selectPlatformFilter(platform);
                 container.appendChild(chip);
             });
@@ -1739,17 +1847,22 @@
             // 按平台名称排序
             platforms.sort();
 
+            // 获取推荐平台
+            const recommendation = getRecommendedPlatform(currentProduct, currentVersion);
+            
             let html = '';
             platforms.forEach(platform => {
                 const url = links[platform];
                 if (!url) return;
                 const icon = PLATFORM_ICONS[platform] || 'fas fa-file';
                 const color = PLATFORM_COLORS[platform] || '#6c63ff';
+                const isRecommended = recommendation && recommendation.platform === platform;
                 html += `
-                    <div class="download-item">
+                    <div class="download-item" ${isRecommended ? 'style="border-color: #6c63ff; background: rgba(108, 99, 255, 0.05);"' : ''}>
                         <span class="platform-name">
                             <i class="${icon}" style="color:${color}"></i>
                             ${platform}
+                            ${isRecommended ? '<span style="font-size:11px;background:#6c63ff;color:#fff;padding:1px 8px;border-radius:10px;margin-left:6px;">推荐</span>' : ''}
                         </span>
                         <a href="${url}" target="_blank" class="download-link-btn" style="background:${color}">
                             <i class="fas fa-download"></i> 下载
@@ -1775,6 +1888,34 @@
             
             // 渲染版本
             renderVersionFilters();
+            
+            // 自动检测系统并选择推荐平台
+            const osInfo = detectOS();
+            const recommendation = getRecommendedPlatform(product, currentVersion);
+            
+            // 更新系统检测提示
+            const osHintText = document.getElementById('osDetectionText');
+            const osNames = {
+                'Windows': 'Windows',
+                'macOS': 'macOS',
+                'Linux': 'Linux',
+                'Android': 'Android',
+                'iOS': 'iOS'
+            };
+            const osName = osNames[osInfo.os] || osInfo.os;
+            if (recommendation) {
+                const sourceName = recommendation.source === 'mirror' ? '镜像加速' : 'GitHub';
+                osHintText.innerHTML = `检测到您的系统：<strong>${osName}</strong>（${osInfo.arch}），已自动为您选择 <strong>${recommendation.platform}</strong>（${sourceName}）⭐`;
+            } else if (osInfo.os === 'iOS') {
+                osHintText.innerHTML = `检测到您的系统：<strong>${osName}</strong>，目前暂不支持 iOS 原生安装，您可以选择其他平台版本或使用网页版。`;
+            } else {
+                osHintText.innerHTML = `检测到您的系统：<strong>${osName}</strong>（${osInfo.arch}），暂无完全匹配的版本，请手动选择。`;
+            }
+            
+            if (recommendation) {
+                currentSource = recommendation.source;
+                currentPlatformFilter = recommendation.platform;
+            }
             
             // 渲染平台筛选
             renderPlatformFilters();
