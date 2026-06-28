@@ -1047,6 +1047,16 @@
 
         /* ===== 响应式 ===== */
         @media (max-width: 768px) {
+            /* 移动端删除必应壁纸背景，改用渐变背景 */
+            .background-container {
+                background-image: none !important;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+            }
+
+            body.dark-theme .background-container {
+                background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%) !important;
+            }
+
             header {
                 padding: 12px 16px;
                 margin: 10px 12px;
