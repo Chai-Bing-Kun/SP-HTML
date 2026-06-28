@@ -10,6 +10,21 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
 <body>
+    <!-- ===== 主题初始化：在渲染前同步应用暗色主题，防止闪烁 ===== -->
+    <script>
+        (function() {
+            var savedTheme = localStorage.getItem('theme');
+            var isDark;
+            if (savedTheme === 'dark' || savedTheme === 'light') {
+                isDark = (savedTheme === 'dark');
+            } else {
+                isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            }
+            if (isDark) {
+                document.body.classList.add('dark-theme');
+            }
+        })();
+    </script>
     <div id="loading">
         <div class="loader"></div>
     </div>
@@ -253,11 +268,13 @@
         function showAnnouncement() {
             const dialog = document.getElementById('announcementDialog');
             dialog.showModal();
+            document.documentElement.classList.add('dialog-open');
         }
 
         function closeAnnouncementDialog() {
             const dialog = document.getElementById('announcementDialog');
             dialog.close();
+            document.documentElement.classList.remove('dialog-open');
         }
 
         // 粒子背景效果
@@ -311,6 +328,12 @@
     </script>
     <script src="theme.js"></script>
     <script>
+        // 初始化主题（按钮绑定等）
+        if (typeof initTheme === 'function') {
+            initTheme();
+        }
+    </script>
+    <script>
         function copyToClipboard(selector) {
             const text = document.querySelector(selector).innerText;
             navigator.clipboard.writeText(text).then(() => {
@@ -327,6 +350,7 @@
         document.getElementById('feedbackBtn').addEventListener('click', function () {
             const dialog = document.getElementById('feedbackDialog');
             dialog.showModal();
+            document.documentElement.classList.add('dialog-open');
         });
 
         // 处理提交按钮点击事件
@@ -357,6 +381,7 @@
         document.getElementById('cancelFeedback').addEventListener('click', function () {
             const dialog = document.getElementById('feedbackDialog');
             dialog.close();
+            document.documentElement.classList.remove('dialog-open');
         });
     </script>
 </body>

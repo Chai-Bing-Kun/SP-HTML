@@ -118,6 +118,7 @@ function showToolsDialog() {
     if (dialog) {
         changeToolsPage(0);
         dialog.showModal();
+        document.documentElement.classList.add('dialog-open');
     }
 }
 
@@ -125,6 +126,7 @@ function closeToolsDialog() {
     const dialog = document.getElementById('toolsDialog');
     if (dialog) {
         dialog.close();
+        document.documentElement.classList.remove('dialog-open');
     }
 }
 

@@ -19,6 +19,8 @@
     --radius-md: 16px;
     --radius-lg: 24px;
     --radius-xl: 32px;
+    --bg-primary: #ffffff;
+    --border-color: #e0e0e0;
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-slow: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -29,6 +31,8 @@ body.dark-theme {
     --bg-glass-hover: rgba(40, 40, 60, 0.5);
     --text-primary: #e8e8f0;
     --text-secondary: #a0a0b8;
+    --bg-primary: #1a1a2e;
+    --border-color: #3a3a5a;
     --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.2);
     --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.25);
     --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.3);
@@ -39,13 +43,56 @@ body.dark-theme {
     box-sizing: border-box;
 }
 
-body, html {
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+html.dialog-open body {
+    overflow: hidden;
+}
+
+body {
     margin: 0;
     padding: 0;
     height: 100%;
     font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
     color: var(--text-primary);
     scroll-behavior: smooth;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+    scrollbar-gutter: stable;
+    transition: scrollbar-color 0.3s ease;
+}
+
+body:hover {
+    scrollbar-color: rgba(108, 99, 255, 0.4) transparent;
+}
+
+body::-webkit-scrollbar {
+    width: 6px;
+}
+
+body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+body::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 3px;
+    transition: background 0.3s ease;
+}
+
+body:hover::-webkit-scrollbar-thumb {
+    background: rgba(108, 99, 255, 0.4);
+}
+
+body:hover::-webkit-scrollbar-thumb:hover {
+    background: rgba(108, 99, 255, 0.6);
 }
 
 /* ===== 背景容器 ===== */
@@ -889,7 +936,7 @@ footer {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.95);
+    background: var(--bg-primary, rgba(255, 255, 255, 0.95));
     display: flex;
     justify-content: center;
     align-items: center;
@@ -898,12 +945,12 @@ footer {
 }
 
 .loader {
-    width: 50px;
-    height: 50px;
-    border: 3px solid rgba(76, 175, 80, 0.2);
+    width: 48px;
+    height: 48px;
+    border: 4px solid var(--border-color, rgba(76, 175, 80, 0.2));
+    border-top-color: #6c63ff;
     border-radius: 50%;
-    border-top-color: rgba(76, 175, 80, 0.8);
-    animation: spin 1s ease-in-out infinite;
+    animation: spin 0.8s linear infinite;
 }
 
 @keyframes spin {
@@ -995,16 +1042,26 @@ dialog {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     animation: dialogFadeIn 0.3s ease-out;
     background: linear-gradient(135deg, #f5f7fa 0%, #e6e9f0 100%);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    display: none;
+}
+
+dialog[open] {
+    display: block;
 }
 
 @keyframes dialogFadeIn {
     from {
         opacity: 0;
-        transform: translateY(-10px);
+        margin-top: -10px;
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        margin-top: 0;
     }
 }
 
@@ -1148,53 +1205,6 @@ textarea {
     margin-bottom: 10px;
 }
 
-.section-title {
-    color: #000;
-    font-size: 28px;
-    font-weight: bold;
-    padding: 10px 0;
-    margin-bottom: 15px;
-    border-bottom: 2px solid #4CAF50;
-}
-
-/* Dark theme styles */
-body.dark-theme {
-    background-color: rgba(18, 18, 18, 0.5); /* 整体背景颜色，透明度调整为 0.5 */
-    color: #ffffff; /* 文字颜色 */
-}
-
-.dark-theme header,
-.dark-theme footer,
-.dark-theme .background-container {
-    background-color: rgba(30, 30, 30, 0.5); /* 头部和页脚的背景颜色，透明度调整为 0.5 */
-}
-
-.dark-theme main {
-    background-color: rgba(30, 30, 30, 0.5); /* 主内容区域的背景颜色，透明度调整为 0.5 */
-}
-
-.dark-theme .product-showcase {
-    background-color: rgba(30, 30, 30, 0.5); /* 产品展示框的背景颜色，透明度调整为 0.5 */
-}
-
-.dark-theme nav ul li a {
-    color: #ffffff; /* 头部文字变为白色 */
-}
-
-.dark-theme .download-button,
-.dark-theme .github-link {
-    color: #ffffff;
-}
-
-.dark-theme .download-button:hover,
-.dark-theme .github-link:hover {
-    color: #3700b3;
-}
-
-.dark-theme .section-title {
-    color: #ffffff; /* 标题变为白色 */
-}
-
 /* ===== 下载对话框 - 多页容器 ===== */
 .download-pages {
     position: relative;
@@ -1219,7 +1229,7 @@ body.dark-theme {
     position: relative;
 }
 
-.download-page.prev {
+.dxaizai-page.prev {
     transform: translateX(-100%);
 }
 
@@ -1324,6 +1334,11 @@ body.dark-theme {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     animation: dialogFadeIn 0.3s ease-out;
     background: linear-gradient(135deg, #f5f7fa 0%, #e6e9f0 100%);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
 }
 
 #toolsDialog .dialog-header {
@@ -1492,11 +1507,11 @@ body.dark-theme {
 @keyframes dialogFadeIn {
     from {
         opacity: 0;
-        transform: translateY(-10px);
+        margin-top: -10px;
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        margin-top: 0;
     }
 }
 
@@ -1569,6 +1584,15 @@ body.dark-theme {
     background: #aaa;
 }
 
+.dark-theme nav ul li a {
+    color: #e0e0e0;
+}
+
+.dark-theme nav ul li a:hover,
+.dark-theme nav ul li a.active {
+    color: #8B85FF;
+}
+
 .dark-theme .nav-button {
     background: rgba(255, 255, 255, 0.1);
     color: #ccc;
@@ -1608,6 +1632,20 @@ body.dark-theme {
     padding: 20px;
     max-height: 400px;
     overflow-y: auto;
+}
+
+#announcementDialog .dialog-content::-webkit-scrollbar {
+    width: 4px;
+}
+
+#announcementDialog .dialog-content::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 2px;
+}
+
+#announcementDialog .dialog-content::-webkit-scrollbar-thumb {
+    background: #6c63ff;
+    border-radius: 2px;
 }
 
 #announcementDialog .announcement-section {

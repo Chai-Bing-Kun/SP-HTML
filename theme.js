@@ -1,48 +1,68 @@
-// theme.js
+// theme.js - 主题切换功能
 
-// 切换主题的函数
-function toggleTheme() {
-    const body = document.body;
-    const themeToggleButton = document.getElementById('themeToggle');
-    const icon = themeToggleButton.querySelector('i');
-    
-    body.classList.toggle('dark-theme');
-
-    // 保存用户的主题选择到 localStorage
-    if (body.classList.contains('dark-theme')) {
-        localStorage.setItem('theme', 'dark');
-        themeToggleButton.innerHTML = '<i class="fas fa-sun"></i> 亮色主题';
-    } else {
-        localStorage.setItem('theme', 'light');
-        themeToggleButton.innerHTML = '<i class="fas fa-moon"></i> 暗色主题';
-    }
-}
-
-// 应用已保存的主题（在 DOM 加载完成后立即执行，不依赖 window.onload）
-function applySavedTheme() {
+// 获取正确的主题：优先使用用户保存的偏好，其次使用系统主题
+function getPreferredTheme() {
     const savedTheme = localStorage.getItem('theme');
-    const themeToggleButton = document.getElementById('themeToggle');
-    
-    if (!themeToggleButton) return;
+    if (savedTheme === 'dark' || savedTheme === 'light') {
+        return savedTheme;
+    }
+    // 检测系统主题
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
 
-    // 检测用户浏览器的默认主题
-    const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
-
-    if (savedTheme === 'dark' || (savedTheme === null && prefersDarkScheme.matches)) {
-        document.body.classList.add('dark-theme');
-        themeToggleButton.innerHTML = '<i class="fas fa-sun"></i> 亮色主题';
+// 更新主题切换按钮的文字
+function updateThemeButton(theme) {
+    const btn = document.getElementById('themeToggle');
+    if (!btn) return;
+    if (theme === 'dark') {
+        btn.innerHTML = '<i class="fas fa-sun"></i> 亮色主题';
     } else {
-        themeToggleButton.innerHTML = '<i class="fas fa-moon"></i> 暗色主题';
+        btn.innerHTML = '<i class="fas fa-moon"></i> 暗色主题';
     }
 }
 
-// 使用 DOMContentLoaded 事件来初始化主题，避免覆盖其他文件的 window.onload
-document.addEventListener('DOMContentLoaded', function() {
-    const themeToggleButton = document.getElementById('themeToggle');
-    if (themeToggleButton) {
-        // 应用已保存的主题
-        applySavedTheme();
-        // 绑定切换主题按钮的点击事件
-        themeToggleButton.addEventListener('click', toggleTheme);
+// 应用主题到页面
+function applyTheme(theme, updateButton = true) {
+    if (theme === 'dark') {
+        document.body.classList.add('dark-theme');
+    } else {
+        document.body.classList.remove('dark-theme');
     }
-});
+    if (updateButton) {
+        updateThemeButton(theme);
+    }
+}
+
+// 切换主题
+function toggleTheme() {
+    const isDark = document.body.classList.contains('dark-theme');
+    const newTheme = isDark ? 'light' : 'dark';
+    localStorage.setItem('theme', newTheme);
+    applyTheme(newTheme);
+}
+
+// 初始化主题（由页面在内联脚本中调用）
+function initTheme() {
+    const theme = getPreferredTheme();
+    applyTheme(theme);
+    
+    // 绑定切换按钮
+    const btn = document.getElementById('themeToggle');
+    if (btn) {
+        btn.addEventListener('click', toggleTheme);
+    }
+    
+    // 监听系统主题变化（仅当用户没有保存过偏好时）
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === null) {
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+            applyTheme(e.matches ? 'dark' : 'light');
+            // 重新绑定按钮事件（因为按钮可能被重新渲染）
+            const toggleBtn = document.getElementById('themeToggle');
+            if (toggleBtn) {
+                toggleBtn.removeEventListener('click', toggleTheme);
+                toggleBtn.addEventListener('click', toggleTheme);
+            }
+        });
+    }
+}
