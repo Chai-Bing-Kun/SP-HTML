@@ -12,11 +12,11 @@ const toolsPages = [
         link: 'lock.html'
     },
     {
-        title: '页面二（预留）',
-        description: '这是第二个页面的预留位置，你可以在这里填写你想要展示的内容。点击下方按钮前往对应页面。',
-        buttonText: '前往页面二',
+        title: '城南中学 班级留念',
+        description: '这是为城南中学2024级学生制作的留念网站，记录我们共同的回忆。网站目前仍在建设中，敬请期待更多内容！',
+        buttonText: '前往留念网站',
         buttonColor: '#3498db',
-        link: '#'
+        link: 'https://cn-202208-y.pages.dev/'
     },
     {
         title: '页面三（预留）',

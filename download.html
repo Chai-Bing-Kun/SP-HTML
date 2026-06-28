@@ -1466,7 +1466,7 @@
                     <button id="themeToggle" class="footer-btn theme-btn"><i class="fas fa-moon"></i> 切换主题</button>
                 </div>
                 <div class="footer-copyright">
-                    &copy; 2024 柴炳坤. 保留所有权利。
+                    &copy; 2024 柴炳坤. 保留所有权利。<span class="sep">|</span><span class="uptime">网站已艰难运行了 <span id="uptimeDisplay">0</span> 个月</span>
                 </div>
             </div>
         </footer>
@@ -2056,6 +2056,17 @@
             }
         });
 
+        // ===== 计算网站运行时间 =====
+        function updateUptime() {
+            const startDate = new Date('2024-10-20T21:08:00');
+            const now = new Date();
+            const diffMs = now - startDate;
+            const diffMonths = diffMs / (1000 * 60 * 60 * 24 * 30.44);
+            const months = Math.floor(diffMonths);
+            const el = document.getElementById('uptimeDisplay');
+            if (el) el.textContent = months;
+        }
+
         // ===== 页面加载完成后执行 =====
         window.addEventListener('load', function() {
             const loading = document.getElementById('loading');
@@ -2069,6 +2080,8 @@
 
             createParticles();
             initVersionDisplay();
+            updateUptime();
+            setInterval(updateUptime, 600000);
             
             document.querySelectorAll('.content-section, .hero-section').forEach((el, index) => {
                 el.style.animationDelay = `${index * 0.2}s`;
