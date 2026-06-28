@@ -1204,15 +1204,16 @@ dialog::backdrop {
 
     /* ---- 背景修复 ----
        移动端不支持 background-attachment: fixed，
-       且拖拽时背景会变动。改用 :before 伪元素固定背景。 */
+       背景会随页面滚动而缩放/移动。
+       解决方案：移除容器本身的背景图片，改用 ::before 伪元素
+       以 position: fixed 固定在整个视口，确保背景不随滚动移动。 */
     .background-container {
-        background-attachment: scroll !important;
-        background-size: cover !important;
-        background-position: center !important;
+        background-image: none !important;
         position: relative;
         overflow: hidden;
     }
 
+    /* 背景图片层 - 固定在视口，不随滚动移动 */
     .background-container::before {
         content: '';
         position: fixed;
@@ -1220,15 +1221,34 @@ dialog::backdrop {
         left: 0;
         right: 0;
         bottom: 0;
-        background-image: inherit;
+        background-image: url('https://bing.biturl.top/?resolution=1920&format=image');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        z-index: -1;
+        z-index: -2;
         /* 修复 iOS Safari 上拖拽时背景变动 */
         -webkit-transform: translateZ(0);
         transform: translateZ(0);
         will-change: transform;
+    }
+
+    /* 毛玻璃遮罩层 - 覆盖在背景之上 */
+    .background-container::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(2px);
+        z-index: -1;
+        pointer-events: none;
+    }
+
+    body.dark-theme .background-container::after {
+        background: rgba(0, 0, 0, 0.4);
     }
 
     .background-container > * {
