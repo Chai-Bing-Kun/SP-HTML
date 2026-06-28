@@ -1203,13 +1203,14 @@ dialog::backdrop {
     body { overflow-y: auto; }
 
     /* ---- 背景修复 ----
-       移动端 background-attachment: fixed 无效，
-       且拖拽/滚动时背景会跟着动。
-       改用 ::before 做固定背景层，::after 做遮罩层。 */
+       移动端不支持 background-attachment: fixed，
+       且拖拽时背景会变动。改用 :before 伪元素固定背景。 */
     .background-container {
-        background-image: none !important;
+        background-attachment: scroll !important;
+        background-size: cover !important;
+        background-position: center !important;
         position: relative;
-        overflow: visible;
+        overflow: hidden;
     }
 
     .background-container::before {
@@ -1219,37 +1220,17 @@ dialog::backdrop {
         left: 0;
         right: 0;
         bottom: 0;
-        background-image: url('https://bing.biturl.top/?resolution=1920&format=image');
+        background-image: inherit;
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        z-index: 0;
-        pointer-events: none;
-        /* 修复 iOS 拖拽时背景抖动 */
-        -webkit-backface-visibility: hidden;
-        backface-visibility: hidden;
+        z-index: -1;
+        /* 修复 iOS Safari 上拖拽时背景变动 */
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        will-change: transform;
     }
 
-    /* 遮罩层 - 覆盖在背景之上、内容之下 */
-    .background-container::after {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(255, 255, 255, 0.3);
-        backdrop-filter: blur(2px);
-        -webkit-backdrop-filter: blur(2px);
-        z-index: 0;
-        pointer-events: none;
-    }
-
-    body.dark-theme .background-container::after {
-        background: rgba(0, 0, 0, 0.4);
-    }
-
-    /* 确保所有内容在背景和遮罩之上 */
     .background-container > * {
         position: relative;
         z-index: 1;
