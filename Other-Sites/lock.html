@@ -1,0 +1,2059 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文件加密/解密工具</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .drop-area {
+            border: 2px dashed #3498db;
+            border-radius: 5px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 25px;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .drop-area.highlight {
+            border-color: #2ecc71;
+            background-color: rgba(46, 204, 113, 0.05);
+        }
+        
+        .drop-area p {
+            margin: 15px 0 0;
+            font-size: 16px;
+            color: #7f8c8d;
+        }
+        
+        .drop-area .icon {
+            font-size: 48px;
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 25px;
+        }
+        
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        #encryptBtn {
+            background-color: #3498db;
+            color: white;
+            box-shadow: 0 2px 5px rgba(52, 152, 219, 0.3);
+        }
+        
+        #encryptBtn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        #decryptBtn {
+            background-color: #2ecc71;
+            color: white;
+            box-shadow: 0 2px 5px rgba(46, 204, 113, 0.3);
+        }
+        
+        #decryptBtn:hover {
+            background-color: #27ae60;
+            transform: translateY(-2px);
+        }
+        
+        #cancelBtn {
+            background-color: #e74c3c;
+            color: white;
+            box-shadow: 0 2px 5px rgba(231, 76, 60, 0.3);
+        }
+        
+        #cancelBtn:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+        
+        #fileInfo {
+            margin-top: 20px;
+            font-size: 15px;
+            color: #34495e;
+            text-align: center;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        #status {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+            min-height: 24px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        
+        .success {
+            color: #27ae60;
+            background-color: rgba(39, 174, 96, 0.1);
+        }
+        
+        .error {
+            color: #e74c3c;
+            background-color: rgba(231, 76, 60, 0.1);
+        }
+        
+        .progress {
+            color: #3498db;
+        }
+        
+        #passwordContainer {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        #passwordInput {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 300px;
+            max-width: 100%;
+            font-size: 16px;
+        }
+        
+        .file-type {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 3px 8px;
+            background-color: #f1c40f;
+            color: white;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* 加密选项面板样式 */
+        .encryption-options {
+            margin: 20px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .options-header {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .options-header:hover {
+            background-color: #2980b9;
+        }
+        
+        .options-content {
+            background-color: white;
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .options-content.show {
+            padding: 15px;
+            max-height: 300px;
+        }
+        
+        .encryption-level {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .encryption-level:hover {
+            background-color: #f0f8ff;
+        }
+        
+        .encryption-level.selected {
+            background-color: #e1f0fa;
+            border-left: 4px solid #3498db;
+        }
+        
+        .level-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .level-desc {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        
+        .level-badge {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        .level-basic {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        .level-medium {
+            background-color: #f39c12;
+            color: white;
+        }
+        
+        .level-high {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        /* 密码强度指示器 */
+        .password-strength {
+            height: 4px;
+            background: #eee;
+            margin-top: 5px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .strength-bar {
+            height: 100%;
+            width: 0;
+            transition: width 0.3s, background 0.3s;
+        }
+        
+        .strength-weak {
+            background: #e74c3c;
+            width: 30%;
+        }
+        
+        .strength-medium {
+            background: #f39c12;
+            width: 60%;
+        }
+        
+        .strength-strong {
+            background: #2ecc71;
+            width: 100%;
+        }
+
+        /* 进度条样式 */
+        .progress-container {
+            width: 100%;
+            margin: 15px 0;
+            display: none;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background-color: #ecf0f1;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: #3498db;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #2c3e50;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        
+        .progress-complete .progress-fill {
+            background-color: #2ecc71;
+        }
+        
+        .progress-error .progress-fill {
+            background-color: #e74c3c;
+        }
+
+        /* ===== 引导对话框样式 ===== */
+        .guide-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        .guide-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .guide-dialog {
+            background: white;
+            border-radius: 16px;
+            padding: 36px 32px 28px;
+            max-width: 520px;
+            width: 90%;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+            transform: translateY(30px) scale(0.95);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+        }
+
+        .guide-overlay.show .guide-dialog {
+            transform: translateY(0) scale(1);
+        }
+
+        .guide-icon {
+            text-align: center;
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .guide-title {
+            text-align: center;
+            font-size: 22px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin: 0 0 6px 0;
+        }
+
+        .guide-subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #7f8c8d;
+            margin: 0 0 24px 0;
+            line-height: 1.5;
+        }
+
+        .guide-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .guide-option {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 20px;
+            border: 2px solid #e8e8e8;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            background: #fafafa;
+        }
+
+        .guide-option:hover {
+            border-color: #6c5ce7;
+            background: #f8f7ff;
+            transform: translateX(4px);
+        }
+
+        .guide-option:active {
+            transform: translateX(2px) scale(0.99);
+        }
+
+        .guide-option-icon {
+            font-size: 32px;
+            flex-shrink: 0;
+            width: 48px;
+            text-align: center;
+        }
+
+        .guide-option-content {
+            flex: 1;
+        }
+
+        .guide-option-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 3px;
+        }
+
+        .guide-option-desc {
+            font-size: 13px;
+            color: #7f8c8d;
+            line-height: 1.4;
+        }
+
+        .guide-option-arrow {
+            font-size: 18px;
+            color: #ccc;
+            transition: color 0.2s, transform 0.2s;
+            flex-shrink: 0;
+        }
+
+        .guide-option:hover .guide-option-arrow {
+            color: #6c5ce7;
+            transform: translateX(4px);
+        }
+
+        /* ===== 三参数密码生成器样式 ===== */
+        .pwd-generator {
+            margin: 16px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .pwd-gen-header {
+            background-color: #6c5ce7;
+            color: white;
+            padding: 10px 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        .pwd-gen-header:hover {
+            background-color: #5f3dc4;
+        }
+
+        .gen-icon {
+            margin-right: 6px;
+        }
+
+        .gen-toggle {
+            transition: transform 0.3s ease;
+        }
+
+        .gen-toggle.open {
+            transform: rotate(180deg);
+        }
+
+        .pwd-gen-body {
+            background-color: white;
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+        }
+
+        .pwd-gen-body.open {
+            padding: 15px;
+            max-height: 300px;
+        }
+
+        .pwd-gen-desc {
+            font-size: 13px;
+            color: #7f8c8d;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .pwd-gen-fields {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .pwd-gen-input {
+            flex: 1;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+            font-family: inherit;
+        }
+
+        .pwd-gen-input:focus {
+            border-color: #6c5ce7;
+            box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.15);
+        }
+
+        .pwd-gen-btn {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .pwd-gen-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+        }
+
+        .pwd-gen-btn:active {
+            transform: translateY(0);
+        }
+
+        /* 密码生成结果显示区域 */
+        .pwd-gen-result {
+            margin-top: 12px;
+            padding: 12px;
+            background: #f8f7ff;
+            border: 1px solid #d5d0ff;
+            border-radius: 8px;
+            animation: resultFadeIn 0.3s ease;
+        }
+
+        @keyframes resultFadeIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .pwd-result-label {
+            font-size: 12px;
+            color: #6c5ce7;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .pwd-result-row {
+            display: flex;
+            gap: 6px;
+        }
+
+        .pwd-result-input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #d5d0ff;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: 'Courier New', monospace;
+            background: white;
+            color: #2c3e50;
+            outline: none;
+            letter-spacing: 1px;
+        }
+
+        .pwd-result-copy {
+            padding: 8px 14px;
+            background: #6c5ce7;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+        }
+
+        .pwd-result-copy:hover {
+            background: #5f3dc4;
+            transform: scale(1.05);
+        }
+
+        .pwd-result-copy:active {
+            transform: scale(0.95);
+        }
+
+        .pwd-result-copy.copied {
+            background: #2ecc71;
+        }
+
+        .pwd-result-fill {
+            padding: 8px 14px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            white-space: nowrap;
+        }
+
+        .pwd-result-fill:hover {
+            background: #2980b9;
+            transform: scale(1.05);
+        }
+
+        .pwd-result-fill:active {
+            transform: scale(0.95);
+        }
+
+        .pwd-result-fill.filled {
+            background: #2ecc71;
+        }
+
+        .pwd-result-hint {
+            font-size: 11px;
+            color: #aaa;
+            margin-top: 4px;
+        }
+
+        /* ===== 移动端竖屏适配 ===== */
+
+        /* 平板/大屏手机竖屏 */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 18px 14px;
+                border-radius: 6px;
+            }
+
+            h1 {
+                font-size: 20px;
+                margin-bottom: 18px;
+            }
+
+            .drop-area {
+                padding: 28px 14px;
+            }
+
+            .drop-area .icon {
+                font-size: 36px;
+            }
+
+            .drop-area p {
+                font-size: 14px;
+                margin: 10px 0 0;
+            }
+
+            .buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            button {
+                width: 100%;
+                padding: 14px 20px;
+                font-size: 15px;
+                margin: 0;
+            }
+
+            #passwordInput {
+                width: 100%;
+                font-size: 15px;
+                padding: 12px 14px;
+                box-sizing: border-box;
+            }
+
+            .encryption-level {
+                padding: 8px 10px;
+            }
+
+            .level-title {
+                font-size: 14px;
+            }
+
+            .level-desc {
+                font-size: 13px;
+            }
+
+            .options-content.show {
+                padding: 10px;
+            }
+
+            .options-header {
+                font-size: 14px;
+                padding: 8px 12px;
+            }
+
+            #fileInfo {
+                font-size: 14px;
+            }
+
+            #status {
+                font-size: 14px;
+                padding: 8px;
+            }
+
+            /* 密码生成器竖屏：三参数改为纵向排列 */
+            .pwd-gen-fields {
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .pwd-gen-input {
+                font-size: 14px;
+                padding: 10px 12px;
+            }
+
+            .pwd-gen-body.open {
+                padding: 12px;
+                max-height: 380px;
+            }
+
+            .pwd-gen-btn {
+                padding: 12px 10px;
+                font-size: 15px;
+            }
+
+            /* 密码结果区域竖屏适配 */
+            .pwd-result-row {
+                flex-wrap: wrap;
+            }
+
+            .pwd-result-input {
+                font-size: 13px;
+                padding: 10px 10px;
+                min-width: 0;
+                width: 100%;
+            }
+
+            .pwd-result-copy,
+            .pwd-result-fill {
+                flex: 1;
+                min-width: 0;
+                padding: 10px 8px;
+                font-size: 13px;
+                justify-content: center;
+            }
+
+            /* 引导对话框竖屏适配 */
+            .guide-dialog {
+                padding: 24px 16px 20px;
+                width: 90%;
+                max-height: 85vh;
+                overflow-y: auto;
+            }
+
+            .guide-icon {
+                font-size: 36px;
+                margin-bottom: 8px;
+            }
+
+            .guide-title {
+                font-size: 18px;
+            }
+
+            .guide-subtitle {
+                font-size: 13px;
+                margin-bottom: 16px;
+            }
+
+            .guide-options {
+                gap: 8px;
+            }
+
+            .guide-option {
+                padding: 12px 14px;
+                gap: 10px;
+            }
+
+            .guide-option-icon {
+                font-size: 24px;
+                width: 36px;
+            }
+
+            .guide-option-title {
+                font-size: 14px;
+            }
+
+            .guide-option-desc {
+                font-size: 12px;
+            }
+
+            .guide-option-arrow {
+                font-size: 16px;
+            }
+
+            /* 进度条竖屏适配 */
+            .progress-bar {
+                height: 18px;
+            }
+
+            .progress-text {
+                font-size: 11px;
+            }
+        }
+
+        /* 小屏手机竖屏 */
+        @media (max-width: 480px) {
+            body {
+                padding: 6px;
+            }
+
+            .container {
+                padding: 14px 10px;
+                border-radius: 4px;
+            }
+
+            h1 {
+                font-size: 17px;
+                margin-bottom: 14px;
+            }
+
+            .drop-area {
+                padding: 18px 10px;
+                margin-bottom: 16px;
+            }
+
+            .drop-area .icon {
+                font-size: 28px;
+            }
+
+            .drop-area p {
+                font-size: 13px;
+                margin: 8px 0 0;
+            }
+
+            .drop-area p small {
+                font-size: 11px;
+            }
+
+            .buttons {
+                gap: 8px;
+                margin-top: 16px;
+            }
+
+            button {
+                padding: 12px 16px;
+                font-size: 14px;
+            }
+
+            #passwordInput {
+                font-size: 14px;
+                padding: 10px 12px;
+            }
+
+            #fileInfo {
+                font-size: 13px;
+                margin-top: 14px;
+            }
+
+            #status {
+                font-size: 13px;
+                padding: 6px;
+                margin-top: 14px;
+            }
+
+            .encryption-level {
+                padding: 6px 8px;
+                margin-bottom: 6px;
+            }
+
+            .level-title {
+                font-size: 13px;
+            }
+
+            .level-desc {
+                font-size: 12px;
+            }
+
+            .options-content.show {
+                padding: 8px;
+                max-height: 260px;
+            }
+
+            .options-header {
+                font-size: 13px;
+                padding: 6px 10px;
+            }
+
+            /* 密码生成器小屏 */
+            .pwd-gen-header {
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+
+            .pwd-gen-body.open {
+                padding: 10px;
+                max-height: 360px;
+            }
+
+            .pwd-gen-desc {
+                font-size: 12px;
+                margin-bottom: 10px;
+            }
+
+            .pwd-gen-input {
+                font-size: 13px;
+                padding: 8px 10px;
+            }
+
+            .pwd-gen-btn {
+                padding: 10px 8px;
+                font-size: 14px;
+            }
+
+            .pwd-gen-result {
+                padding: 10px;
+                margin-top: 10px;
+            }
+
+            .pwd-result-label {
+                font-size: 11px;
+            }
+
+            .pwd-result-input {
+                font-size: 12px;
+                padding: 8px 8px;
+                letter-spacing: 0.5px;
+            }
+
+            .pwd-result-copy,
+            .pwd-result-fill {
+                padding: 8px 6px;
+                font-size: 12px;
+                min-width: 36px;
+            }
+
+            .pwd-result-hint {
+                font-size: 10px;
+            }
+
+            /* 引导对话框小屏 */
+            .guide-dialog {
+                padding: 20px 12px 16px;
+                width: 92%;
+                max-height: 90vh;
+                border-radius: 12px;
+            }
+
+            .guide-icon {
+                font-size: 32px;
+                margin-bottom: 6px;
+            }
+
+            .guide-title {
+                font-size: 16px;
+            }
+
+            .guide-subtitle {
+                font-size: 12px;
+                margin-bottom: 14px;
+            }
+
+            .guide-options {
+                gap: 6px;
+            }
+
+            .guide-option {
+                padding: 10px 12px;
+                gap: 8px;
+                border-radius: 8px;
+                border-width: 1.5px;
+            }
+
+            .guide-option-icon {
+                font-size: 20px;
+                width: 30px;
+            }
+
+            .guide-option-title {
+                font-size: 13px;
+            }
+
+            .guide-option-desc {
+                font-size: 11px;
+            }
+
+            .guide-option-arrow {
+                font-size: 14px;
+            }
+
+            /* 进度条小屏 */
+            .progress-bar {
+                height: 16px;
+            }
+
+            .progress-text {
+                font-size: 10px;
+            }
+
+            /* 文件类型标签小屏 */
+            .file-type {
+                font-size: 10px;
+                padding: 2px 6px;
+            }
+        }
+
+        /* 超小屏手机（320px 左右） */
+        @media (max-width: 360px) {
+            body {
+                padding: 4px;
+            }
+
+            .container {
+                padding: 10px 8px;
+            }
+
+            h1 {
+                font-size: 15px;
+            }
+
+            .drop-area {
+                padding: 14px 8px;
+            }
+
+            .drop-area .icon {
+                font-size: 24px;
+            }
+
+            .drop-area p {
+                font-size: 12px;
+            }
+
+            .guide-dialog {
+                padding: 16px 10px 14px;
+                width: 94%;
+            }
+
+            .guide-option {
+                padding: 8px 10px;
+            }
+
+            .guide-option-icon {
+                font-size: 18px;
+                width: 26px;
+            }
+
+            .guide-option-title {
+                font-size: 12px;
+            }
+
+            .guide-option-desc {
+                font-size: 10px;
+            }
+
+            .pwd-gen-input {
+                font-size: 12px;
+                padding: 6px 8px;
+            }
+
+            .pwd-result-input {
+                font-size: 11px;
+                padding: 6px 6px;
+            }
+
+            .pwd-result-copy,
+            .pwd-result-fill {
+                padding: 6px 4px;
+                font-size: 11px;
+                min-width: 30px;
+            }
+
+            button {
+                padding: 10px 12px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== 引导对话框 ===== -->
+    <div class="guide-overlay" id="guideOverlay">
+        <div class="guide-dialog">
+            <div class="guide-icon">🔐</div>
+            <h2 class="guide-title">欢迎使用加密工具</h2>
+            <p class="guide-subtitle">请选择你要执行的操作，我们将引导你到对应功能</p>
+            <div class="guide-options">
+                <div class="guide-option" data-action="encrypt-single">
+                    <div class="guide-option-icon">🔒</div>
+                    <div class="guide-option-content">
+                        <div class="guide-option-title">加密文件</div>
+                        <div class="guide-option-desc">我有一组密钥，想加密一个文件为 .sp 格式</div>
+                    </div>
+                    <div class="guide-option-arrow">→</div>
+                </div>
+                <div class="guide-option" data-action="decrypt-single">
+                    <div class="guide-option-icon">🔓</div>
+                    <div class="guide-option-content">
+                        <div class="guide-option-title">解密文件</div>
+                        <div class="guide-option-desc">我有一组密钥和加密文件（.sp），需要解密还原</div>
+                    </div>
+                    <div class="guide-option-arrow">→</div>
+                </div>
+                <div class="guide-option" data-action="encrypt-triple">
+                    <div class="guide-option-icon">🔑</div>
+                    <div class="guide-option-content">
+                        <div class="guide-option-title">三密钥加密</div>
+                        <div class="guide-option-desc">我有三组字符密钥，想加密一个文件为 .sp 格式</div>
+                    </div>
+                    <div class="guide-option-arrow">→</div>
+                </div>
+                <div class="guide-option" data-action="decrypt-triple">
+                    <div class="guide-option-icon">🔐</div>
+                    <div class="guide-option-content">
+                        <div class="guide-option-title">三密钥解密</div>
+                        <div class="guide-option-desc">我有三组字符密钥和加密文件（.sp），需要解密还原</div>
+                    </div>
+                    <div class="guide-option-arrow">→</div>
+                </div>
+                <div class="guide-option" data-action="generate">
+                    <div class="guide-option-icon">🔑</div>
+                    <div class="guide-option-content">
+                        <div class="guide-option-title">生成密码</div>
+                        <div class="guide-option-desc">我有三组字符密钥，想生成一串16位固定密码</div>
+                    </div>
+                    <div class="guide-option-arrow">→</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>高级文件加密/解密工具</h1>
+        
+        <div id="dropArea" class="drop-area">
+            <div class="icon">🔒</div>
+            <p>点击或拖拽文件到此处上传</p>
+            <p><small>支持任何文件类型 (docx, mp4, pdf等)</small></p>
+            <input type="file" id="fileInput" class="hidden">
+        </div>
+        
+        <!-- 加密选项面板 -->
+        <div class="encryption-options">
+            <div class="options-header" id="optionsHeader">
+                <span>加密选项 (点击展开)</span>
+                <span>▼</span>
+            </div>
+            <div class="options-content" id="optionsContent">
+                <div class="encryption-level" data-level="basic">
+                    <div class="level-title">
+                        <span class="level-badge level-basic">普通</span>
+                        <span>快速加密 (AES-256-GCM)</span>
+                    </div>
+                    <div class="level-desc">
+                        加密速度快，适合日常使用。PBKDF2迭代10,000次。
+                    </div>
+                </div>
+                
+                <div class="encryption-level selected" data-level="medium">
+                    <div class="level-title">
+                        <span class="level-badge level-medium">中等</span>
+                        <span>平衡加密 (AES-256-GCM)</span>
+                    </div>
+                    <div class="level-desc">
+                        速度与安全性的平衡选择。PBKDF2迭代50,000次。
+                    </div>
+                </div>
+                
+                <div class="encryption-level" data-level="high">
+                    <div class="level-title">
+                        <span class="level-badge level-high">高等</span>
+                        <span>最强加密 (AES-256-GCM)</span>
+                    </div>
+                    <div class="level-desc">
+                        最高安全级别，适合敏感数据。PBKDF2迭代100,000次。
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ===== 三参数密码生成器 ===== -->
+        <div class="pwd-generator" id="pwdGenerator">
+            <div class="pwd-gen-header" id="pwdGenHeader">
+                <span><span class="gen-icon">🔑</span> 三参数密码生成器</span>
+                <span class="gen-toggle">▼</span>
+            </div>
+            <div class="pwd-gen-body" id="pwdGenBody">
+                <div class="pwd-gen-desc">输入三个参数（支持中文、英文、数字等），生成固定16位密码。同样的参数始终生成同样的密码。</div>
+                <div class="pwd-gen-fields">
+                    <input type="text" id="p1Input" class="pwd-gen-input" placeholder="参数 1" autocomplete="off">
+                    <input type="text" id="p2Input" class="pwd-gen-input" placeholder="参数 2" autocomplete="off">
+                    <input type="text" id="p3Input" class="pwd-gen-input" placeholder="参数 3" autocomplete="off">
+                </div>
+                <button id="generatePwdBtn" class="pwd-gen-btn">生成密码</button>
+                <!-- 密码结果显示区域 -->
+                <div class="pwd-gen-result hidden" id="pwdGenResult">
+                    <div class="pwd-result-label">生成的密码：</div>
+                    <div class="pwd-result-row">
+                        <input type="text" class="pwd-result-input" id="pwdResultInput" readonly>
+                        <button class="pwd-result-copy" id="pwdResultCopyBtn" title="复制密码">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                        <button class="pwd-result-fill" id="pwdResultFillBtn" title="一键填充到密码框">
+                            <i class="fas fa-arrow-right-to-bracket"></i> 填充
+                        </button>
+                    </div>
+                    <div class="pwd-result-hint">点击复制按钮可一键复制密码，点击填充按钮可填入密码框</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="passwordContainer" class="hidden">
+            <input type="password" id="passwordInput" placeholder="输入加密密码(至少8个字符)" autocomplete="off">
+            <div class="password-strength">
+                <div class="strength-bar" id="strengthBar"></div>
+            </div>
+        </div>
+        
+        <div id="fileInfo"></div>
+        <div id="status"></div>
+        
+        <!-- 进度条容器 -->
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+                <div class="progress-text" id="progressText">0%</div>
+            </div>
+        </div>
+        
+        <div class="buttons">
+            <button id="encryptBtn" class="hidden">加密为 .sp 文件</button>
+            <button id="decryptBtn" class="hidden">解密为原始文件</button>
+            <button id="cancelBtn" class="hidden">取消</button>
+        </div>
+    </div>
+
+    <script>
+        // 获取DOM元素
+        const dropArea = document.getElementById('dropArea');
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const statusDiv = document.getElementById('status');
+        const encryptBtn = document.getElementById('encryptBtn');
+        const decryptBtn = document.getElementById('decryptBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const passwordContainer = document.getElementById('passwordContainer');
+        const passwordInput = document.getElementById('passwordInput');
+        const optionsHeader = document.getElementById('optionsHeader');
+        const optionsContent = document.getElementById('optionsContent');
+        const encryptionLevels = document.querySelectorAll('.encryption-level');
+        const strengthBar = document.getElementById('strengthBar');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        
+        // 加密配置
+        const encryptionSettings = {
+            basic: {
+                iterations: 10000,
+                label: "普通加密"
+            },
+            medium: {
+                iterations: 50000,
+                label: "中等加密"
+            },
+            high: {
+                iterations: 100000,
+                label: "高等加密"
+            }
+        };
+
+        let currentFile = null;
+        let fileType = '';
+        let currentEncryptionLevel = 'medium'; // 默认中等加密
+        let cancelRequested = false;
+
+        // ===== 三参数密码生成器 (与Python版算法完全一致) =====
+        // Python版算法:
+        //   text = f"{p1}|{p2}|{p3}"
+        //   hash_obj = hashlib.sha256(text.encode("utf-8"))
+        //   hex_str = hash_obj.hexdigest()
+        //   chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*_"
+        //   for i in range(16):
+        //       num = int(hex_str[i*2 : i*2+2], 16)
+        //       pwd += chars[num % len(chars)]
+
+        async function generatePwdFromParams(p1, p2, p3) {
+            // 拼接三个参数，用 | 分隔
+            const text = p1 + '|' + p2 + '|' + p3;
+
+            // 计算 SHA-256 哈希
+            const encoder = new TextEncoder();
+            const data = encoder.encode(text);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashBytes = new Uint8Array(hashBuffer);
+
+            // 将哈希字节转为十六进制字符串 (与Python hexdigest()一致)
+            let hexStr = "";
+            for (let i = 0; i < hashBytes.length; i++) {
+                hexStr += hashBytes[i].toString(16).padStart(2, '0');
+            }
+
+            // 密码可用字符 (与Python版完全一致)
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*_";
+
+            // 生成16位固定密码
+            let pwd = "";
+            for (let i = 0; i < 16; i++) {
+                const num = parseInt(hexStr.substring(i * 2, i * 2 + 2), 16);
+                pwd += chars[num % chars.length];
+            }
+
+            return pwd;
+        }
+
+        // 更新进度函数
+        function updateProgress(percent, isComplete = false, isError = false) {
+            progressContainer.style.display = 'block';
+            progressFill.style.width = `${percent}%`;
+            progressText.textContent = `${percent}%`;
+            
+            if (isComplete) {
+                progressContainer.classList.add('progress-complete');
+                progressContainer.classList.remove('progress-error');
+            } else if (isError) {
+                progressContainer.classList.add('progress-error');
+                progressContainer.classList.remove('progress-complete');
+            } else {
+                progressContainer.classList.remove('progress-complete', 'progress-error');
+            }
+        }
+        
+        // 重置进度条
+        function resetProgress() {
+            progressContainer.style.display = 'none';
+            progressFill.style.width = '0%';
+            progressText.textContent = '0%';
+            progressContainer.classList.remove('progress-complete', 'progress-error');
+        }
+
+        // 初始化页面状态
+        function initPage() {
+            currentFile = null;
+            fileType = '';
+            fileInfo.innerHTML = '';
+            statusDiv.textContent = '';
+            statusDiv.className = '';
+            passwordContainer.classList.add('hidden');
+            passwordInput.value = '';
+            encryptBtn.classList.add('hidden');
+            decryptBtn.classList.add('hidden');
+            cancelBtn.classList.add('hidden');
+            strengthBar.className = 'strength-bar';
+            cancelRequested = false;
+            resetProgress();
+            selectEncryptionLevel('medium'); // 重置为默认加密级别
+        }
+
+        // 选择加密级别
+        function selectEncryptionLevel(level) {
+            currentEncryptionLevel = level;
+            encryptionLevels.forEach(el => {
+                if (el.dataset.level === level) {
+                    el.classList.add('selected');
+                } else {
+                    el.classList.remove('selected');
+                }
+            });
+        }
+
+        // 密码强度检测
+        function checkPasswordStrength(password) {
+            if (password.length === 0) return '';
+            
+            let strength = 0;
+            // 长度评分
+            if (password.length >= 8) strength += 1;
+            if (password.length >= 12) strength += 1;
+            // 复杂度评分
+            if (/[A-Z]/.test(password)) strength += 1;
+            if (/[0-9]/.test(password)) strength += 1;
+            if (/[^A-Za-z0-9]/.test(password)) strength += 1;
+            
+            return strength >= 4 ? 'strong' : 
+                   strength >= 2 ? 'medium' : 'weak';
+        }
+
+        // 更新密码强度指示器
+        passwordInput.addEventListener('input', () => {
+            const strength = checkPasswordStrength(passwordInput.value);
+            strengthBar.className = 'strength-bar strength-' + strength;
+        });
+
+        // 折叠面板切换
+        optionsHeader.addEventListener('click', () => {
+            optionsContent.classList.toggle('show');
+            optionsHeader.querySelector('span:last-child').textContent = 
+                optionsContent.classList.contains('show') ? '▲' : '▼';
+        });
+
+        // 加密级别选择
+        encryptionLevels.forEach(level => {
+            level.addEventListener('click', () => {
+                selectEncryptionLevel(level.dataset.level);
+            });
+        });
+
+        // 点击拖拽区域触发文件选择
+        dropArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        // 文件选择变化
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        // 拖拽相关事件
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight() {
+            dropArea.classList.add('highlight');
+        }
+
+        function unhighlight() {
+            dropArea.classList.remove('highlight');
+        }
+
+        // 处理拖放的文件
+        dropArea.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            if (dt.files.length) {
+                handleFile(dt.files[0]);
+            }
+        });
+
+        // 处理文件
+        function handleFile(file) {
+            currentFile = file;
+            fileType = getFileType(file.name);
+            
+            fileInfo.innerHTML = `
+                <strong>已选择文件:</strong> ${file.name} (${formatFileSize(file.size)})
+                <div class="file-type">${fileType.toUpperCase()}</div>
+            `;
+            
+            statusDiv.textContent = '';
+            statusDiv.className = '';
+            passwordContainer.classList.remove('hidden');
+            passwordInput.value = '';
+            cancelBtn.classList.remove('hidden');
+            
+            // 根据文件扩展名显示/隐藏按钮
+            if (file.name.endsWith('.sp')) {
+                encryptBtn.classList.add('hidden');
+                decryptBtn.classList.remove('hidden');
+                showStatus('检测到加密文件(.sp)，请输入密码解密', '');
+            } else {
+                encryptBtn.classList.remove('hidden');
+                decryptBtn.classList.add('hidden');
+                showStatus('可以加密此文件为.sp格式', 'success');
+            }
+            
+            passwordInput.focus();
+        }
+
+        // 获取文件类型
+        function getFileType(filename) {
+            const extension = filename.split('.').pop().toLowerCase();
+            const types = {
+                'docx': 'Word文档',
+                'xlsx': 'Excel表格',
+                'pptx': 'PPT演示',
+                'pdf': 'PDF文档',
+                'jpg': 'JPEG图片',
+                'jpeg': 'JPEG图片',
+                'png': 'PNG图片',
+                'mp4': 'MP4视频',
+                'mp3': 'MP3音频',
+                'zip': 'ZIP压缩包',
+                'sp': '加密文件'
+            };
+            
+            return types[extension] || extension.toUpperCase() + '文件';
+        }
+
+        // 格式化文件大小
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // 加密按钮点击事件
+        encryptBtn.addEventListener('click', async () => {
+            if (!currentFile) {
+                showStatus('请先选择文件', 'error');
+                return;
+            }
+            
+            const password = passwordInput.value;
+            if (password.length < 8) {
+                showStatus('密码至少需要8个字符', 'error');
+                return;
+            }
+            
+            showStatus('加密处理中，请稍候...', 'progress');
+            resetProgress();
+            progressContainer.style.display = 'block';
+            cancelRequested = false;
+            
+            try {
+                const encryptedData = await encryptFile(currentFile, password, currentEncryptionLevel);
+                if (cancelRequested) return;
+                
+                const outputFileName = currentFile.name + '.sp';
+                downloadFile(encryptedData, outputFileName);
+                showStatus('加密成功! 文件已准备好下载', 'success');
+                updateProgress(100, true);
+                
+                // 操作完成后重置页面
+                setTimeout(() => {
+                    initPage();
+                }, 2000);
+            } catch (e) {
+                if (!cancelRequested) {
+                    showStatus('加密失败: ' + e.message, 'error');
+                    updateProgress(0, false, true);
+                }
+                console.error(e);
+            }
+        });
+
+        // 解密按钮点击事件
+        decryptBtn.addEventListener('click', async () => {
+            if (!currentFile) {
+                showStatus('请先选择文件', 'error');
+                return;
+            }
+            
+            const password = passwordInput.value;
+            if (password.length < 8) {
+                showStatus('密码至少需要8个字符', 'error');
+                return;
+            }
+            
+            showStatus('解密处理中，请稍候...', 'progress');
+            resetProgress();
+            progressContainer.style.display = 'block';
+            cancelRequested = false;
+            
+            try {
+                const decryptedData = await decryptFile(currentFile, password);
+                if (cancelRequested) return;
+                
+                const outputFileName = currentFile.name.replace('.sp', '');
+                downloadFile(decryptedData, outputFileName);
+                showStatus('解密成功! 文件已准备好下载', 'success');
+                updateProgress(100, true);
+                
+                // 操作完成后重置页面
+                setTimeout(() => {
+                    initPage();
+                }, 2000);
+            } catch (e) {
+                if (!cancelRequested) {
+                    if (e.message.includes('解密失败')) {
+                        showStatus('解密失败: 密码错误或文件已损坏', 'error');
+                    } else {
+                        showStatus('解密失败: ' + e.message, 'error');
+                    }
+                    updateProgress(0, false, true);
+                }
+                console.error(e);
+            }
+        });
+
+        // 取消按钮点击事件
+        cancelBtn.addEventListener('click', () => {
+            cancelRequested = true;
+            showStatus('操作已取消', 'error');
+            updateProgress(0, false, true);
+            setTimeout(() => {
+                initPage();
+            }, 1500);
+        });
+
+        // 显示状态信息
+        function showStatus(message, type) {
+            statusDiv.textContent = message;
+            statusDiv.className = type || '';
+        }
+
+        // 获取加密级别代码
+        function getLevelCode(level) {
+            switch(level) {
+                case 'basic': return 0x01;
+                case 'medium': return 0x02;
+                case 'high': return 0x03;
+                default: return 0x02;
+            }
+        }
+
+        // 获取加密级别名称
+        function getLevelName(code) {
+            switch(code) {
+                case 0x01: return 'basic';
+                case 0x02: return 'medium';
+                case 0x03: return 'high';
+                default: return 'medium';
+            }
+        }
+
+        // 使用Web Crypto API加密文件
+        async function encryptFile(file, password, level) {
+            const settings = encryptionSettings[level];
+            
+            // 更新进度：准备阶段 (10%)
+            updateProgress(10);
+            if (cancelRequested) throw new Error('操作已取消');
+            
+            const fileData = await readFileAsArrayBuffer(file);
+            const salt = crypto.getRandomValues(new Uint8Array(16));
+            const iv = crypto.getRandomValues(new Uint8Array(12));
+            
+            // 更新进度：生成密钥材料 (20%)
+            updateProgress(20);
+            if (cancelRequested) throw new Error('操作已取消');
+            
+            // 从密码生成密钥
+            const keyMaterial = await getKeyMaterial(password);
+            
+            // 更新进度：派生密钥 (40%)
+            updateProgress(40);
+            if (cancelRequested) throw new Error('操作已取消');
+            
+            const key = await deriveKey(keyMaterial, salt, ['encrypt'], settings.iterations, 256);
+            
+            // 更新进度：开始加密 (50%)
+            updateProgress(50);
+            if (cancelRequested) throw new Error('操作已取消');
+            
+            // 加密数据
+            const encryptedContent = await crypto.subtle.encrypt(
+                {
+                    name: 'AES-GCM',
+                    iv: iv
+                },
+                key,
+                fileData
+            );
+            
+            // 更新进度：处理加密数据 (80%)
+            updateProgress(80);
+            if (cancelRequested) throw new Error('操作已取消');
+            
+            // 组合最终数据: level(1) + salt(16) + iv(12) + encryptedData
+            const levelByte = new Uint8Array([getLevelCode(level)]);
+            const result = new Uint8Array(1 + salt.length + iv.length + encryptedContent.byteLength);
+            result.set(levelByte, 0);
+            result.set(salt, 1);
+            result.set(iv, 17);
+            result.set(new Uint8Array(encryptedContent), 29);
+            
+            // 更新进度：完成 (95%)
+            updateProgress(95);
+            
+            return result;
+        }
+
+        // 使用Web Crypto API解密文件
+        async function decryptFile(file, password) {
+            // 更新进度：开始解密 (10%)
+            updateProgress(10);
+            if (cancelRequested) throw new Error('操作已取消');
+            
+            const fileData = await readFileAsArrayBuffer(file);
+            const dataView = new Uint8Array(fileData);
+            
+            // 提取加密级别、salt和iv
+            if (dataView.length < 29) { // level(1) + salt(16) + iv(12) = 29
+                throw new Error('无效的加密文件格式');
+            }
+            
+            const levelCode = dataView[0];
+            const level = getLevelName(levelCode);
+            const settings = encryptionSettings[level] || encryptionSettings.medium;
+            
+            const salt = dataView.slice(1, 17);
+            const iv = dataView.slice(17, 29);
+            const encryptedData = dataView.slice(29);
+            
+            // 更新进度：提取数据完成 (30%)
+            updateProgress(30);
+            if (cancelRequested) throw new Error('操作已取消');
+            
+            // 从密码生成密钥
+            const keyMaterial = await getKeyMaterial(password);
+            
+            // 更新进度：密钥生成中 (50%)
+            updateProgress(50);
+            if (cancelRequested) throw new Error('操作已取消');
+            
+            const key = await deriveKey(keyMaterial, salt, ['decrypt'], settings.iterations, 256);
+            
+            // 更新进度：开始解密 (70%)
+            updateProgress(70);
+            if (cancelRequested) throw new Error('操作已取消');
+            
+            // 解密数据
+            try {
+                const decryptedContent = await crypto.subtle.decrypt(
+                    {
+                        name: 'AES-GCM',
+                        iv: iv
+                    },
+                    key,
+                    encryptedData
+                );
+                
+                // 更新进度：解密完成 (90%)
+                updateProgress(90);
+                if (cancelRequested) throw new Error('操作已取消');
+                
+                return new Uint8Array(decryptedContent);
+            } catch (e) {
+                throw new Error('解密失败 - 密码可能不正确');
+            }
+        }
+
+        // 读取文件为ArrayBuffer
+        function readFileAsArrayBuffer(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsArrayBuffer(file);
+            });
+        }
+
+        // 获取密钥材料
+        function getKeyMaterial(password) {
+            const encoder = new TextEncoder();
+            return crypto.subtle.importKey(
+                'raw',
+                encoder.encode(password),
+                { name: 'PBKDF2' },
+                false,
+                ['deriveBits', 'deriveKey']
+            );
+        }
+
+        // 派生密钥
+        function deriveKey(keyMaterial, salt, keyUsages, iterations = 100000, keyLength = 256) {
+            return crypto.subtle.deriveKey(
+                {
+                    name: 'PBKDF2',
+                    salt: salt,
+                    iterations: iterations,
+                    hash: 'SHA-256'
+                },
+                keyMaterial,
+                { name: 'AES-GCM', length: keyLength },
+                false,
+                keyUsages
+            );
+        }
+
+        // 下载文件
+        function downloadFile(data, fileName) {
+            try {
+                const blob = new Blob([data], { type: 'application/octet-stream' });
+                const url = URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+                
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 100);
+            } catch (e) {
+                showStatus('文件下载失败: ' + e.message, 'error');
+                console.error(e);
+            }
+        }
+
+        // ===== 三参数密码生成器 - 事件绑定 =====
+        const pwdGenHeader = document.getElementById('pwdGenHeader');
+        const pwdGenBody = document.getElementById('pwdGenBody');
+        const p1Input = document.getElementById('p1Input');
+        const p2Input = document.getElementById('p2Input');
+        const p3Input = document.getElementById('p3Input');
+        const generatePwdBtn = document.getElementById('generatePwdBtn');
+        const pwdGenResult = document.getElementById('pwdGenResult');
+        const pwdResultInput = document.getElementById('pwdResultInput');
+        const pwdResultCopyBtn = document.getElementById('pwdResultCopyBtn');
+        const pwdResultFillBtn = document.getElementById('pwdResultFillBtn');
+
+        // 折叠面板切换
+        pwdGenHeader.addEventListener('click', () => {
+            pwdGenBody.classList.toggle('open');
+            const toggle = pwdGenHeader.querySelector('.gen-toggle');
+            toggle.classList.toggle('open');
+        });
+
+        // 生成密码按钮点击
+        generatePwdBtn.addEventListener('click', async () => {
+            const p1 = p1Input.value;
+            const p2 = p2Input.value;
+            const p3 = p3Input.value;
+
+            try {
+                generatePwdBtn.disabled = true;
+                generatePwdBtn.textContent = '生成中...';
+                const generatedPwd = await generatePwdFromParams(p1, p2, p3);
+                // 显示生成的密码到结果区域（不自动填入密码框）
+                pwdResultInput.value = generatedPwd;
+                pwdGenResult.classList.remove('hidden');
+                // 重置复制和填充按钮状态
+                pwdResultCopyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+                pwdResultCopyBtn.classList.remove('copied');
+                pwdResultFillBtn.innerHTML = '<i class="fas fa-arrow-right-to-bracket"></i> 填充';
+                pwdResultFillBtn.classList.remove('filled');
+                showStatus('密码已生成！点击复制或填充按钮使用密码', 'success');
+            } catch (e) {
+                showStatus('密码生成失败: ' + e.message, 'error');
+            } finally {
+                generatePwdBtn.disabled = false;
+                generatePwdBtn.textContent = '生成密码';
+            }
+        });
+
+        // 一键复制密码
+        pwdResultCopyBtn.addEventListener('click', async () => {
+            const pwd = pwdResultInput.value;
+            if (!pwd) return;
+            try {
+                await navigator.clipboard.writeText(pwd);
+                pwdResultCopyBtn.innerHTML = '<i class="fas fa-check"></i>';
+                pwdResultCopyBtn.classList.add('copied');
+                showStatus('密码已复制到剪贴板！', 'success');
+                setTimeout(() => {
+                    pwdResultCopyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+                    pwdResultCopyBtn.classList.remove('copied');
+                }, 2000);
+            } catch (e) {
+                // 降级方案：选中文本让用户手动复制
+                pwdResultInput.select();
+                showStatus('复制失败，请手动复制选中的密码', 'error');
+            }
+        });
+
+        // 一键填充密码到密码框
+        pwdResultFillBtn.addEventListener('click', () => {
+            const pwd = pwdResultInput.value;
+            if (!pwd) {
+                showStatus('请先生成密码', 'error');
+                return;
+            }
+            passwordInput.value = pwd;
+            passwordInput.dispatchEvent(new Event('input'));
+            pwdResultFillBtn.innerHTML = '<i class="fas fa-check"></i> 已填充';
+            pwdResultFillBtn.classList.add('filled');
+            showStatus('密码已填充到密码框！请确认后执行操作', 'success');
+            setTimeout(() => {
+                pwdResultFillBtn.innerHTML = '<i class="fas fa-arrow-right-to-bracket"></i> 填充';
+                pwdResultFillBtn.classList.remove('filled');
+            }, 2000);
+        });
+
+        // 点击结果输入框自动全选
+        pwdResultInput.addEventListener('click', () => {
+            pwdResultInput.select();
+        });
+
+        // 回车键在参数输入框中也触发生成
+        [p1Input, p2Input, p3Input].forEach((input, index, arr) => {
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    // 如果当前不是最后一个输入框，跳到下一个
+                    if (index < arr.length - 1) {
+                        arr[index + 1].focus();
+                    } else {
+                        // 最后一个输入框回车直接触发生成
+                        generatePwdBtn.click();
+                    }
+                }
+            });
+        });
+
+        // ===== 引导对话框逻辑 =====
+        const guideOverlay = document.getElementById('guideOverlay');
+        const guideOptions = document.querySelectorAll('.guide-option');
+
+        // 显示引导对话框
+        function showGuide() {
+            guideOverlay.classList.add('show');
+        }
+
+        // 关闭引导对话框
+        function hideGuide() {
+            guideOverlay.classList.remove('show');
+        }
+
+        // 一键填充密码到密码框
+        function fillPasswordFromGenerator() {
+            const pwd = pwdResultInput.value;
+            if (pwd) {
+                passwordInput.value = pwd;
+                passwordInput.dispatchEvent(new Event('input'));
+                showStatus('已一键填充密码！请确认后执行操作', 'success');
+            } else {
+                showStatus('请先在生成器中生成密码', 'error');
+            }
+        }
+
+        // 打开三参数生成器并聚焦
+        function openGeneratorAndFocus() {
+            if (!pwdGenBody.classList.contains('open')) {
+                pwdGenBody.classList.add('open');
+                pwdGenHeader.querySelector('.gen-toggle').classList.add('open');
+            }
+            pwdGenHeader.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            setTimeout(() => {
+                p1Input.focus();
+            }, 500);
+        }
+
+        // 引导选项点击处理
+        guideOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const action = option.dataset.action;
+                hideGuide();
+
+                if (action === 'encrypt-single') {
+                    // 单密钥加密：直接引导到文件上传区
+                    if (pwdGenBody.classList.contains('open')) {
+                        pwdGenBody.classList.remove('open');
+                        pwdGenHeader.querySelector('.gen-toggle').classList.remove('open');
+                    }
+                    dropArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    dropArea.style.transition = 'box-shadow 0.3s ease';
+                    dropArea.style.boxShadow = '0 0 0 4px rgba(52, 152, 219, 0.4)';
+                    setTimeout(() => {
+                        dropArea.style.boxShadow = 'none';
+                    }, 2000);
+                    showStatus('请选择要加密的文件，然后在下方输入一组密钥进行加密', '');
+                } else if (action === 'decrypt-single') {
+                    // 单密钥解密：引导到文件上传区
+                    if (pwdGenBody.classList.contains('open')) {
+                        pwdGenBody.classList.remove('open');
+                        pwdGenHeader.querySelector('.gen-toggle').classList.remove('open');
+                    }
+                    dropArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    dropArea.style.transition = 'box-shadow 0.3s ease';
+                    dropArea.style.boxShadow = '0 0 0 4px rgba(46, 204, 113, 0.4)';
+                    setTimeout(() => {
+                        dropArea.style.boxShadow = 'none';
+                    }, 2000);
+                    showStatus('请拖入或点击选择 .sp 加密文件，然后在下方输入一组密钥进行解密', '');
+                } else if (action === 'encrypt-triple') {
+                    // 三密钥加密：打开生成器 + 引导到文件上传区
+                    openGeneratorAndFocus();
+                    dropArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    dropArea.style.transition = 'box-shadow 0.3s ease';
+                    dropArea.style.boxShadow = '0 0 0 4px rgba(52, 152, 219, 0.4)';
+                    setTimeout(() => {
+                        dropArea.style.boxShadow = 'none';
+                    }, 2000);
+                    showStatus('请在生成器中填入三组参数生成密码，然后点击「一键填充」自动填入密码框', '');
+                } else if (action === 'decrypt-triple') {
+                    // 三密钥解密：打开生成器 + 引导到文件上传区
+                    openGeneratorAndFocus();
+                    dropArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    dropArea.style.transition = 'box-shadow 0.3s ease';
+                    dropArea.style.boxShadow = '0 0 0 4px rgba(46, 204, 113, 0.4)';
+                    setTimeout(() => {
+                        dropArea.style.boxShadow = 'none';
+                    }, 2000);
+                    showStatus('请拖入 .sp 加密文件，然后在生成器中填入三组参数生成密码，点击「一键填充」后解密', '');
+                } else if (action === 'generate') {
+                    // 生成密码：打开生成器
+                    openGeneratorAndFocus();
+                    showStatus('请在「三参数密码生成器」中填入三个参数生成密码，然后一键复制', '');
+                }
+            });
+        });
+
+        // 点击遮罩层关闭
+        guideOverlay.addEventListener('click', (e) => {
+            if (e.target === guideOverlay) {
+                hideGuide();
+            }
+        });
+
+        // 初始化页面
+        initPage();
+
+        // 页面加载完成后显示引导对话框
+        window.addEventListener('load', () => {
+            // 延迟一点点，等页面渲染完成
+            setTimeout(() => {
+                showGuide();
+            }, 600);
+        });
+    </script>
+</body>
+</html>

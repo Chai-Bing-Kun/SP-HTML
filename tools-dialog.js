@@ -9,7 +9,7 @@ const toolsPages = [
         description: '这是一个高级文件加密/解密工具，支持多种加密级别，可以对任何类型的文件进行加密保护。点击下方按钮前往使用。',
         buttonText: '前往加密工具',
         buttonColor: '#e74c3c',
-        link: 'lock.html'
+        link: 'Other-Sites/lock.html'
     },
     {
         title: '城南中学 班级留念',
