@@ -650,6 +650,257 @@
             margin-top: 4px;
         }
 
+        /* ===== 步骤引导遮罩 ===== */
+        .step-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9998;
+            display: none;
+            pointer-events: none; /* 让所有点击穿透 */
+        }
+
+        .step-overlay.show {
+            display: block;
+            pointer-events: none; /* 确保不拦截点击和拖拽事件 */
+        }
+
+        .step-card {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            background: white;
+            border-radius: 12px;
+            padding: 14px 18px 12px;
+            max-width: 280px;
+            width: auto;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+            animation: stepCardIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: auto;
+            border: 1.5px solid rgba(52, 152, 219, 0.25);
+        }
+
+        .step-card * {
+            pointer-events: auto;
+        }
+
+        @keyframes stepCardIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.92); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .step-progress {
+            display: flex;
+            gap: 4px;
+            justify-content: center;
+            margin-bottom: 8px;
+        }
+
+        .step-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #ddd;
+            transition: all 0.3s;
+        }
+
+        .step-dot.active {
+            background: #6c5ce7;
+            transform: scale(1.3);
+        }
+
+        .step-dot.done {
+            background: #6c5ce7;
+            opacity: 0.4;
+        }
+
+        .step-icon {
+            display: none;
+        }
+
+        .step-title {
+            text-align: center;
+            font-size: 13px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin: 0 0 3px 0;
+        }
+
+        .step-desc {
+            text-align: center;
+            font-size: 12px;
+            color: #7f8c8d;
+            margin: 0 0 4px 0;
+            line-height: 1.5;
+        }
+
+        .step-tip {
+            text-align: center;
+            font-size: 11px;
+            color: #6c5ce7;
+            background: #f8f7ff;
+            padding: 6px 10px;
+            border-radius: 6px;
+            margin: 6px 0 10px;
+            line-height: 1.5;
+            border: 1px solid #e8e5ff;
+        }
+
+        .step-tip .tip-icon {
+            margin-right: 4px;
+        }
+
+        .step-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .step-btn {
+            padding: 6px 14px;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .step-btn-primary {
+            background: #6c5ce7;
+            color: white;
+            flex: 1;
+        }
+
+        .step-btn-primary:hover {
+            background: #5f3dc4;
+        }
+
+        .step-btn-secondary {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .step-btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .step-btn-skip {
+            background: transparent;
+            color: #aaa;
+            font-size: 11px;
+            padding: 6px 8px;
+        }
+
+        .step-btn-skip:hover {
+            color: #666;
+        }
+
+        /* 高亮闪烁动画 */
+        .step-highlight {
+            animation: stepPulse 1.2s ease-in-out 3;
+            border-radius: 6px;
+        }
+
+        @keyframes stepPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0); }
+            50% { box-shadow: 0 0 0 6px rgba(108, 92, 231, 0.25); }
+        }
+
+        /* ===== 模式引导 - 禁用状态样式 ===== */
+        .mode-disabled {
+            opacity: 0.45 !important;
+            pointer-events: none !important;
+            filter: grayscale(0.6) !important;
+            position: relative;
+        }
+
+        .mode-disabled::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: inherit;
+            z-index: 1;
+        }
+
+        .mode-disabled-area {
+            opacity: 0.4;
+            pointer-events: none;
+            filter: grayscale(0.5);
+            position: relative;
+        }
+
+        .mode-disabled-area::after {
+            content: '当前模式下不可用';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.65);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            z-index: 10;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        .mode-disabled-btn {
+            opacity: 0.35 !important;
+            pointer-events: none !important;
+            filter: grayscale(0.7) !important;
+            cursor: not-allowed !important;
+        }
+
+        /* 模式提示条 */
+        .mode-hint {
+            display: none;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-align: center;
+            animation: modeHintIn 0.3s ease;
+        }
+
+        .mode-hint.show {
+            display: block;
+        }
+
+        .mode-hint-encrypt {
+            background: rgba(52, 152, 219, 0.12);
+            color: #2980b9;
+            border: 1px solid rgba(52, 152, 219, 0.25);
+        }
+
+        .mode-hint-decrypt {
+            background: rgba(46, 204, 113, 0.12);
+            color: #27ae60;
+            border: 1px solid rgba(46, 204, 113, 0.25);
+        }
+
+        .mode-hint-generate {
+            background: rgba(108, 92, 231, 0.12);
+            color: #5f3dc4;
+            border: 1px solid rgba(108, 92, 231, 0.25);
+        }
+
+        @keyframes modeHintIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         /* ===== 移动端竖屏适配 ===== */
 
         /* 平板/大屏手机竖屏 */
@@ -818,6 +1069,35 @@
 
             .guide-option-arrow {
                 font-size: 16px;
+            }
+
+            /* 步骤引导竖屏适配 */
+            .step-card {
+                padding: 12px 14px 10px;
+                max-width: 240px;
+            }
+
+            .step-title {
+                font-size: 12px;
+            }
+
+            .step-desc {
+                font-size: 11px;
+            }
+
+            .step-tip {
+                font-size: 10px;
+                padding: 5px 8px;
+            }
+
+            .step-btn {
+                padding: 5px 12px;
+                font-size: 11px;
+            }
+
+            .step-btn-skip {
+                font-size: 10px;
+                padding: 5px 6px;
             }
 
             /* 进度条竖屏适配 */
@@ -1015,6 +1295,35 @@
                 font-size: 14px;
             }
 
+            /* 步骤引导小屏 */
+            .step-card {
+                padding: 10px 12px 8px;
+                max-width: 220px;
+            }
+
+            .step-title {
+                font-size: 11px;
+            }
+
+            .step-desc {
+                font-size: 10px;
+            }
+
+            .step-tip {
+                font-size: 10px;
+                padding: 4px 8px;
+            }
+
+            .step-btn {
+                padding: 4px 10px;
+                font-size: 10px;
+            }
+
+            .step-btn-skip {
+                font-size: 10px;
+                padding: 4px 6px;
+            }
+
             /* 进度条小屏 */
             .progress-bar {
                 height: 16px;
@@ -1077,6 +1386,44 @@
 
             .guide-option-desc {
                 font-size: 10px;
+            }
+
+            /* 步骤引导超小屏 */
+            .step-card {
+                padding: 8px 10px 8px;
+                max-width: 200px;
+            }
+
+            .step-title {
+                font-size: 10px;
+            }
+
+            .step-desc {
+                font-size: 10px;
+            }
+
+            .step-tip {
+                font-size: 11px;
+                padding: 6px 10px;
+            }
+
+            .step-btn {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+
+            .step-btn-skip {
+                font-size: 11px;
+                padding: 6px 8px;
+            }
+
+            .step-progress {
+                margin-bottom: 14px;
+            }
+
+            .step-dot {
+                width: 6px;
+                height: 6px;
             }
 
             .pwd-gen-input {
@@ -1152,6 +1499,18 @@
                     <div class="guide-option-arrow">→</div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- ===== 步骤引导遮罩 ===== -->
+    <div class="step-overlay" id="stepOverlay">
+        <div class="step-card" id="stepCard">
+            <div class="step-progress" id="stepProgress"></div>
+            <div class="step-icon" id="stepIcon">🔒</div>
+            <div class="step-title" id="stepTitle">步骤标题</div>
+            <div class="step-desc" id="stepDesc">步骤描述</div>
+            <div class="step-tip" id="stepTip">💡 提示内容</div>
+            <div class="step-actions" id="stepActions"></div>
         </div>
     </div>
 
@@ -1244,6 +1603,9 @@
         
         <div id="fileInfo"></div>
         <div id="status"></div>
+        
+        <!-- 模式提示条 -->
+        <div class="mode-hint" id="modeHint"></div>
         
         <!-- 进度条容器 -->
         <div class="progress-container" id="progressContainer">
@@ -1380,6 +1742,8 @@
             cancelRequested = false;
             resetProgress();
             selectEncryptionLevel('medium'); // 重置为默认加密级别
+            resetMode(); // 重置模式禁用状态
+            showGuide(); // 重新显示引导对话框
         }
 
         // 选择加密级别
@@ -1480,6 +1844,22 @@
 
         // 处理文件
         function handleFile(file) {
+            // 根据当前模式校验文件类型
+            const isSpFile = file.name.endsWith('.sp');
+            const isEncryptMode = currentMode === 'encrypt-single' || currentMode === 'encrypt-triple';
+            const isDecryptMode = currentMode === 'decrypt-single' || currentMode === 'decrypt-triple';
+            
+            if (isEncryptMode && isSpFile) {
+                showStatus('错误：加密模式不能选择 .sp 加密文件，请选择普通文件', 'error');
+                showStepError('加密模式文件选择错误', '加密模式不能选择 .sp 加密文件，请选择普通文件后重试。');
+                return;
+            }
+            if (isDecryptMode && !isSpFile) {
+                showStatus('错误：解密模式只能选择 .sp 加密文件，请选择正确的文件', 'error');
+                showStepError('解密模式文件选择错误', '解密模式只能选择 .sp 加密文件，请选择正确的文件后重试。');
+                return;
+            }
+            
             currentFile = file;
             fileType = getFileType(file.name);
             
@@ -1495,7 +1875,7 @@
             cancelBtn.classList.remove('hidden');
             
             // 根据文件扩展名显示/隐藏按钮
-            if (file.name.endsWith('.sp')) {
+            if (isSpFile) {
                 encryptBtn.classList.add('hidden');
                 decryptBtn.classList.remove('hidden');
                 showStatus('检测到加密文件(.sp)，请输入密码解密', '');
@@ -1939,109 +2319,661 @@
             });
         });
 
-        // ===== 引导对话框逻辑 =====
+        // ===== 步骤引导系统 =====
         const guideOverlay = document.getElementById('guideOverlay');
         const guideOptions = document.querySelectorAll('.guide-option');
+        const modeHint = document.getElementById('modeHint');
+        const stepOverlay = document.getElementById('stepOverlay');
+        const stepCard = document.getElementById('stepCard');
+        const stepProgress = document.getElementById('stepProgress');
+        const stepIcon = document.getElementById('stepIcon');
+        const stepTitle = document.getElementById('stepTitle');
+        const stepDesc = document.getElementById('stepDesc');
+        const stepTip = document.getElementById('stepTip');
+        const stepActions = document.getElementById('stepActions');
+
+        // 当前模式
+        let currentMode = null;
+        let currentStep = 0;
+        let stepTimer = null;
+
+        // ===== 五个模式的步骤定义 =====
+        // 每个步骤的 trigger 表示触发进入下一步的事件类型和条件
+        const STEPS = {
+            'encrypt-single': {
+                title: '🔒 单密钥加密',
+                steps: [
+                    {
+                        icon: '📂',
+                        title: '步骤 1：选择文件',
+                        desc: '点击上方虚线区域或拖拽文件到此处，选择你要加密的文件。',
+                        tip: '支持任何文件类型：文档、图片、视频、压缩包等（不能选择 .sp 加密文件）',
+                        highlight: 'dropArea',
+                        trigger: 'file-selected'
+                    },
+                    {
+                        icon: '🔑',
+                        title: '步骤 2：输入密钥',
+                        desc: '在下方「密码输入框」中输入你的加密密钥（至少8个字符）。',
+                        tip: '请牢记你的密钥！解密时需要用到同一个密钥',
+                        highlight: 'passwordContainer',
+                        trigger: 'password-typed'
+                    },
+                    {
+                        icon: '⚡',
+                        title: '步骤 3：选择加密等级',
+                        desc: '点击展开「加密选项」，根据需要选择普通/中等/高等加密强度。',
+                        tip: '加密强度越高，安全性越好，但加解密速度会稍慢',
+                        highlight: 'optionsHeader',
+                        trigger: 'level-selected'
+                    },
+                    {
+                        icon: '🚀',
+                        title: '步骤 4：开始加密',
+                        desc: '确认文件已选择、密钥已输入后，点击蓝色「加密为 .sp 文件」按钮。',
+                        tip: '加密后的文件会以 .sp 格式保存，原文件不会被修改',
+                        highlight: 'encryptBtn',
+                        trigger: 'encrypt-done'
+                    }
+                ]
+            },
+            'decrypt-single': {
+                title: '🔓 单密钥解密',
+                steps: [
+                    {
+                        icon: '📂',
+                        title: '步骤 1：选择加密文件',
+                        desc: '点击上方虚线区域或拖拽 .sp 加密文件到此处。',
+                        tip: '只能选择 .sp 加密文件，其他格式无法解密',
+                        highlight: 'dropArea',
+                        trigger: 'file-selected'
+                    },
+                    {
+                        icon: '🔑',
+                        title: '步骤 2：输入密钥',
+                        desc: '在下方「密码输入框」中输入加密时使用的密钥（至少8个字符）。',
+                        tip: '密钥必须与加密时使用的完全一致，否则解密会失败',
+                        highlight: 'passwordContainer',
+                        trigger: 'password-typed'
+                    },
+                    {
+                        icon: '🚀',
+                        title: '步骤 3：开始解密',
+                        desc: '确认文件已选择、密钥已输入后，点击绿色「解密为原始文件」按钮。',
+                        tip: '解密成功后会自动下载还原的原始文件',
+                        highlight: 'decryptBtn',
+                        trigger: 'decrypt-done'
+                    }
+                ]
+            },
+            'encrypt-triple': {
+                title: '🔑 三密钥加密',
+                steps: [
+                    {
+                        icon: '📂',
+                        title: '步骤 1：选择文件',
+                        desc: '点击上方虚线区域或拖拽文件到此处，选择你要加密的文件。',
+                        tip: '支持任何文件类型：文档、图片、视频、压缩包等（不能选择 .sp 加密文件）',
+                        highlight: 'dropArea',
+                        trigger: 'file-selected'
+                    },
+                    {
+                        icon: '✏️',
+                        title: '步骤 2：填入三组参数',
+                        desc: '在「三参数密码生成器」中填入三组参数（可中文、英文、数字）。',
+                        tip: '参数可以为空，但同样的参数始终生成同样的密码',
+                        highlight: 'pwdGenBody',
+                        trigger: 'params-filled'
+                    },
+                    {
+                        icon: '🔐',
+                        title: '步骤 3：生成密码',
+                        desc: '点击「生成密码」按钮，系统会根据三组参数生成16位固定密码。',
+                        tip: '密码由大小写字母、数字和特殊字符组成，安全性高',
+                        highlight: 'generatePwdBtn',
+                        trigger: 'pwd-generated'
+                    },
+                    {
+                        icon: '📋',
+                        title: '步骤 4：填充密码',
+                        desc: '点击「填充」按钮，将生成的密码自动填入密码框。',
+                        tip: '也可以点击「复制」按钮复制密码，手动粘贴到密码框',
+                        highlight: 'pwdResultFillBtn',
+                        trigger: 'pwd-filled'
+                    },
+                    {
+                        icon: '⚡',
+                        title: '步骤 5：选择加密等级',
+                        desc: '点击展开「加密选项」，根据需要选择加密强度。',
+                        tip: '默认中等加密，适合大多数场景',
+                        highlight: 'optionsHeader',
+                        trigger: 'level-selected'
+                    },
+                    {
+                        icon: '🚀',
+                        title: '步骤 6：开始加密',
+                        desc: '确认一切就绪后，点击蓝色「加密为 .sp 文件」按钮完成加密。',
+                        tip: '加密后的文件以 .sp 格式保存，请妥善保管三组参数',
+                        highlight: 'encryptBtn',
+                        trigger: 'encrypt-done'
+                    }
+                ]
+            },
+            'decrypt-triple': {
+                title: '🔐 三密钥解密',
+                steps: [
+                    {
+                        icon: '📂',
+                        title: '步骤 1：选择加密文件',
+                        desc: '点击上方虚线区域或拖拽 .sp 加密文件到此处。',
+                        tip: '只能选择 .sp 加密文件，其他格式无法解密',
+                        highlight: 'dropArea',
+                        trigger: 'file-selected'
+                    },
+                    {
+                        icon: '✏️',
+                        title: '步骤 2：填入三组参数',
+                        desc: '在「三参数密码生成器」中填入加密时使用的三组参数。',
+                        tip: '参数必须与加密时使用的完全一致，才能生成正确的密码',
+                        highlight: 'pwdGenBody',
+                        trigger: 'params-filled'
+                    },
+                    {
+                        icon: '🔐',
+                        title: '步骤 3：生成密码',
+                        desc: '点击「生成密码」按钮，重新生成加密时使用的16位密码。',
+                        tip: '同样的参数始终生成同样的密码',
+                        highlight: 'generatePwdBtn',
+                        trigger: 'pwd-generated'
+                    },
+                    {
+                        icon: '📋',
+                        title: '步骤 4：填充密码',
+                        desc: '点击「填充」按钮，将生成的密码自动填入密码框。',
+                        tip: '也可以点击「复制」按钮复制密码',
+                        highlight: 'pwdResultFillBtn',
+                        trigger: 'pwd-filled'
+                    },
+                    {
+                        icon: '🚀',
+                        title: '步骤 5：开始解密',
+                        desc: '确认文件已选择、密码已填充后，点击绿色「解密为原始文件」按钮。',
+                        tip: '如果解密失败，请检查三组参数是否与加密时一致',
+                        highlight: 'decryptBtn',
+                        trigger: 'decrypt-done'
+                    }
+                ]
+            },
+            'generate': {
+                title: '🔑 生成密码',
+                steps: [
+                    {
+                        icon: '✏️',
+                        title: '步骤 1：填入三组参数',
+                        desc: '在「三参数密码生成器」中填入三组参数（可中文、英文、数字）。',
+                        tip: '参数可以为空，但同样的参数始终生成同样的16位密码',
+                        highlight: 'pwdGenBody',
+                        trigger: 'params-filled'
+                    },
+                    {
+                        icon: '🔐',
+                        title: '步骤 2：生成密码',
+                        desc: '点击「生成密码」按钮，系统会根据三组参数计算SHA-256生成密码。',
+                        tip: '此过程在浏览器本地完成，不会上传任何数据',
+                        highlight: 'generatePwdBtn',
+                        trigger: 'pwd-generated'
+                    },
+                    {
+                        icon: '📋',
+                        title: '步骤 3：复制密码',
+                        desc: '点击「复制」按钮将生成的密码复制到剪贴板。',
+                        tip: '密码由16位大小写字母、数字和特殊字符组成',
+                        highlight: 'pwdResultCopyBtn',
+                        trigger: 'pwd-copied'
+                    }
+                ]
+            }
+        };
+
+        // ===== 操作触发式步骤引导系统 =====
+        // 核心思路：用户每完成一个实际操作，自动弹出下一步提示
 
         // 显示引导对话框
         function showGuide() {
             guideOverlay.classList.add('show');
+            document.body.style.overflow = 'hidden';
         }
 
         // 关闭引导对话框
         function hideGuide() {
             guideOverlay.classList.remove('show');
+            document.body.style.overflow = '';
         }
 
-        // 一键填充密码到密码框
-        function fillPasswordFromGenerator() {
-            const pwd = pwdResultInput.value;
-            if (pwd) {
-                passwordInput.value = pwd;
-                passwordInput.dispatchEvent(new Event('input'));
-                showStatus('已一键填充密码！请确认后执行操作', 'success');
-            } else {
-                showStatus('请先在生成器中生成密码', 'error');
+        // 重置所有模式（清除禁用状态）
+        function resetMode() {
+            currentMode = null;
+            currentStep = 0;
+            document.querySelectorAll('.mode-disabled').forEach(el => {
+                el.classList.remove('mode-disabled');
+            });
+            document.querySelectorAll('.mode-disabled-area').forEach(el => {
+                el.classList.remove('mode-disabled-area');
+            });
+            document.querySelectorAll('.mode-disabled-btn').forEach(el => {
+                el.classList.remove('mode-disabled-btn');
+            });
+            document.querySelectorAll('.step-disabled').forEach(el => {
+                el.classList.remove('step-disabled');
+            });
+            document.querySelectorAll('.step-highlight').forEach(el => {
+                el.classList.remove('step-highlight');
+            });
+            modeHint.classList.remove('show', 'mode-hint-encrypt', 'mode-hint-decrypt', 'mode-hint-generate');
+        }
+
+        // 设置模式：禁用不需要的功能
+        function setMode(mode) {
+            resetMode();
+            if (mode === 'encrypt-single') {
+                currentMode = 'encrypt-single';
+                pwdGenerator.classList.add('mode-disabled-area');
+                decryptBtn.classList.add('hidden');
+                modeHint.textContent = '🔒 加密模式：请按步骤选择文件 → 输入密钥 → 加密';
+                modeHint.className = 'mode-hint show mode-hint-encrypt';
+            } else if (mode === 'decrypt-single') {
+                currentMode = 'decrypt-single';
+                pwdGenerator.classList.add('mode-disabled-area');
+                encryptBtn.classList.add('hidden');
+                modeHint.textContent = '🔓 解密模式：请按步骤选择 .sp 文件 → 输入密钥 → 解密';
+                modeHint.className = 'mode-hint show mode-hint-decrypt';
+            } else if (mode === 'encrypt-triple') {
+                currentMode = 'encrypt-triple';
+                passwordContainer.classList.add('mode-disabled-area');
+                decryptBtn.classList.add('hidden');
+                modeHint.textContent = '🔑 三密钥加密模式：请按步骤选择文件 → 生成密码 → 填充 → 加密';
+                modeHint.className = 'mode-hint show mode-hint-encrypt';
+            } else if (mode === 'decrypt-triple') {
+                currentMode = 'decrypt-triple';
+                passwordContainer.classList.add('mode-disabled-area');
+                encryptBtn.classList.add('hidden');
+                modeHint.textContent = '🔐 三密钥解密模式：请按步骤选择 .sp 文件 → 生成密码 → 填充 → 解密';
+                modeHint.className = 'mode-hint show mode-hint-decrypt';
+            } else if (mode === 'generate') {
+                currentMode = 'generate';
+                passwordContainer.classList.add('mode-disabled-area');
+                encryptBtn.classList.add('hidden');
+                decryptBtn.classList.add('hidden');
+                modeHint.textContent = '🔑 密码生成模式：请按步骤填入参数 → 生成 → 复制密码';
+                modeHint.className = 'mode-hint show mode-hint-generate';
             }
         }
 
-        // 打开三参数生成器并聚焦
-        function openGeneratorAndFocus() {
+        // 高亮某个元素
+        function highlightElement(id) {
+            document.querySelectorAll('.step-highlight').forEach(el => {
+                el.classList.remove('step-highlight');
+            });
+            const el = document.getElementById(id);
+            if (el) {
+                el.classList.add('step-highlight');
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // 打开生成器
+        function openGenerator() {
             if (!pwdGenBody.classList.contains('open')) {
                 pwdGenBody.classList.add('open');
                 pwdGenHeader.querySelector('.gen-toggle').classList.add('open');
             }
-            pwdGenHeader.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            setTimeout(() => {
-                p1Input.focus();
-            }, 500);
         }
 
-        // 引导选项点击处理
+        // 关闭生成器
+        function closeGenerator() {
+            if (pwdGenBody.classList.contains('open')) {
+                pwdGenBody.classList.remove('open');
+                pwdGenHeader.querySelector('.gen-toggle').classList.remove('open');
+            }
+        }
+
+        // 显示步骤提示卡片（toast风格，自动消失或等待操作）
+        function showStepHint(mode, stepIndex) {
+            const steps = STEPS[mode].steps;
+            const step = steps[stepIndex];
+            currentStep = stepIndex;
+
+            // 更新进度点
+            stepProgress.innerHTML = '';
+            steps.forEach((_, i) => {
+                const dot = document.createElement('div');
+                dot.className = 'step-dot';
+                if (i === stepIndex) dot.classList.add('active');
+                else if (i < stepIndex) dot.classList.add('done');
+                stepProgress.appendChild(dot);
+            });
+
+            // 更新内容
+            stepIcon.textContent = step.icon;
+            stepTitle.textContent = step.title;
+            stepDesc.textContent = step.desc;
+            stepTip.innerHTML = '💡 ' + step.tip;
+
+            // 高亮对应元素
+            if (step.highlight) {
+                setTimeout(() => highlightElement(step.highlight), 300);
+            }
+
+            // 根据当前步骤动态禁用/启用相关功能
+            updateStepDisables(mode, stepIndex);
+
+            // 如果是最后一步（trigger 以 -done 或 -copied 结尾），显示完成按钮
+            const isLast = (stepIndex === steps.length - 1);
+            stepActions.innerHTML = '';
+
+            if (isLast) {
+                // 最后一步：显示"我知道了"按钮
+                const okBtn = document.createElement('button');
+                okBtn.className = 'step-btn step-btn-primary';
+                okBtn.textContent = '✅ 我知道了';
+                okBtn.addEventListener('click', () => {
+                    hideStepOverlay();
+                    stopWalkthrough();
+                });
+                stepActions.appendChild(okBtn);
+            } else {
+                // 非最后一步：不显示任何按钮，等待用户自动操作
+                // 按钮区域留空，步骤卡片仅显示提示信息
+            }
+
+            // 显示卡片
+            stepOverlay.classList.add('show');
+            stepCard.style.animation = 'none';
+            void stepCard.offsetHeight;
+            stepCard.style.animation = '';
+        }
+
+        // 显示错误状态的步骤卡片（带重置按钮）
+        function showStepError(title, message) {
+            stepProgress.innerHTML = '';
+            stepIcon.textContent = '❌';
+            stepTitle.textContent = title;
+            stepDesc.textContent = message;
+            stepTip.innerHTML = '💡 请选择正确的文件后重试，或点击下方按钮重新开始';
+
+            // 清除高亮
+            document.querySelectorAll('.step-highlight').forEach(el => {
+                el.classList.remove('step-highlight');
+            });
+
+            stepActions.innerHTML = '';
+            const resetBtn = document.createElement('button');
+            resetBtn.className = 'step-btn step-btn-primary';
+            resetBtn.textContent = '🔄 刷新页面重新开始';
+            resetBtn.addEventListener('click', () => {
+                location.reload();
+            });
+            stepActions.appendChild(resetBtn);
+
+            stepOverlay.classList.add('show');
+            stepCard.style.animation = 'none';
+            void stepCard.offsetHeight;
+            stepCard.style.animation = '';
+        }
+
+        // 隐藏步骤遮罩
+        function hideStepOverlay() {
+            stepOverlay.classList.remove('show');
+            document.querySelectorAll('.step-highlight').forEach(el => {
+                el.classList.remove('step-highlight');
+            });
+        }
+
+        // 根据当前步骤动态禁用/启用相关功能
+        function updateStepDisables(mode, stepIndex) {
+            // 先清除所有步骤级的禁用状态（保留 setMode 设置的模式级禁用）
+            // 清除 step-disabled 以及步骤级动态添加的 mode-disabled-area/btn
+            document.querySelectorAll('.step-disabled').forEach(el => {
+                el.classList.remove('step-disabled', 'mode-disabled-area', 'mode-disabled-btn');
+            });
+
+            // 定义每个模式每步骤的禁用规则
+            // 核心原则：在当前步骤，只允许做当前步骤需要的事，其他操作按钮都应禁用
+            const rules = {
+                'encrypt-single': [
+                    // 步骤0: 选择文件 → 只允许选文件，禁用其他所有操作
+                    { disabled: ['pwdGenerator', 'optionsHeader'], disabledBtn: ['decryptBtn', 'encryptBtn'] },
+                    // 步骤1: 输入密钥 → 只允许输密钥
+                    { disabled: ['pwdGenerator', 'optionsHeader'], disabledBtn: ['decryptBtn', 'encryptBtn'] },
+                    // 步骤2: 选择等级 → 只允许选等级
+                    { disabled: ['pwdGenerator'], disabledBtn: ['decryptBtn', 'encryptBtn'] },
+                    // 步骤3: 加密 → 只允许加密
+                    { disabled: ['pwdGenerator'], disabledBtn: ['decryptBtn'] }
+                ],
+                'decrypt-single': [
+                    // 步骤0: 选文件 → 只允许选文件
+                    { disabled: ['pwdGenerator', 'optionsHeader'], disabledBtn: ['encryptBtn', 'decryptBtn'] },
+                    // 步骤1: 输密钥 → 只允许输密钥
+                    { disabled: ['pwdGenerator', 'optionsHeader'], disabledBtn: ['encryptBtn', 'decryptBtn'] },
+                    // 步骤2: 解密 → 只允许解密
+                    { disabled: ['pwdGenerator'], disabledBtn: ['encryptBtn'] }
+                ],
+                'encrypt-triple': [
+                    // 步骤0: 选文件 → 只允许选文件
+                    { disabled: ['passwordContainer', 'optionsHeader'], disabledBtn: ['decryptBtn', 'encryptBtn'] },
+                    // 步骤1: 填参数 → 只允许填参数
+                    { disabled: ['passwordContainer', 'optionsHeader'], disabledBtn: ['decryptBtn', 'encryptBtn'] },
+                    // 步骤2: 生成密码 → 只允许生成密码
+                    { disabled: ['passwordContainer', 'optionsHeader'], disabledBtn: ['decryptBtn', 'encryptBtn'] },
+                    // 步骤3: 填充密码 → 只允许填充
+                    { disabled: ['passwordContainer', 'optionsHeader'], disabledBtn: ['decryptBtn', 'encryptBtn'] },
+                    // 步骤4: 选等级 → 只允许选等级
+                    { disabled: ['passwordContainer'], disabledBtn: ['decryptBtn', 'encryptBtn'] },
+                    // 步骤5: 加密 → 只允许加密
+                    { disabled: ['passwordContainer'], disabledBtn: ['decryptBtn'] }
+                ],
+                'decrypt-triple': [
+                    // 步骤0: 选文件 → 只允许选文件
+                    { disabled: ['passwordContainer', 'optionsHeader'], disabledBtn: ['encryptBtn', 'decryptBtn'] },
+                    // 步骤1: 填参数 → 只允许填参数
+                    { disabled: ['passwordContainer', 'optionsHeader'], disabledBtn: ['encryptBtn', 'decryptBtn'] },
+                    // 步骤2: 生成密码 → 只允许生成密码
+                    { disabled: ['passwordContainer', 'optionsHeader'], disabledBtn: ['encryptBtn', 'decryptBtn'] },
+                    // 步骤3: 填充密码 → 只允许填充
+                    { disabled: ['passwordContainer', 'optionsHeader'], disabledBtn: ['encryptBtn', 'decryptBtn'] },
+                    // 步骤4: 解密 → 只允许解密
+                    { disabled: ['passwordContainer'], disabledBtn: ['encryptBtn'] }
+                ],
+                'generate': [
+                    // 步骤0: 填参数 → 只允许填参数
+                    { disabled: ['passwordContainer', 'optionsHeader'], disabledBtn: ['encryptBtn', 'decryptBtn', 'pwdResultFillBtn'] },
+                    // 步骤1: 生成密码 → 只允许生成密码
+                    { disabled: ['passwordContainer', 'optionsHeader'], disabledBtn: ['encryptBtn', 'decryptBtn', 'pwdResultFillBtn'] },
+                    // 步骤2: 复制密码 → 只允许复制
+                    { disabled: ['passwordContainer', 'optionsHeader'], disabledBtn: ['encryptBtn', 'decryptBtn', 'pwdResultFillBtn'] }
+                ]
+            };
+
+            const modeRules = rules[mode];
+            if (!modeRules || !modeRules[stepIndex]) return;
+
+            const rule = modeRules[stepIndex];
+
+            // 禁用区域（灰色遮罩 + 不可用文字）
+            if (rule.disabled) {
+                rule.disabled.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.classList.add('step-disabled', 'mode-disabled-area');
+                });
+            }
+
+            // 禁用按钮
+            if (rule.disabledBtn) {
+                rule.disabledBtn.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.classList.add('step-disabled', 'mode-disabled-btn');
+                });
+            }
+        }
+
+        // 停止引导（清理状态）
+        function stopWalkthrough() {
+            hideStepOverlay();
+            resetMode();
+        }
+
+        // 检查当前步骤是否完成，并推进到下一步
+        function advanceStep(triggerEvent) {
+            if (!currentMode) return;
+            const steps = STEPS[currentMode].steps;
+            const currentStepDef = steps[currentStep];
+            if (!currentStepDef) return;
+
+            // 检查触发事件是否匹配当前步骤的 trigger
+            if (currentStepDef.trigger === triggerEvent) {
+                // 当前步骤已完成
+                const nextIndex = currentStep + 1;
+                if (nextIndex < steps.length) {
+                    // 还有下一步 → 显示下一步的提示
+                    setTimeout(() => {
+                        showStepHint(currentMode, nextIndex);
+                    }, 400);
+                } else {
+                    // 所有步骤完成 → 显示完成祝贺，然后刷新页面重新开始
+                    setTimeout(() => {
+                        hideStepOverlay();
+                        showStatus('🎉 所有步骤已完成！操作成功！', 'success');
+                        // 延迟后刷新页面，重置所有状态
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1500);
+                    }, 400);
+                }
+            }
+        }
+
+        // 启动某个模式的步骤引导
+        function startWalkthrough(mode) {
+            // 先设置模式（禁用无关功能）
+            setMode(mode);
+
+            // 根据模式做预处理
+            if (mode === 'encrypt-single' || mode === 'decrypt-single') {
+                closeGenerator();
+            } else if (mode === 'encrypt-triple' || mode === 'decrypt-triple' || mode === 'generate') {
+                openGenerator();
+            }
+
+            // 从步骤0开始显示提示
+            showStepHint(mode, 0);
+        }
+
+        // ===== 引导选项点击处理 =====
         guideOptions.forEach(option => {
             option.addEventListener('click', () => {
                 const action = option.dataset.action;
                 hideGuide();
-
-                if (action === 'encrypt-single') {
-                    // 单密钥加密：直接引导到文件上传区
-                    if (pwdGenBody.classList.contains('open')) {
-                        pwdGenBody.classList.remove('open');
-                        pwdGenHeader.querySelector('.gen-toggle').classList.remove('open');
-                    }
-                    dropArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    dropArea.style.transition = 'box-shadow 0.3s ease';
-                    dropArea.style.boxShadow = '0 0 0 4px rgba(52, 152, 219, 0.4)';
-                    setTimeout(() => {
-                        dropArea.style.boxShadow = 'none';
-                    }, 2000);
-                    showStatus('请选择要加密的文件，然后在下方输入一组密钥进行加密', '');
-                } else if (action === 'decrypt-single') {
-                    // 单密钥解密：引导到文件上传区
-                    if (pwdGenBody.classList.contains('open')) {
-                        pwdGenBody.classList.remove('open');
-                        pwdGenHeader.querySelector('.gen-toggle').classList.remove('open');
-                    }
-                    dropArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    dropArea.style.transition = 'box-shadow 0.3s ease';
-                    dropArea.style.boxShadow = '0 0 0 4px rgba(46, 204, 113, 0.4)';
-                    setTimeout(() => {
-                        dropArea.style.boxShadow = 'none';
-                    }, 2000);
-                    showStatus('请拖入或点击选择 .sp 加密文件，然后在下方输入一组密钥进行解密', '');
-                } else if (action === 'encrypt-triple') {
-                    // 三密钥加密：打开生成器 + 引导到文件上传区
-                    openGeneratorAndFocus();
-                    dropArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    dropArea.style.transition = 'box-shadow 0.3s ease';
-                    dropArea.style.boxShadow = '0 0 0 4px rgba(52, 152, 219, 0.4)';
-                    setTimeout(() => {
-                        dropArea.style.boxShadow = 'none';
-                    }, 2000);
-                    showStatus('请在生成器中填入三组参数生成密码，然后点击「一键填充」自动填入密码框', '');
-                } else if (action === 'decrypt-triple') {
-                    // 三密钥解密：打开生成器 + 引导到文件上传区
-                    openGeneratorAndFocus();
-                    dropArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    dropArea.style.transition = 'box-shadow 0.3s ease';
-                    dropArea.style.boxShadow = '0 0 0 4px rgba(46, 204, 113, 0.4)';
-                    setTimeout(() => {
-                        dropArea.style.boxShadow = 'none';
-                    }, 2000);
-                    showStatus('请拖入 .sp 加密文件，然后在生成器中填入三组参数生成密码，点击「一键填充」后解密', '');
-                } else if (action === 'generate') {
-                    // 生成密码：打开生成器
-                    openGeneratorAndFocus();
-                    showStatus('请在「三参数密码生成器」中填入三个参数生成密码，然后一键复制', '');
-                }
+                startWalkthrough(action);
             });
         });
 
-        // 点击遮罩层关闭
-        guideOverlay.addEventListener('click', (e) => {
-            if (e.target === guideOverlay) {
-                hideGuide();
+        // 点击遮罩层不关闭引导对话框（用户必须选择一个选项）
+
+        // ===== 操作事件监听：自动检测步骤完成 =====
+
+        // 1. 文件选择完成 → trigger: file-selected
+        // 在 handleFile 函数末尾注入
+        const _origHandleFile = handleFile;
+        handleFile = function(file) {
+            _origHandleFile(file);
+            // 只在文件校验通过（currentFile 被设置）后才推进步骤
+            if (currentFile) {
+                advanceStep('file-selected');
             }
+        };
+
+        // 2. 密码输入完成（至少8个字符）→ trigger: password-typed
+        passwordInput.addEventListener('input', function _pwdListener() {
+            if (this.value.length >= 8) {
+                advanceStep('password-typed');
+                this.removeEventListener('input', _pwdListener);
+            }
+        });
+
+        // 3. 加密等级选择完成 → trigger: level-selected
+        const _origSelectLevel = selectEncryptionLevel;
+        selectEncryptionLevel = function(level) {
+            _origSelectLevel(level);
+            advanceStep('level-selected');
+        };
+
+        // 4. 三参数已填入（三个框都有内容）→ trigger: params-filled
+        function checkParamsFilled() {
+            if (p1Input.value.trim() && p2Input.value.trim() && p3Input.value.trim()) {
+                advanceStep('params-filled');
+            }
+        }
+        p1Input.addEventListener('input', checkParamsFilled);
+        p2Input.addEventListener('input', checkParamsFilled);
+        p3Input.addEventListener('input', checkParamsFilled);
+
+        // 5. 密码已生成 → trigger: pwd-generated
+        generatePwdBtn.addEventListener('click', function _genListener() {
+            // 轮询检测密码是否已生成（异步操作完成后）
+            const checkPwd = setInterval(() => {
+                if (pwdResultInput.value) {
+                    clearInterval(checkPwd);
+                    advanceStep('pwd-generated');
+                }
+            }, 100);
+            // 10秒超时清理
+            setTimeout(() => clearInterval(checkPwd), 10000);
+        });
+
+        // 6. 密码已填充 → trigger: pwd-filled
+        pwdResultFillBtn.addEventListener('click', function _fillListener() {
+            setTimeout(() => {
+                if (passwordInput.value) {
+                    advanceStep('pwd-filled');
+                }
+            }, 100);
+        });
+
+        // 7. 密码已复制 → trigger: pwd-copied
+        pwdResultCopyBtn.addEventListener('click', function _copyListener() {
+            setTimeout(() => {
+                if (pwdResultCopyBtn.classList.contains('copied')) {
+                    advanceStep('pwd-copied');
+                }
+            }, 200);
+        });
+
+        // 8. 加密完成 → trigger: encrypt-done
+        const _origEncrypt = encryptBtn.click;
+        encryptBtn.addEventListener('click', function _encryptListener() {
+            // 加密成功后触发（在加密成功的 setTimeout 之后）
+            // 使用 MutationObserver 检测状态变化
+            const observer = new MutationObserver(() => {
+                if (statusDiv.textContent.includes('加密成功')) {
+                    advanceStep('encrypt-done');
+                    observer.disconnect();
+                }
+            });
+            observer.observe(statusDiv, { childList: true, characterData: true, subtree: true });
+            // 超时清理
+            setTimeout(() => observer.disconnect(), 10000);
+        });
+
+        // 9. 解密完成 → trigger: decrypt-done
+        decryptBtn.addEventListener('click', function _decryptListener() {
+            const observer = new MutationObserver(() => {
+                if (statusDiv.textContent.includes('解密成功')) {
+                    advanceStep('decrypt-done');
+                    observer.disconnect();
+                }
+            });
+            observer.observe(statusDiv, { childList: true, characterData: true, subtree: true });
+            setTimeout(() => observer.disconnect(), 10000);
         });
 
         // 初始化页面
@@ -2049,7 +2981,6 @@
 
         // 页面加载完成后显示引导对话框
         window.addEventListener('load', () => {
-            // 延迟一点点，等页面渲染完成
             setTimeout(() => {
                 showGuide();
             }, 600);
