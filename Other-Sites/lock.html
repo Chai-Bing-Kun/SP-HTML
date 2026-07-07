@@ -681,6 +681,53 @@
             animation: stepCardIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
             pointer-events: auto;
             border: 1.5px solid rgba(52, 152, 219, 0.25);
+            display: flex;
+            align-items: flex-start;
+            gap: 0;
+            transition: all 0.3s ease;
+        }
+
+        .step-card.collapsed {
+            padding: 8px;
+            max-width: 36px;
+            min-width: 36px;
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        .step-card.collapsed .step-card-body {
+            display: none;
+        }
+
+        .step-card.collapsed .step-toggle-btn {
+            position: static;
+            transform: none;
+            padding: 4px 6px;
+            font-size: 14px;
+        }
+
+        .step-toggle-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+            color: #6c5ce7;
+            padding: 2px 0 2px 2px;
+            flex-shrink: 0;
+            align-self: center;
+            transition: transform 0.3s ease;
+            line-height: 1;
+            opacity: 0.6;
+        }
+
+        .step-toggle-btn:hover {
+            opacity: 1;
+        }
+
+        .step-card-body {
+            flex: 1;
+            min-width: 0;
         }
 
         .step-card * {
@@ -1077,6 +1124,17 @@
                 max-width: 240px;
             }
 
+            .step-card.collapsed {
+                padding: 6px;
+                max-width: 32px;
+                min-width: 32px;
+            }
+
+            .step-card.collapsed .step-toggle-btn {
+                font-size: 12px;
+                padding: 2px 4px;
+            }
+
             .step-title {
                 font-size: 12px;
             }
@@ -1394,6 +1452,17 @@
                 max-width: 200px;
             }
 
+            .step-card.collapsed {
+                padding: 4px;
+                max-width: 28px;
+                min-width: 28px;
+            }
+
+            .step-card.collapsed .step-toggle-btn {
+                font-size: 10px;
+                padding: 2px;
+            }
+
             .step-title {
                 font-size: 10px;
             }
@@ -1505,12 +1574,15 @@
     <!-- ===== 步骤引导遮罩 ===== -->
     <div class="step-overlay" id="stepOverlay">
         <div class="step-card" id="stepCard">
-            <div class="step-progress" id="stepProgress"></div>
-            <div class="step-icon" id="stepIcon">🔒</div>
-            <div class="step-title" id="stepTitle">步骤标题</div>
-            <div class="step-desc" id="stepDesc">步骤描述</div>
-            <div class="step-tip" id="stepTip">💡 提示内容</div>
-            <div class="step-actions" id="stepActions"></div>
+            <button class="step-toggle-btn" id="stepToggleBtn" title="折叠引导">▶</button>
+            <div class="step-card-body" id="stepCardBody">
+                <div class="step-progress" id="stepProgress"></div>
+                <div class="step-icon" id="stepIcon">🔒</div>
+                <div class="step-title" id="stepTitle">步骤标题</div>
+                <div class="step-desc" id="stepDesc">步骤描述</div>
+                <div class="step-tip" id="stepTip">💡 提示内容</div>
+                <div class="step-actions" id="stepActions"></div>
+            </div>
         </div>
     </div>
 
@@ -2335,6 +2407,7 @@
         const stepDesc = document.getElementById('stepDesc');
         const stepTip = document.getElementById('stepTip');
         const stepActions = document.getElementById('stepActions');
+        const stepToggleBtn = document.getElementById('stepToggleBtn');
 
         // 当前模式
         let currentMode = null;
@@ -2682,7 +2755,13 @@
                 okBtn.textContent = '✅ 我知道了';
                 okBtn.addEventListener('click', () => {
                     hideStepOverlay();
-                    stopWalkthrough();
+                    // generate 模式（密码生成）完成后刷新页面重置
+                    // 其他模式保留当前状态，不刷新
+                    if (mode === 'generate') {
+                        location.reload();
+                    } else {
+                        stopWalkthrough();
+                    }
                 });
                 stepActions.appendChild(okBtn);
             } else {
@@ -2692,6 +2771,8 @@
 
             // 显示卡片
             stepOverlay.classList.add('show');
+            stepCard.classList.remove('collapsed');
+            stepToggleBtn.textContent = '▶';
             stepCard.style.animation = 'none';
             void stepCard.offsetHeight;
             stepCard.style.animation = '';
@@ -2728,6 +2809,7 @@
         // 隐藏步骤遮罩
         function hideStepOverlay() {
             stepOverlay.classList.remove('show');
+            stepCard.classList.remove('collapsed');
             document.querySelectorAll('.step-highlight').forEach(el => {
                 el.classList.remove('step-highlight');
             });
@@ -2763,38 +2845,38 @@
                     { disabled: ['pwdGenerator'], disabledBtn: ['encryptBtn'] }
                 ],
                 'encrypt-triple': [
-                    // 步骤0: 选文件 → 只允许选文件
-                    { disabled: ['passwordContainer', 'optionsHeader'], disabledBtn: ['decryptBtn', 'encryptBtn'] },
-                    // 步骤1: 填参数 → 只允许填参数
-                    { disabled: ['passwordContainer', 'optionsHeader'], disabledBtn: ['decryptBtn', 'encryptBtn'] },
-                    // 步骤2: 生成密码 → 只允许生成密码
-                    { disabled: ['passwordContainer', 'optionsHeader'], disabledBtn: ['decryptBtn', 'encryptBtn'] },
-                    // 步骤3: 填充密码 → 只允许填充
-                    { disabled: ['passwordContainer', 'optionsHeader'], disabledBtn: ['decryptBtn', 'encryptBtn'] },
+                    // 步骤0: 选文件 → 只允许选文件，禁用密码生成器
+                    { disabled: ['pwdGenerator', 'optionsHeader'], disabledBtn: ['decryptBtn', 'encryptBtn'] },
+                    // 步骤1: 填参数 → 只允许填参数，禁止改文件
+                    { disabled: ['dropArea', 'passwordContainer', 'optionsHeader'], disabledBtn: ['decryptBtn', 'encryptBtn'] },
+                    // 步骤2: 生成密码 → 只允许生成密码，禁止改文件
+                    { disabled: ['dropArea', 'passwordContainer', 'optionsHeader'], disabledBtn: ['decryptBtn', 'encryptBtn'] },
+                    // 步骤3: 填充密码 → 只允许填充，禁止改文件
+                    { disabled: ['dropArea', 'passwordContainer', 'optionsHeader'], disabledBtn: ['decryptBtn', 'encryptBtn'] },
                     // 步骤4: 选等级 → 只允许选等级
                     { disabled: ['passwordContainer'], disabledBtn: ['decryptBtn', 'encryptBtn'] },
                     // 步骤5: 加密 → 只允许加密
                     { disabled: ['passwordContainer'], disabledBtn: ['decryptBtn'] }
                 ],
                 'decrypt-triple': [
-                    // 步骤0: 选文件 → 只允许选文件
-                    { disabled: ['passwordContainer', 'optionsHeader'], disabledBtn: ['encryptBtn', 'decryptBtn'] },
-                    // 步骤1: 填参数 → 只允许填参数
-                    { disabled: ['passwordContainer', 'optionsHeader'], disabledBtn: ['encryptBtn', 'decryptBtn'] },
-                    // 步骤2: 生成密码 → 只允许生成密码
-                    { disabled: ['passwordContainer', 'optionsHeader'], disabledBtn: ['encryptBtn', 'decryptBtn'] },
-                    // 步骤3: 填充密码 → 只允许填充
-                    { disabled: ['passwordContainer', 'optionsHeader'], disabledBtn: ['encryptBtn', 'decryptBtn'] },
+                    // 步骤0: 选文件 → 只允许选文件，禁用密码生成器
+                    { disabled: ['pwdGenerator', 'optionsHeader'], disabledBtn: ['encryptBtn', 'decryptBtn'] },
+                    // 步骤1: 填参数 → 只允许填参数，禁止改文件
+                    { disabled: ['dropArea', 'passwordContainer', 'optionsHeader'], disabledBtn: ['encryptBtn', 'decryptBtn'] },
+                    // 步骤2: 生成密码 → 只允许生成密码，禁止改文件
+                    { disabled: ['dropArea', 'passwordContainer', 'optionsHeader'], disabledBtn: ['encryptBtn', 'decryptBtn'] },
+                    // 步骤3: 填充密码 → 只允许填充，禁止改文件
+                    { disabled: ['dropArea', 'passwordContainer', 'optionsHeader'], disabledBtn: ['encryptBtn', 'decryptBtn'] },
                     // 步骤4: 解密 → 只允许解密
                     { disabled: ['passwordContainer'], disabledBtn: ['encryptBtn'] }
                 ],
                 'generate': [
-                    // 步骤0: 填参数 → 只允许填参数
-                    { disabled: ['passwordContainer', 'optionsHeader'], disabledBtn: ['encryptBtn', 'decryptBtn'] },
-                    // 步骤1: 生成密码 → 只允许生成密码
-                    { disabled: ['passwordContainer', 'optionsHeader'], disabledBtn: ['encryptBtn', 'decryptBtn'] },
-                    // 步骤2: 复制密码 → 只允许复制
-                    { disabled: ['passwordContainer', 'optionsHeader'], disabledBtn: ['encryptBtn', 'decryptBtn'] }
+                    // 步骤0: 填参数 → 只允许填参数，禁用文件上传
+                    { disabled: ['dropArea', 'passwordContainer', 'optionsHeader'], disabledBtn: ['encryptBtn', 'decryptBtn'] },
+                    // 步骤1: 生成密码 → 只允许生成密码，禁用文件上传
+                    { disabled: ['dropArea', 'passwordContainer', 'optionsHeader'], disabledBtn: ['encryptBtn', 'decryptBtn'] },
+                    // 步骤2: 复制密码 → 只允许复制，禁用填充和文件上传
+                    { disabled: ['dropArea', 'passwordContainer', 'optionsHeader'], disabledBtn: ['encryptBtn', 'decryptBtn', 'pwdResultFillBtn'] }
                 ]
             };
 
@@ -2851,6 +2933,11 @@
                     // 还有下一步 → 显示下一步的提示
                     setTimeout(() => {
                         showStepHint(currentMode, nextIndex);
+                        // 检查下一步的 trigger 条件是否已经满足，若满足则自动推进
+                        const nextStepDef = steps[nextIndex];
+                        if (nextStepDef) {
+                            checkAndAutoAdvance(nextStepDef);
+                        }
                     }, 400);
                 } else {
                     // 所有步骤完成 → 显示完成祝贺，然后刷新页面重新开始
@@ -2863,6 +2950,17 @@
                         }, 1500);
                     }, 400);
                 }
+            }
+        }
+
+        // 检查下一步的 trigger 条件是否已满足，若满足则自动推进
+        function checkAndAutoAdvance(stepDef) {
+            if (stepDef.trigger === 'pwd-generated' && pwdResultInput.value) {
+                advanceStep('pwd-generated');
+            } else if (stepDef.trigger === 'pwd-filled' && passwordInput.value) {
+                advanceStep('pwd-filled');
+            } else if (stepDef.trigger === 'pwd-copied' && pwdResultCopyBtn.classList.contains('copied')) {
+                advanceStep('pwd-copied');
             }
         }
 
@@ -2922,17 +3020,10 @@
         };
 
         // 4. 三参数已填入 → trigger: params-filled
-        // 在 triple 模式下，三个参数可以为空，所以通过点击"生成密码"来触发推进
-        // 在 generate 模式下，要求三个参数都非空
+        // 三个参数可以为空，所以通过点击"生成密码"来触发推进
         function checkParamsFilled() {
-            if (currentMode === 'encrypt-triple' || currentMode === 'decrypt-triple') {
-                // triple 模式：参数可以为空，由生成密码按钮触发推进
-                return;
-            }
-            // generate 模式：要求三个参数都非空
-            if (p1Input.value.trim() && p2Input.value.trim() && p3Input.value.trim()) {
-                advanceStep('params-filled');
-            }
+            // 所有模式都通过点击生成密码按钮触发推进，参数可以为空
+            return;
         }
         p1Input.addEventListener('input', checkParamsFilled);
         p2Input.addEventListener('input', checkParamsFilled);
@@ -2940,19 +3031,11 @@
 
         // 5. 密码已生成 → trigger: pwd-generated
         generatePwdBtn.addEventListener('click', function _genListener() {
-            // triple 模式：参数可以为空，点击生成密码即确认参数已填入
-            if (currentMode === 'encrypt-triple' || currentMode === 'decrypt-triple') {
+            // 所有模式：参数可以为空，点击生成密码即确认参数已填入
+            if (currentMode === 'encrypt-triple' || currentMode === 'decrypt-triple' || currentMode === 'generate') {
                 advanceStep('params-filled');
             }
-            // 轮询检测密码是否已生成（异步操作完成后）
-            const checkPwd = setInterval(() => {
-                if (pwdResultInput.value) {
-                    clearInterval(checkPwd);
-                    advanceStep('pwd-generated');
-                }
-            }, 100);
-            // 10秒超时清理
-            setTimeout(() => clearInterval(checkPwd), 10000);
+            // 密码生成是同步的，checkAndAutoAdvance 会在 showStepHint 后自动检测
         });
 
         // 6. 密码已填充 → trigger: pwd-filled
@@ -2999,6 +3082,28 @@
             });
             observer.observe(statusDiv, { childList: true, characterData: true, subtree: true });
             setTimeout(() => observer.disconnect(), 10000);
+        });
+
+        // 折叠/展开引导卡片
+        stepToggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            stepCard.classList.toggle('collapsed');
+            if (stepCard.classList.contains('collapsed')) {
+                stepToggleBtn.textContent = '◀';
+                stepToggleBtn.title = '展开引导';
+            } else {
+                stepToggleBtn.textContent = '▶';
+                stepToggleBtn.title = '折叠引导';
+            }
+        });
+
+        // 点击折叠状态的卡片可展开
+        stepCard.addEventListener('click', (e) => {
+            if (stepCard.classList.contains('collapsed') && !e.target.closest('.step-toggle-btn')) {
+                stepCard.classList.remove('collapsed');
+                stepToggleBtn.textContent = '▶';
+                stepToggleBtn.title = '折叠引导';
+            }
         });
 
         // 初始化页面
