@@ -1779,6 +1779,10 @@
         passwordInput.addEventListener('input', () => {
             const strength = checkPasswordStrength(passwordInput.value);
             strengthBar.className = 'strength-bar strength-' + strength;
+            // 密码填入后实时更新按钮禁用状态（triple 模式）
+            if (currentMode && (currentMode === 'encrypt-triple' || currentMode === 'decrypt-triple')) {
+                updateStepDisables(currentMode, currentStep);
+            }
         });
 
         // 折叠面板切换
@@ -1944,9 +1948,9 @@
                 showStatus('加密成功! 文件已准备好下载', 'success');
                 updateProgress(100, true);
                 
-                // 操作完成后重置页面
+                // 操作完成后刷新页面
                 setTimeout(() => {
-                    initPage();
+                    location.reload();
                 }, 2000);
             } catch (e) {
                 if (!cancelRequested) {
@@ -1984,9 +1988,9 @@
                 showStatus('解密成功! 文件已准备好下载', 'success');
                 updateProgress(100, true);
                 
-                // 操作完成后重置页面
+                // 操作完成后刷新页面
                 setTimeout(() => {
-                    initPage();
+                    location.reload();
                 }, 2000);
             } catch (e) {
                 if (!cancelRequested) {
@@ -2007,7 +2011,7 @@
             showStatus('操作已取消', 'error');
             updateProgress(0, false, true);
             setTimeout(() => {
-                initPage();
+                location.reload();
             }, 1500);
         });
 
@@ -2786,11 +2790,11 @@
                 ],
                 'generate': [
                     // 步骤0: 填参数 → 只允许填参数
-                    { disabled: ['passwordContainer', 'optionsHeader'], disabledBtn: ['encryptBtn', 'decryptBtn', 'pwdResultFillBtn'] },
+                    { disabled: ['passwordContainer', 'optionsHeader'], disabledBtn: ['encryptBtn', 'decryptBtn'] },
                     // 步骤1: 生成密码 → 只允许生成密码
-                    { disabled: ['passwordContainer', 'optionsHeader'], disabledBtn: ['encryptBtn', 'decryptBtn', 'pwdResultFillBtn'] },
+                    { disabled: ['passwordContainer', 'optionsHeader'], disabledBtn: ['encryptBtn', 'decryptBtn'] },
                     // 步骤2: 复制密码 → 只允许复制
-                    { disabled: ['passwordContainer', 'optionsHeader'], disabledBtn: ['encryptBtn', 'decryptBtn', 'pwdResultFillBtn'] }
+                    { disabled: ['passwordContainer', 'optionsHeader'], disabledBtn: ['encryptBtn', 'decryptBtn'] }
                 ]
             };
 
@@ -2810,6 +2814,16 @@
             // 禁用按钮
             if (rule.disabledBtn) {
                 rule.disabledBtn.forEach(id => {
+                    // 特殊规则：在 triple 模式下，如果密码已填入（>=8字符），
+                    // 不解密对应的操作按钮（decrypt-triple 的 decryptBtn，encrypt-triple 的 encryptBtn）
+                    const pwdInput = document.getElementById('passwordInput');
+                    const pwdFilled = pwdInput && pwdInput.value.trim().length >= 8;
+                    if (pwdFilled) {
+                        if ((mode === 'decrypt-triple' && id === 'decryptBtn') ||
+                            (mode === 'encrypt-triple' && id === 'encryptBtn')) {
+                            return; // 密码已填入，跳过禁用操作按钮
+                        }
+                    }
                     const el = document.getElementById(id);
                     if (el) el.classList.add('step-disabled', 'mode-disabled-btn');
                 });
@@ -2907,8 +2921,15 @@
             advanceStep('level-selected');
         };
 
-        // 4. 三参数已填入（三个框都有内容）→ trigger: params-filled
+        // 4. 三参数已填入 → trigger: params-filled
+        // 在 triple 模式下，三个参数可以为空，所以通过点击"生成密码"来触发推进
+        // 在 generate 模式下，要求三个参数都非空
         function checkParamsFilled() {
+            if (currentMode === 'encrypt-triple' || currentMode === 'decrypt-triple') {
+                // triple 模式：参数可以为空，由生成密码按钮触发推进
+                return;
+            }
+            // generate 模式：要求三个参数都非空
             if (p1Input.value.trim() && p2Input.value.trim() && p3Input.value.trim()) {
                 advanceStep('params-filled');
             }
@@ -2919,6 +2940,10 @@
 
         // 5. 密码已生成 → trigger: pwd-generated
         generatePwdBtn.addEventListener('click', function _genListener() {
+            // triple 模式：参数可以为空，点击生成密码即确认参数已填入
+            if (currentMode === 'encrypt-triple' || currentMode === 'decrypt-triple') {
+                advanceStep('params-filled');
+            }
             // 轮询检测密码是否已生成（异步操作完成后）
             const checkPwd = setInterval(() => {
                 if (pwdResultInput.value) {
