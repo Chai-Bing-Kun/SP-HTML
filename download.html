@@ -2096,6 +2096,14 @@
             }
         });
 
+        // ===== 监听 Escape 键关闭对话框时移除滚动锁定 =====
+        document.getElementById('downloadDialog').addEventListener('cancel', function() {
+            document.documentElement.classList.remove('dialog-open');
+        });
+        document.getElementById('announcementDialog').addEventListener('cancel', function() {
+            document.documentElement.classList.remove('dialog-open');
+        });
+
         // ===== 计算网站运行时间 =====
         function updateUptime() {
             const startDate = new Date('2024-10-20T21:08:00');

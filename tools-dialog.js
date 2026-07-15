@@ -76,6 +76,14 @@ function initToolsDialog() {
             changeToolsPage(pageIndex);
         });
     });
+    
+    // 监听 Escape 键关闭对话框时移除滚动锁定
+    const dialog = document.getElementById('toolsDialog');
+    if (dialog) {
+        dialog.addEventListener('cancel', function() {
+            document.documentElement.classList.remove('dialog-open');
+        });
+    }
 }
 
 function getPageIcon(index) {

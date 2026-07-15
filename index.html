@@ -216,7 +216,7 @@
     <dialog id="feedbackDialog">
         <div class="dialog-header">
             <h2 class="dialog-title">💬 提供你的建议</h2>
-            <button class="close-button" onclick="document.getElementById('feedbackDialog').close();">×</button>
+            <button class="close-button" onclick="document.getElementById('feedbackDialog').close();document.documentElement.classList.remove('dialog-open');">×</button>
         </div>
         <div class="dialog-content">
             <input type="text" id="user_name" placeholder="你的姓名">
@@ -275,6 +275,14 @@
             dialog.close();
             document.documentElement.classList.remove('dialog-open');
         }
+
+        // 监听对话框 cancel 事件（Escape 键），确保移除滚动锁定
+        document.getElementById('announcementDialog').addEventListener('cancel', function() {
+            document.documentElement.classList.remove('dialog-open');
+        });
+        document.getElementById('feedbackDialog').addEventListener('cancel', function() {
+            document.documentElement.classList.remove('dialog-open');
+        });
 
         // 粒子背景效果
         function createParticles() {
@@ -384,6 +392,7 @@
                         alert('反馈提交成功！');
                         const dialog = document.getElementById('feedbackDialog');
                         dialog.close();
+                        document.documentElement.classList.remove('dialog-open');
                     }, function (error) {
                         alert('反馈提交失败：' + error.text);
                     });
