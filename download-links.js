@@ -362,7 +362,7 @@ const SPARK_DOWNLOADS = {
                     'Linux arm32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.6.0.0.0/linux-arm32-Spark.6.0.0.0.zip',
                     'Linux x64': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.6.0.0.0/Linux-x64-Spark.6.0.0.0.zip',
                     'macOS': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.6.0.0.0/macOS-Spark.6.0.0.0.zip',
-                    'Android': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.6.0.0.0/H53034E71__20250607175308.apk',
+                    'Android': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.6.0.0.0/H53034E71__20260715164933.apk',
                     '源码包': 'https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.6.0.0.0.zip'
                 },
                 mirror: {
@@ -375,7 +375,7 @@ const SPARK_DOWNLOADS = {
                     'Linux arm32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.6.0.0.0/linux-arm32-Spark.6.0.0.0.zip',
                     'Linux x64': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.6.0.0.0/Linux-x64-Spark.6.0.0.0.zip',
                     'macOS': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.6.0.0.0/macOS-Spark.6.0.0.0.zip',
-                    'Android': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.6.0.0.0/H53034E71__20250607175308.apk',
+                    'Android': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.6.0.0.0/H53034E71__20260715164933.apk',
                     '源码包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.6.0.0.0.zip'
                 }
             }
