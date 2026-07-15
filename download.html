@@ -1400,7 +1400,8 @@
                     <h2 class="hero-title">获取 <span class="gradient-text">Spark</span> 展示项目</h2>
                     <p class="hero-desc">选择版本 · 一键下载 · 免费无广告</p>
                     <div class="hero-actions">
-                        <a href="javascript:void(0);" onclick="showDownloadOptions('spark5')" class="hero-btn primary"><i class="fas fa-download"></i> 下载 Spark 5</a>
+                        <a href="Spark for the web/Spark 6.html" class="hero-btn primary"><i class="fas fa-play"></i> 在网页中运行</a>
+                        <a href="javascript:void(0);" onclick="showDownloadOptions('spark6')" class="hero-btn secondary"><i class="fas fa-download"></i> 下载 Spark 6</a>
                         <a href="https://github.com/Chai-Bing-Kun/Spark-X" target="_blank" class="hero-btn secondary"><i class="fab fa-github"></i> GitHub 仓库</a>
                     </div>
                 </div>
@@ -1408,6 +1409,28 @@
                     <div class="floating-shape shape-1"></div>
                     <div class="floating-shape shape-2"></div>
                     <div class="floating-shape shape-3"></div>
+                </div>
+            </section>
+
+            <!-- Spark 6 卡片 -->
+            <section class="content-section">
+                <div class="section-header">
+                    <span class="section-icon"><i class="fas fa-crown"></i></span>
+                    <h2 class="section-title">Spark 6 <span style="font-size:14px;font-weight:400;color:var(--text-secondary);margin-left:8px;" class="version-subtitle">当前最新版本：<span id="spark6-version">6.0.0.0</span></span></h2>
+                    <div class="section-line"></div>
+                </div>
+                <div class="section-body">
+                    <div class="version-card">
+                        <div class="version-info">
+                            <div class="version-badge current">最新版</div>
+                            <p class="version-desc">Spark 6 是最新一代 Spark 系列模拟系统展示项目，带来全新的界面设计与更丰富的功能体验。你可以在浏览器中直接体验其模拟桌面界面，也可以下载文件本地查看。目前网站只提供部分下载方式，具体请查看 GitHub 仓库。</p>
+                        </div>
+                        <div class="version-actions">
+                            <button onclick="window.location.href='Spark for the web/Spark 6.html'" class="action-btn run-btn"><i class="fas fa-play"></i> 在网页中运行</button>
+                            <button onclick="showDownloadOptions('spark6')" class="action-btn download-btn"><i class="fas fa-download"></i> 下载 Spark 6</button>
+                            <a href="https://github.com/Chai-Bing-Kun/Spark-X" target="_blank" class="action-btn github-btn"><i class="fab fa-github"></i> GitHub</a>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -1543,10 +1566,10 @@
                     <span class="icon">🆕</span> 新版本说明
                 </h3>
                 <ul class="announcement-list">
-                    <li class="version-item">✅ 目前最新版：5.3.4.1</li>
-                    <li class="version-item">✅ 修复了无法打开应用的 Bug</li>
-                    <li class="version-item">✅ 修复了因登录/注册名字识别错误的 Bug</li>
-                    <li class="version-item">✅ 增大了图形显示性能（可能会使内存崩溃）</li>
+                    <li class="version-item">✅ 最新发布：Spark 6（第六代）</li>
+                    <li class="version-item">✅ 当前最新版本：6.0.0.0</li>
+                    <li class="version-item">✅ 全新的界面设计与更丰富的功能体验</li>
+                    <li class="version-item">✅ 你可以在浏览器中直接体验其模拟桌面界面</li>
                 </ul>
             </div>
             <div class="announcement-section">
@@ -1554,10 +1577,10 @@
                     <span class="icon">🌐</span> 网站公告
                 </h3>
                 <ul class="announcement-list">
-                    <li class="site-item">📌 充分改良了网站的点击逻辑和下载逻辑，同时让网站变得更加美观了</li>
-                    <li class="site-item">📌 增加了手机端的适配功能</li>
-                    <li class="site-item">📌 加密解密文件迎来了大更新，将两种加密模式全部融合在一起，并新增了引导程序</li>
-                    <li class="site-item">📌 产品的下载支持第五代产品和第四代产品的全代数下载</li>
+                    <li class="site-item">📌 Spark 6 已正式发布，欢迎下载体验</li>
+                    <li class="site-item">📌 网站新增了在网页中运行 Spark 6 的功能</li>
+                    <li class="site-item">📌 优化了移动端的显示效果与加载动画</li>
+                    <li class="site-item">📌 产品的下载支持第四代、第五代和第六代的全代数下载</li>
                 </ul>
             </div>
         </div>
@@ -1584,7 +1607,7 @@
             
             // Android
             if (/android/i.test(userAgent)) {
-                return { os: 'Android', arch: 'arm', platform: 'Android APK' };
+                return { os: 'Android', arch: 'arm', platform: 'Android' };
             }
             
             // iOS (iPad/iPhone)
@@ -1602,9 +1625,9 @@
                 // 检测是否为 x64 架构
                 const isWin64 = /win64|x64|wow64/i.test(userAgent) || navigator.platform === 'Win64';
                 if (isWin64) {
-                    return { os: 'Windows', arch: 'x64', platform: 'Windows x64 安装程序' };
+                    return { os: 'Windows', arch: 'x64', platform: 'Windows x64 安装包' };
                 } else {
-                    return { os: 'Windows', arch: 'x32', platform: 'Windows x32 安装程序' };
+                    return { os: 'Windows', arch: 'x32', platform: 'Windows x32 安装包' };
                 }
             }
             
@@ -1612,9 +1635,9 @@
             if (/linux/i.test(userAgent)) {
                 // 检测 ARM 架构
                 if (/arm|aarch64/i.test(userAgent)) {
-                    return { os: 'Linux', arch: 'arm', platform: 'Linux x64 (ARM)' };
+                    return { os: 'Linux', arch: 'arm64', platform: 'Linux arm64' };
                 }
-                return { os: 'Linux', arch: 'x64', platform: 'Linux x64 (ARM)' };
+                return { os: 'Linux', arch: 'x64', platform: 'Linux x64' };
             }
             
             return { os: 'unknown', arch: 'unknown', platform: null };
@@ -1643,9 +1666,9 @@
             }
             
             // 如果精确平台不存在，尝试找替代平台
-            // Windows: 安装程序 -> 免安装
+            // Windows: 安装包 -> 免安装
             if (osInfo.os === 'Windows') {
-                const altPlatform = osInfo.arch === 'x64' ? 'Windows x64 免安装' : 'Windows x32 免安装';
+                const altPlatform = osInfo.arch === 'x64' ? 'Windows x64' : 'Windows x32';
                 if (mirrorLinks && mirrorLinks[altPlatform]) {
                     return { source: 'mirror', platform: altPlatform };
                 }
@@ -1659,24 +1682,42 @@
 
         // 平台图标映射
         const PLATFORM_ICONS = {
+            'Android': 'fab fa-android',
             'Android APK': 'fab fa-android',
+            'Windows x64': 'fab fa-windows',
+            'Windows x64 安装包': 'fab fa-windows',
             'Windows x64 免安装': 'fab fa-windows',
             'Windows x64 安装程序': 'fab fa-windows',
+            'Windows x32': 'fab fa-windows',
+            'Windows x32 安装包': 'fab fa-windows',
             'Windows x32 免安装': 'fab fa-windows',
             'Windows x32 安装程序': 'fab fa-windows',
+            'Windows arm64': 'fab fa-windows',
             'macOS': 'fab fa-apple',
+            'Linux arm64': 'fab fa-linux',
+            'Linux arm32': 'fab fa-linux',
+            'Linux x64': 'fab fa-linux',
             'Linux x64 (ARM)': 'fab fa-linux',
             'Linux x32': 'fab fa-linux',
             '源码包': 'fas fa-code'
         };
 
         const PLATFORM_COLORS = {
+            'Android': '#3DDC84',
             'Android APK': '#3DDC84',
+            'Windows x64': '#0078D4',
+            'Windows x64 安装包': '#0078D4',
             'Windows x64 免安装': '#0078D4',
             'Windows x64 安装程序': '#0078D4',
+            'Windows x32': '#0078D4',
+            'Windows x32 安装包': '#0078D4',
             'Windows x32 免安装': '#0078D4',
             'Windows x32 安装程序': '#0078D4',
+            'Windows arm64': '#0078D4',
             'macOS': '#555555',
+            'Linux arm64': '#FCC624',
+            'Linux arm32': '#FCC624',
+            'Linux x64': '#FCC624',
             'Linux x64 (ARM)': '#FCC624',
             'Linux x32': '#FCC624',
             '源码包': '#6e5494'
@@ -2015,12 +2056,15 @@
 
         // 初始化版本显示
         function initVersionDisplay() {
+            const spark6Latest = getLatestVersion('spark6');
             const spark5Latest = getLatestVersion('spark5');
             const spark4Latest = getLatestVersion('spark4');
             
+            const spark6El = document.getElementById('spark6-version');
             const spark5El = document.getElementById('spark5-version');
             const spark4El = document.getElementById('spark4-version');
             
+            if (spark6El && spark6Latest) spark6El.textContent = spark6Latest;
             if (spark5El && spark5Latest) spark5El.textContent = spark5Latest;
             if (spark4El && spark4Latest) spark4El.textContent = spark4Latest;
         }

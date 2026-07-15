@@ -8,340 +8,375 @@ const SPARK_DOWNLOADS = {
         versions: {
             '5.3.4.1': {
                 github: {
-                    'Android APK': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/H53034E71__20250607175308.apk',
-                    'Windows x64 免安装': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1-Electron-x64.zip',
-                    'Windows x64 安装程序': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark-5.3.4.1-x64.msi',
-                    'Windows x32 免安装': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1.zip',
-                    'Windows x32 安装程序': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark-5.3.4.1-x32.msi',
+                    'Android': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/H53034E71__20250607175308.apk',
+                    'Windows x64': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1-Electron-x64.zip',
+                    'Windows x64 安装包': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark-5.3.4.1-x64.msi',
+                    'Windows x32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1.zip',
+                    'Windows x32 安装包': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark-5.3.4.1-x32.msi',
                     'macOS': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1.WKWebView.macOS.zip',
-                    'Linux x64 (ARM)': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1.64.Electron.Linux.zip',
-                    'Linux x32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1-Linux-Electron-ARM-x32.zip',
+                    'Linux arm64': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1.64.Electron.Linux.zip',
+                    'Linux arm32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1-Linux-Electron-ARM-x32.zip',
                     '源码包': 'https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.4.1.zip'
                 },
                 mirror: {
-                    'Android APK': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/H53034E71__20250607175308.apk',
-                    'Windows x64 免安装': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1-Electron-x64.zip',
-                    'Windows x64 安装程序': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark-5.3.4.1-x64.msi',
-                    'Windows x32 免安装': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1.zip',
-                    'Windows x32 安装程序': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark-5.3.4.1-x32.msi',
+                    'Android': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/H53034E71__20250607175308.apk',
+                    'Windows x64': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1-Electron-x64.zip',
+                    'Windows x64 安装包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark-5.3.4.1-x64.msi',
+                    'Windows x32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1.zip',
+                    'Windows x32 安装包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark-5.3.4.1-x32.msi',
                     'macOS': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1.WKWebView.macOS.zip',
-                    'Linux x64 (ARM)': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1.64.Electron.Linux.zip',
-                    'Linux x32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1-Linux-Electron-ARM-x32.zip',
+                    'Linux arm64': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1.64.Electron.Linux.zip',
+                    'Linux arm32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.1/Spark.5.3.4.1-Linux-Electron-ARM-x32.zip',
                     '源码包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.4.1.zip'
                 }
             },
             '5.3.4.0': {
                 github: {
-                    'Android APK': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/H53034E71__20250418180022.apk',
-                    'Windows x64 免安装': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0-Electron-x64.zip',
-                    'Windows x32 免安装': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0.zip',
+                    'Android': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/H53034E71__20250418180022.apk',
+                    'Windows x64': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0-Electron-x64.zip',
+                    'Windows x32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0.zip',
                     'macOS': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0.WKWebView.macOS.zip',
-                    'Linux x64 (ARM)': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0.64.Electron.Linux.zip',
-                    'Linux x32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0-Linux-Electron-ARM-x32.zip',
+                    'Linux arm64': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0.64.Electron.Linux.zip',
+                    'Linux arm32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0-Linux-Electron-ARM-x32.zip',
                     '源码包': 'https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.4.0.zip'
                 },
                 mirror: {
-                    'Android APK': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/H53034E71__20250418180022.apk',
-                    'Windows x64 免安装': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0-Electron-x64.zip',
-                    'Windows x32 免安装': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0.zip',
+                    'Android': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/H53034E71__20250418180022.apk',
+                    'Windows x64': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0-Electron-x64.zip',
+                    'Windows x32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0.zip',
                     'macOS': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0.WKWebView.macOS.zip',
-                    'Linux x64 (ARM)': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0.64.Electron.Linux.zip',
-                    'Linux x32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0-Linux-Electron-ARM-x32.zip',
+                    'Linux arm64': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0.64.Electron.Linux.zip',
+                    'Linux arm32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.4.0/Spark.5.3.4.0-Linux-Electron-ARM-x32.zip',
                     '源码包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.4.0.zip'
                 }
             },
             '5.3.3.1': {
                 github: {
-                    'Android APK': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/H53034E71__20250302073119.apk',
-                    'Windows x64 免安装': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1-Electron-x64.zip',
-                    'Windows x32 免安装': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1.zip',
+                    'Android': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/H53034E71__20250302073119.apk',
+                    'Windows x64': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1-Electron-x64.zip',
+                    'Windows x32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1.zip',
                     'macOS': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1.WKWebView.macOS.zip',
-                    'Linux x64 (ARM)': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1.64.Electron.Linux.zip',
-                    'Linux x32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1-Linux-Electron-ARM-x32.zip',
+                    'Linux arm64': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1.64.Electron.Linux.zip',
+                    'Linux arm32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1-Linux-Electron-ARM-x32.zip',
                     '源码包': 'https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.3.1.zip'
                 },
                 mirror: {
-                    'Android APK': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/H53034E71__20250302073119.apk',
-                    'Windows x64 免安装': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1-Electron-x64.zip',
-                    'Windows x32 免安装': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1.zip',
+                    'Android': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/H53034E71__20250302073119.apk',
+                    'Windows x64': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1-Electron-x64.zip',
+                    'Windows x32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1.zip',
                     'macOS': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1.WKWebView.macOS.zip',
-                    'Linux x64 (ARM)': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1.64.Electron.Linux.zip',
-                    'Linux x32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1-Linux-Electron-ARM-x32.zip',
+                    'Linux arm64': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1.64.Electron.Linux.zip',
+                    'Linux arm32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.1/Spark.5.3.3.1-Linux-Electron-ARM-x32.zip',
                     '源码包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.3.1.zip'
                 }
             },
             '5.3.3.0': {
                 github: {
-                    'Android APK': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.0/H53034E71__20250223121349.apk',
-                    'Windows x32 免安装': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.0/Spark.5.3.3.0.zip',
+                    'Android': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.0/H53034E71__20250223121349.apk',
+                    'Windows x32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.0/Spark.5.3.3.0.zip',
                     'macOS': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.0/Spark.5.3.3.0.WKWebView.macOS.zip',
-                    'Linux x64 (ARM)': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.0/Spark.5.3.3.0.64.Electron.Linux.zip',
+                    'Linux arm64': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.0/Spark.5.3.3.0.64.Electron.Linux.zip',
                     '源码包': 'https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.3.0.zip'
                 },
                 mirror: {
-                    'Android APK': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.0/H53034E71__20250223121349.apk',
-                    'Windows x32 免安装': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.0/Spark.5.3.3.0.zip',
+                    'Android': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.0/H53034E71__20250223121349.apk',
+                    'Windows x32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.0/Spark.5.3.3.0.zip',
                     'macOS': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.0/Spark.5.3.3.0.WKWebView.macOS.zip',
-                    'Linux x64 (ARM)': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.0/Spark.5.3.3.0.64.Electron.Linux.zip',
+                    'Linux arm64': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.3.0/Spark.5.3.3.0.64.Electron.Linux.zip',
                     '源码包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.3.0.zip'
                 }
             },
             '5.3.2.6': {
                 github: {
-                    'Android APK': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.6/H53034E71__20250127215051.apk',
-                    'Windows x32 免安装': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.6/Spark.5.3.2.6.zip',
+                    'Android': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.6/H53034E71__20250127215051.apk',
+                    'Windows x32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.6/Spark.5.3.2.6.zip',
                     'macOS': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.6/Spark.5.3.2.6.WKWebView.macOS.zip',
-                    'Linux x64 (ARM)': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.6/Spark.5.3.2.6.64.Electron.Linux.zip',
+                    'Linux arm64': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.6/Spark.5.3.2.6.64.Electron.Linux.zip',
                     '源码包': 'https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.2.6.zip'
                 },
                 mirror: {
-                    'Android APK': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.6/H53034E71__20250127215051.apk',
-                    'Windows x32 免安装': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.6/Spark.5.3.2.6.zip',
+                    'Android': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.6/H53034E71__20250127215051.apk',
+                    'Windows x32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.6/Spark.5.3.2.6.zip',
                     'macOS': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.6/Spark.5.3.2.6.WKWebView.macOS.zip',
-                    'Linux x64 (ARM)': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.6/Spark.5.3.2.6.64.Electron.Linux.zip',
+                    'Linux arm64': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.6/Spark.5.3.2.6.64.Electron.Linux.zip',
                     '源码包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.2.6.zip'
                 }
             },
             '5.3.2.5': {
                 github: {
-                    'Android APK': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.5/H53034E71__20250123093440.apk',
-                    'Windows x32 免安装': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.5/Spark.5.3.2.5.zip',
+                    'Android': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.5/H53034E71__20250123093440.apk',
+                    'Windows x32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.5/Spark.5.3.2.5.zip',
                     'macOS': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.5/Spark.5.3.2.5.WKWebView.macOS.zip',
-                    'Linux x64 (ARM)': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.5/Spark.5.3.2.5.64.Electron.Linux.zip',
+                    'Linux arm64': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.5/Spark.5.3.2.5.64.Electron.Linux.zip',
                     '源码包': 'https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.2.5.zip'
                 },
                 mirror: {
-                    'Android APK': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.5/H53034E71__20250123093440.apk',
-                    'Windows x32 免安装': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.5/Spark.5.3.2.5.zip',
+                    'Android': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.5/H53034E71__20250123093440.apk',
+                    'Windows x32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.5/Spark.5.3.2.5.zip',
                     'macOS': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.5/Spark.5.3.2.5.WKWebView.macOS.zip',
-                    'Linux x64 (ARM)': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.5/Spark.5.3.2.5.64.Electron.Linux.zip',
+                    'Linux arm64': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.5/Spark.5.3.2.5.64.Electron.Linux.zip',
                     '源码包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.2.5.zip'
                 }
             },
             '5.3.2.3': {
                 github: {
-                    'Android APK': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.3/H53034E71__20250110214406.apk',
-                    'Windows x32 免安装': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.3/Spark.5.3.2.3.zip',
+                    'Android': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.3/H53034E71__20250110214406.apk',
+                    'Windows x32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.3/Spark.5.3.2.3.zip',
                     'macOS': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.3/Spark.5.3.2.3.WKWebView.macOS.zip',
-                    'Linux x64 (ARM)': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.3/Spark.5.3.2.3.64.Electron.Linux.zip',
+                    'Linux arm64': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.3/Spark.5.3.2.3.64.Electron.Linux.zip',
                     '源码包': 'https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.2.3.zip'
                 },
                 mirror: {
-                    'Android APK': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.3/H53034E71__20250110214406.apk',
-                    'Windows x32 免安装': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.3/Spark.5.3.2.3.zip',
+                    'Android': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.3/H53034E71__20250110214406.apk',
+                    'Windows x32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.3/Spark.5.3.2.3.zip',
                     'macOS': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.3/Spark.5.3.2.3.WKWebView.macOS.zip',
-                    'Linux x64 (ARM)': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.3/Spark.5.3.2.3.64.Electron.Linux.zip',
+                    'Linux arm64': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.3/Spark.5.3.2.3.64.Electron.Linux.zip',
                     '源码包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.2.3.zip'
                 }
             },
             '5.3.2.1': {
                 github: {
-                    'Android APK': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.1/H53034E71__20241227205118.apk',
-                    'Windows x32 免安装': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.1/Spark.5.3.2.1.zip',
+                    'Android': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.1/H53034E71__20241227205118.apk',
+                    'Windows x32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.1/Spark.5.3.2.1.zip',
                     'macOS': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.1/Spark.5.3.2.1.WKWebView.macOS.zip',
-                    'Linux x64 (ARM)': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.1/Spark.5.3.2.1.64.Electron.Linux.zip',
+                    'Linux arm64': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.1/Spark.5.3.2.1.64.Electron.Linux.zip',
                     '源码包': 'https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.2.1.zip'
                 },
                 mirror: {
-                    'Android APK': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.1/H53034E71__20241227205118.apk',
-                    'Windows x32 免安装': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.1/Spark.5.3.2.1.zip',
+                    'Android': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.1/H53034E71__20241227205118.apk',
+                    'Windows x32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.1/Spark.5.3.2.1.zip',
                     'macOS': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.1/Spark.5.3.2.1.WKWebView.macOS.zip',
-                    'Linux x64 (ARM)': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.1/Spark.5.3.2.1.64.Electron.Linux.zip',
+                    'Linux arm64': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.2.1/Spark.5.3.2.1.64.Electron.Linux.zip',
                     '源码包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.2.1.zip'
                 }
             },
             '5.3.1.0': {
                 github: {
-                    'Android APK': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.1.0/H53034E71__20241214084109.apk',
-                    'Windows x32 免安装': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.1.0/Spark.5.3.1.0.zip',
+                    'Android': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.1.0/H53034E71__20241214084109.apk',
+                    'Windows x32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.1.0/Spark.5.3.1.0.zip',
                     'macOS': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.1.0/Spark.5.3.1.0.WKWebView.macOS.zip',
-                    'Linux x64 (ARM)': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.1.0/Spark.5.3.1.0.64.Electron.Linux.zip',
+                    'Linux arm64': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.1.0/Spark.5.3.1.0.64.Electron.Linux.zip',
                     '源码包': 'https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.1.0.zip'
                 },
                 mirror: {
-                    'Android APK': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.1.0/H53034E71__20241214084109.apk',
-                    'Windows x32 免安装': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.1.0/Spark.5.3.1.0.zip',
+                    'Android': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.1.0/H53034E71__20241214084109.apk',
+                    'Windows x32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.1.0/Spark.5.3.1.0.zip',
                     'macOS': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.1.0/Spark.5.3.1.0.WKWebView.macOS.zip',
-                    'Linux x64 (ARM)': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.1.0/Spark.5.3.1.0.64.Electron.Linux.zip',
+                    'Linux arm64': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.1.0/Spark.5.3.1.0.64.Electron.Linux.zip',
                     '源码包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.1.0.zip'
                 }
             },
             '5.3.0.0': {
                 github: {
-                    'Android APK': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.0.0/H53034E71__20241201145055.apk',
-                    'Windows x32 免安装': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.0.0/Spark.5.3.0.0.zip',
+                    'Android': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.0.0/H53034E71__20241201145055.apk',
+                    'Windows x32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.0.0/Spark.5.3.0.0.zip',
                     'macOS': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.0.0/Spark.5.3.0.0.WKWebView.macOS.zip',
-                    'Linux x64 (ARM)': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.0.0/Spark.5.3.0.0.64.Electron.Linux.zip',
+                    'Linux arm64': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.0.0/Spark.5.3.0.0.64.Electron.Linux.zip',
                     '源码包': 'https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.0.0.zip'
                 },
                 mirror: {
-                    'Android APK': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.0.0/H53034E71__20241201145055.apk',
-                    'Windows x32 免安装': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.0.0/Spark.5.3.0.0.zip',
+                    'Android': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.0.0/H53034E71__20241201145055.apk',
+                    'Windows x32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.0.0/Spark.5.3.0.0.zip',
                     'macOS': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.0.0/Spark.5.3.0.0.WKWebView.macOS.zip',
-                    'Linux x64 (ARM)': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.0.0/Spark.5.3.0.0.64.Electron.Linux.zip',
+                    'Linux arm64': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.3.0.0/Spark.5.3.0.0.64.Electron.Linux.zip',
                     '源码包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.3.0.0.zip'
                 }
             },
             '5.2.1.2': {
                 github: {
-                    'Android APK': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.2/H53034E71__20241124121937.apk',
-                    'Windows x32 免安装': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.2/Spark.5.2.1.2.zip',
+                    'Android': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.2/H53034E71__20241124121937.apk',
+                    'Windows x32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.2/Spark.5.2.1.2.zip',
                     'macOS': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.2/Spark.5.2.1.2.WKWebView.macOS.zip',
-                    'Linux x64 (ARM)': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.2/Spark.5.2.1.2.64.Electron.Linux.zip',
+                    'Linux arm64': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.2/Spark.5.2.1.2.64.Electron.Linux.zip',
                     '源码包': 'https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.2.1.2.zip'
                 },
                 mirror: {
-                    'Android APK': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.2/H53034E71__20241124121937.apk',
-                    'Windows x32 免安装': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.2/Spark.5.2.1.2.zip',
+                    'Android': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.2/H53034E71__20241124121937.apk',
+                    'Windows x32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.2/Spark.5.2.1.2.zip',
                     'macOS': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.2/Spark.5.2.1.2.WKWebView.macOS.zip',
-                    'Linux x64 (ARM)': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.2/Spark.5.2.1.2.64.Electron.Linux.zip',
+                    'Linux arm64': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.2/Spark.5.2.1.2.64.Electron.Linux.zip',
                     '源码包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.2.1.2.zip'
                 }
             },
             '5.2.1.1': {
                 github: {
-                    'Android APK': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.1/H53034E71__20241102070843.apk',
-                    'Windows x32 免安装': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.1/Spark.5.2.1.0.zip',
+                    'Android': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.1/H53034E71__20241102070843.apk',
+                    'Windows x32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.1/Spark.5.2.1.0.zip',
                     'macOS': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.1/Spark.5.2.1.0.WKWebView.macOS.zip',
-                    'Linux x64 (ARM)': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.1/Spark.5.2.1.1.64.Electron.Linux.zip',
+                    'Linux arm64': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.1/Spark.5.2.1.1.64.Electron.Linux.zip',
                     '源码包': 'https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.2.1.1.zip'
                 },
                 mirror: {
-                    'Android APK': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.1/H53034E71__20241102070843.apk',
-                    'Windows x32 免安装': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.1/Spark.5.2.1.0.zip',
+                    'Android': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.1/H53034E71__20241102070843.apk',
+                    'Windows x32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.1/Spark.5.2.1.0.zip',
                     'macOS': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.1/Spark.5.2.1.0.WKWebView.macOS.zip',
-                    'Linux x64 (ARM)': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.1/Spark.5.2.1.1.64.Electron.Linux.zip',
+                    'Linux arm64': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.1/Spark.5.2.1.1.64.Electron.Linux.zip',
                     '源码包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.2.1.1.zip'
                 }
             },
             '5.2.1.0': {
                 github: {
-                    'Android APK': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.0/H53034E71__20241101221931.apk',
-                    'Windows x32 免安装': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.0/Spark.5.2.1.0.zip',
+                    'Android': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.0/H53034E71__20241101221931.apk',
+                    'Windows x32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.0/Spark.5.2.1.0.zip',
                     'macOS': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.0/Spark.5.2.1.0.WKWebView.macOS.zip',
-                    'Linux x64 (ARM)': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.0/Spark.5.2.1.0.64.Electron.Linux.zip',
+                    'Linux arm64': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.0/Spark.5.2.1.0.64.Electron.Linux.zip',
                     '源码包': 'https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.2.1.0.zip'
                 },
                 mirror: {
-                    'Android APK': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.0/H53034E71__20241101221931.apk',
-                    'Windows x32 免安装': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.0/Spark.5.2.1.0.zip',
+                    'Android': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.0/H53034E71__20241101221931.apk',
+                    'Windows x32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.0/Spark.5.2.1.0.zip',
                     'macOS': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.0/Spark.5.2.1.0.WKWebView.macOS.zip',
-                    'Linux x64 (ARM)': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.0/Spark.5.2.1.0.64.Electron.Linux.zip',
+                    'Linux arm64': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.1.0/Spark.5.2.1.0.64.Electron.Linux.zip',
                     '源码包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.2.1.0.zip'
                 }
             },
             '5.2.0.0': {
                 github: {
-                    'Android APK': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.0.0/H53034E71__20241002205009.apk',
-                    'Windows x32 免安装': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.0.0/Spark.5.2.0.0.zip',
+                    'Android': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.0.0/H53034E71__20241002205009.apk',
+                    'Windows x32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.0.0/Spark.5.2.0.0.zip',
                     'macOS': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.0.0/Spark.5.2.0.0.WKWebView.macOS.zip',
-                    'Linux x64 (ARM)': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.0.0/Spark.5.2.0.0.64.Electron.Linux.zip',
+                    'Linux arm64': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.0.0/Spark.5.2.0.0.64.Electron.Linux.zip',
                     '源码包': 'https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.2.0.0.zip'
                 },
                 mirror: {
-                    'Android APK': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.0.0/H53034E71__20241002205009.apk',
-                    'Windows x32 免安装': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.0.0/Spark.5.2.0.0.zip',
+                    'Android': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.0.0/H53034E71__20241002205009.apk',
+                    'Windows x32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.0.0/Spark.5.2.0.0.zip',
                     'macOS': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.0.0/Spark.5.2.0.0.WKWebView.macOS.zip',
-                    'Linux x64 (ARM)': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.0.0/Spark.5.2.0.0.64.Electron.Linux.zip',
+                    'Linux arm64': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.2.0.0/Spark.5.2.0.0.64.Electron.Linux.zip',
                     '源码包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.2.0.0.zip'
                 }
             },
             '5.1.4.1': {
                 github: {
-                    'Android APK': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.4.1/H53034E71__20240827181518.apk',
-                    'Windows x32 免安装': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.4.1/Spark.5.1.4.1.zip',
+                    'Android': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.4.1/H53034E71__20240827181518.apk',
+                    'Windows x32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.4.1/Spark.5.1.4.1.zip',
                     'macOS': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.4.1/Spark.5.1.4.1.WKWebView.macOS.zip',
                     '源码包': 'https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.1.4.1.zip'
                 },
                 mirror: {
-                    'Android APK': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.4.1/H53034E71__20240827181518.apk',
-                    'Windows x32 免安装': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.4.1/Spark.5.1.4.1.zip',
+                    'Android': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.4.1/H53034E71__20240827181518.apk',
+                    'Windows x32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.4.1/Spark.5.1.4.1.zip',
                     'macOS': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.4.1/Spark.5.1.4.1.WKWebView.macOS.zip',
                     '源码包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.1.4.1.zip'
                 }
             },
             '5.1.3.1': {
                 github: {
-                    'Android APK': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.3.1/H53034E71__20240804211807.apk',
-                    'Windows x32 免安装': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.3.1/Spark.5.1.3.1.zip',
+                    'Android': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.3.1/H53034E71__20240804211807.apk',
+                    'Windows x32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.3.1/Spark.5.1.3.1.zip',
                     '源码包': 'https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.1.3.1.zip'
                 },
                 mirror: {
-                    'Android APK': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.3.1/H53034E71__20240804211807.apk',
-                    'Windows x32 免安装': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.3.1/Spark.5.1.3.1.zip',
+                    'Android': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.3.1/H53034E71__20240804211807.apk',
+                    'Windows x32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.3.1/Spark.5.1.3.1.zip',
                     '源码包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.1.3.1.zip'
                 }
             },
             '5.1.3.0': {
                 github: {
-                    'Android APK': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.3.0/H53034E71__20240803212046.apk',
-                    'Windows x32 免安装': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.3.0/Spark.5.1.3.0.zip',
+                    'Android': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.3.0/H53034E71__20240803212046.apk',
+                    'Windows x32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.3.0/Spark.5.1.3.0.zip',
                     '源码包': 'https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.1.3.0.zip'
                 },
                 mirror: {
-                    'Android APK': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.3.0/H53034E71__20240803212046.apk',
-                    'Windows x32 免安装': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.3.0/Spark.5.1.3.0.zip',
+                    'Android': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.3.0/H53034E71__20240803212046.apk',
+                    'Windows x32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.3.0/Spark.5.1.3.0.zip',
                     '源码包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.1.3.0.zip'
                 }
             },
             '5.1.2.0': {
                 github: {
-                    'Android APK': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.2.0/H53034E71__20240731180538.apk',
-                    'Windows x32 免安装': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.2.0/Spark.5.1.2.0.zip',
+                    'Android': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.2.0/H53034E71__20240731180538.apk',
+                    'Windows x32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.2.0/Spark.5.1.2.0.zip',
                     '源码包': 'https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.1.2.0.zip'
                 },
                 mirror: {
-                    'Android APK': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.2.0/H53034E71__20240731180538.apk',
-                    'Windows x32 免安装': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.2.0/Spark.5.1.2.0.zip',
+                    'Android': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.2.0/H53034E71__20240731180538.apk',
+                    'Windows x32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.2.0/Spark.5.1.2.0.zip',
                     '源码包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.1.2.0.zip'
                 }
             },
             '5.1.1.1': {
                 github: {
-                    'Android APK': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.1.1/H53034E71__20240727173653.apk',
-                    'Windows x32 免安装': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.1.1/Spark.5.1.1.1.zip',
+                    'Android': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.1.1/H53034E71__20240727173653.apk',
+                    'Windows x32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.1.1/Spark.5.1.1.1.zip',
                     '源码包': 'https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.1.1.1.zip'
                 },
                 mirror: {
-                    'Android APK': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.1.1/H53034E71__20240727173653.apk',
-                    'Windows x32 免安装': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.1.1/Spark.5.1.1.1.zip',
+                    'Android': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.1.1/H53034E71__20240727173653.apk',
+                    'Windows x32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.1.1/Spark.5.1.1.1.zip',
                     '源码包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.1.1.1.zip'
                 }
             },
             '5.1.1.0': {
                 github: {
-                    'Android APK': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.1.0/H53034E71__20240727171927.apk',
-                    'Windows x32 免安装': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.1.0/Spark.5.1.1.zip',
+                    'Android': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.1.0/H53034E71__20240727171927.apk',
+                    'Windows x32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.1.0/Spark.5.1.1.zip',
                     '源码包': 'https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.1.1.0.zip'
                 },
                 mirror: {
-                    'Android APK': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.1.0/H53034E71__20240727171927.apk',
-                    'Windows x32 免安装': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.1.0/Spark.5.1.1.zip',
+                    'Android': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.1.0/H53034E71__20240727171927.apk',
+                    'Windows x32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.1.0/Spark.5.1.1.zip',
                     '源码包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.1.1.0.zip'
                 }
             },
             '5.1.0.0': {
                 github: {
-                    'Android APK': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.0.0/H53034E71__20240727171039.apk',
-                    'Windows x32 免安装': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.0.0/Spark.5.1.0.zip',
+                    'Android': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.0.0/H53034E71__20240727171039.apk',
+                    'Windows x32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.0.0/Spark.5.1.0.zip',
                     '源码包': 'https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.1.0.0.zip'
                 },
                 mirror: {
-                    'Android APK': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.0.0/H53034E71__20240727171039.apk',
-                    'Windows x32 免安装': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.0.0/Spark.5.1.0.zip',
+                    'Android': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.0.0/H53034E71__20240727171039.apk',
+                    'Windows x32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.5.1.0.0/Spark.5.1.0.zip',
                     '源码包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.5.1.0.0.zip'
                 }
             },
             '5.0.0.0': {
                 github: {
-                    'Android APK': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v5.0.0.0/H53034E71__20240727082236.apk',
-                    'Windows x32 免安装': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v5.0.0.0/spark-5.zip',
+                    'Android': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v5.0.0.0/H53034E71__20240727082236.apk',
+                    'Windows x32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v5.0.0.0/spark-5.zip',
                     '源码包': 'https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v5.0.0.0.zip'
                 },
                 mirror: {
-                    'Android APK': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v5.0.0.0/H53034E71__20240727082236.apk',
-                    'Windows x32 免安装': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v5.0.0.0/spark-5.zip',
+                    'Android': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v5.0.0.0/H53034E71__20240727082236.apk',
+                    'Windows x32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v5.0.0.0/spark-5.zip',
                     '源码包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v5.0.0.0.zip'
+                }
+            }
+        }
+    },
+    // Spark 6.x 版本
+    spark6: {
+        name: 'Spark 6',
+        latest: '6.0.0.0',
+        versions: {
+            '6.0.0.0': {
+                github: {
+                    'Windows x64': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.6.0.0.0/Windows-x64-Spark.6.0.0.0.zip',
+                    'Windows x64 安装包': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.6.0.0.0/Spark-6.0.0.0-Windows-portable-program-x32-and-x64.exe',
+                    'Windows x32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.6.0.0.0/Windows-x32-Spark.6.0.0.0.zip',
+                    'Windows x32 安装包': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.6.0.0.0/Spark-6.0.0.0-Windows-portable-program-x32-and-x64.exe',
+                    'Windows arm64': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.6.0.0.0/Windows-arm64-6.0.0.0.zip',
+                    'Linux arm64': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.6.0.0.0/Linux-arm64-Spark.6.0.0.0.zip',
+                    'Linux arm32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.6.0.0.0/linux-arm32-Spark.6.0.0.0.zip',
+                    'Linux x64': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.6.0.0.0/Linux-x64-Spark.6.0.0.0.zip',
+                    'macOS': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.6.0.0.0/macOS-Spark.6.0.0.0.zip',
+                    'Android': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.6.0.0.0/H53034E71__20250607175308.apk',
+                    '源码包': 'https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.6.0.0.0.zip'
+                },
+                mirror: {
+                    'Windows x64': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.6.0.0.0/Windows-x64-Spark.6.0.0.0.zip',
+                    'Windows x64 安装包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.6.0.0.0/Spark-6.0.0.0-Windows-portable-program-x32-and-x64.exe',
+                    'Windows x32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.6.0.0.0/Windows-x32-Spark.6.0.0.0.zip',
+                    'Windows x32 安装包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.6.0.0.0/Spark-6.0.0.0-Windows-portable-program-x32-and-x64.exe',
+                    'Windows arm64': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.6.0.0.0/Windows-arm64-6.0.0.0.zip',
+                    'Linux arm64': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.6.0.0.0/Linux-arm64-Spark.6.0.0.0.zip',
+                    'Linux arm32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.6.0.0.0/linux-arm32-Spark.6.0.0.0.zip',
+                    'Linux x64': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.6.0.0.0/Linux-x64-Spark.6.0.0.0.zip',
+                    'macOS': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.6.0.0.0/macOS-Spark.6.0.0.0.zip',
+                    'Android': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.6.0.0.0/H53034E71__20250607175308.apk',
+                    '源码包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.6.0.0.0.zip'
                 }
             }
         }
@@ -353,21 +388,21 @@ const SPARK_DOWNLOADS = {
         versions: {
             '4.1.1.0': {
                 github: {
-                    'Android APK': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.4.1.1.0/H5DD2E11E__20240727081549.apk',
+                    'Android': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.4.1.1.0/H5DD2E11E__20240727081549.apk',
                     '源码包': 'https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.4.1.1.0.zip'
                 },
                 mirror: {
-                    'Android APK': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.4.1.1.0/H5DD2E11E__20240727081549.apk',
+                    'Android': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.4.1.1.0/H5DD2E11E__20240727081549.apk',
                     '源码包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.4.1.1.0.zip'
                 }
             },
             '4.0.0.0': {
                 github: {
-                    'Android APK': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.4.0.0.0/H5612C787__20240727081044.apk',
+                    'Android': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.4.0.0.0/H5612C787__20240727081044.apk',
                     '源码包': 'https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.4.0.0.0.zip'
                 },
                 mirror: {
-                    'Android APK': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.4.0.0.0/H5612C787__20240727081044.apk',
+                    'Android': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.4.0.0.0/H5612C787__20240727081044.apk',
                     '源码包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.4.0.0.0.zip'
                 }
             }
@@ -380,23 +415,23 @@ const SPARK_DOWNLOADS = {
         versions: {
             '3.0.1.0': {
                 github: {
-                    'Android APK': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v3.0.1.0/H5EFB41FC__20240727073359.apk',
-                    'Windows x32 免安装': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v3.0.1.0/Spark.3.0.spa3ap3.1.zip',
+                    'Android': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v3.0.1.0/H5EFB41FC__20240727073359.apk',
+                    'Windows x32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v3.0.1.0/Spark.3.0.spa3ap3.1.zip',
                     '源码包': 'https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v3.0.1.0.zip'
                 },
                 mirror: {
-                    'Android APK': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v3.0.1.0/H5EFB41FC__20240727073359.apk',
-                    'Windows x32 免安装': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v3.0.1.0/Spark.3.0.spa3ap3.1.zip',
+                    'Android': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v3.0.1.0/H5EFB41FC__20240727073359.apk',
+                    'Windows x32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v3.0.1.0/Spark.3.0.spa3ap3.1.zip',
                     '源码包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v3.0.1.0.zip'
                 }
             },
             '3.0.0.0': {
                 github: {
-                    'Android APK': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.3.0.0.0/H5FEEB2D8__20240727074843.apk',
+                    'Android': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.3.0.0.0/H5FEEB2D8__20240727074843.apk',
                     '源码包': 'https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.3.0.0.0.zip'
                 },
                 mirror: {
-                    'Android APK': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.3.0.0.0/H5FEEB2D8__20240727074843.apk',
+                    'Android': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.3.0.0.0/H5FEEB2D8__20240727074843.apk',
                     '源码包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.3.0.0.0.zip'
                 }
             }
@@ -409,13 +444,13 @@ const SPARK_DOWNLOADS = {
         versions: {
             '2.2.0.0': {
                 github: {
-                    'Android APK': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.2.2.0.0/H505B2286__20240726173713.apk',
-                    'Windows x32 免安装': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.2.2.0.0/spark.2.2.0.0.zip',
+                    'Android': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.2.2.0.0/H505B2286__20240726173713.apk',
+                    'Windows x32': 'https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.2.2.0.0/spark.2.2.0.0.zip',
                     '源码包': 'https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.2.2.0.0.zip'
                 },
                 mirror: {
-                    'Android APK': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.2.2.0.0/H505B2286__20240726173713.apk',
-                    'Windows x32 免安装': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.2.2.0.0/spark.2.2.0.0.zip',
+                    'Android': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.2.2.0.0/H505B2286__20240726173713.apk',
+                    'Windows x32': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/releases/download/v.2.2.0.0/spark.2.2.0.0.zip',
                     '源码包': 'https://gh.bugdey.us.kg/https://github.com/Chai-Bing-Kun/Spark-X/archive/refs/tags/v.2.2.0.0.zip'
                 }
             }
