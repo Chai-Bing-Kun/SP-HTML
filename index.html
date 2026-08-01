@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spark 模拟系统 - 主页</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="spark-design.css">
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
@@ -26,17 +26,50 @@
         })();
     </script>
     <div id="loading">
-        <div class="loader"></div>
+        <div class="boot-screen">
+            <img src="img/MAIN.svg" alt="Spark" class="boot-logo">
+            <div class="boot-name">SPARK<span class="boot-dot">_</span></div>
+            <div class="boot-bar"><div class="boot-bar-fill" id="bootBarFill"></div></div>
+            <div class="boot-status">正在启动模拟桌面<span class="boot-cursor">▍</span></div>
+            <div class="boot-percent" id="bootPercent">0%</div>
+        </div>
     </div>
 
     <div class="background-container">
         <!-- 粒子背景 -->
         <div class="particles" id="particles"></div>
 
+        <!-- 全局鼠标光晕 -->
+        <div class="cursor-glow" id="cursorGlow"></div>
+
+        <!-- 桌面图标栏（模拟桌面 Dock） -->
+        <div class="desktop-dock" id="desktopDock" aria-label="桌面图标">
+            <button class="dock-icon" data-target="top" title="回到桌面顶部">
+                <span class="dock-icon-symbol"><i class="fas fa-desktop"></i></span>
+                <span class="dock-icon-label">桌面</span>
+            </button>
+            <button class="dock-icon" data-target="about" title="什么是 Spark？">
+                <span class="dock-icon-symbol"><i class="fas fa-info-circle"></i></span>
+                <span class="dock-icon-label">关于</span>
+            </button>
+            <button class="dock-icon" data-target="history" title="开发历史">
+                <span class="dock-icon-symbol"><i class="fas fa-history"></i></span>
+                <span class="dock-icon-label">历史</span>
+            </button>
+            <button class="dock-icon" data-target="install" title="如何获取 Spark">
+                <span class="dock-icon-symbol"><i class="fas fa-download"></i></span>
+                <span class="dock-icon-label">获取</span>
+            </button>
+            <button class="dock-icon" data-target="download" title="前往下载页">
+                <span class="dock-icon-symbol"><i class="fab fa-windows"></i></span>
+                <span class="dock-icon-label">下载</span>
+            </button>
+        </div>
+
         <header>
             <div class="header-left">
                 <div class="logo-wrapper">
-                    <img src="img/MAIN.jpg" alt="Spark 商标" class="logo">
+                    <img src="img/MAIN.svg" alt="Spark 商标" class="logo">
                     <div class="logo-glow"></div>
                 </div>
                 <div class="brand-text">
@@ -58,15 +91,24 @@
         </header>
 
         <main>
-            <!-- Hero 区域 -->
-            <section class="hero-section">
-                <div class="hero-content">
-                    <div class="hero-badge">✨ 全新一代</div>
-                    <h2 class="hero-title">探索 <span class="gradient-text">Spark</span> 模拟系统</h2>
-                    <p class="hero-desc">创意展示 · 模拟桌面 · 仅供娱乐</p>
-                    <div class="hero-actions">
-                        <a href="download.html" class="hero-btn primary"><i class="fas fa-download"></i> 立即下载</a>
-                        <a href="javascript:void(0);" onclick="showAnnouncement();" class="hero-btn secondary"><i class="fas fa-bullhorn"></i> 查看公告</a>
+            <!-- Hero 区域（启动窗口） -->
+            <section class="hero-section" data-window="top">
+                <div class="window">
+                    <div class="window-bar">
+                        <div class="window-dots">
+                            <i class="dot-r"></i><i class="dot-y"></i><i class="dot-g"></i>
+                        </div>
+                        <h2 class="window-title"><i class="fas fa-terminal"></i> spark.exe</h2>
+                        <span class="window-status">系统就绪</span>
+                    </div>
+                    <div class="window-body">
+                        <div class="hero-badge">✨ 全新一代</div>
+                        <h2 class="hero-title">探索 <span class="gradient-text">Spark</span> 模拟系统</h2>
+                        <p class="hero-desc">创意展示 · 模拟桌面 · 仅供娱乐</p>
+                        <div class="hero-actions">
+                            <a href="download.html" class="hero-btn primary"><i class="fas fa-download"></i> 立即下载</a>
+                            <a href="javascript:void(0);" onclick="showAnnouncement();" class="hero-btn secondary"><i class="fas fa-bullhorn"></i> 查看公告</a>
+                        </div>
                     </div>
                 </div>
                 <div class="hero-decoration">
@@ -77,43 +119,80 @@
             </section>
 
             <!-- 关于 Spark -->
-            <section class="content-section">
-                <div class="section-header">
-                    <span class="section-icon"><i class="fas fa-info-circle"></i></span>
-                    <h2 class="section-title">什么是 Spark？</h2>
-                    <div class="section-line"></div>
-                </div>
-                <div class="section-body">
-                    <div class="text-card">
-                        <div class="card-icon"><i class="fas fa-rocket"></i></div>
-                        <p>Spark 是初（网名）编写的一款模拟操作系统展示页面，它并非真正的操作系统，无法在电脑上实际运行程序，仅作为一个创意展示项目供大家观赏。Spark 主要由模拟的安装界面和图形操作界面组成。第一代 Spark 并不叫作 Spark 1.0.0.0，而是被称作 dictionary 1.0，开发者也许是希望它能查阅到很多信息吧……不过可惜的是 dictionary 1.0 的源代码已经找不到了……</p>
+            <section class="content-section" data-window="about">
+                <div class="window">
+                    <div class="window-bar">
+                        <div class="window-dots">
+                            <i class="dot-r"></i><i class="dot-y"></i><i class="dot-g"></i>
+                        </div>
+                        <h2 class="window-title"><i class="fas fa-info-circle"></i> 什么是 Spark？</h2>
+                        <span class="window-status">spark://about</span>
+                    </div>
+                    <div class="window-body">
+                        <div class="text-card">
+                            <div class="card-icon"><i class="fas fa-rocket"></i></div>
+                            <p>Spark 是初（网名）编写的一款模拟操作系统展示页面，它并非真正的操作系统，无法在电脑上实际运行程序，仅作为一个创意展示项目供大家观赏。Spark 主要由模拟的安装界面和图形操作界面组成。第一代 Spark 并不叫作 Spark 1.0.0.0，而是被称作 dictionary 1.0，开发者也许是希望它能查阅到很多信息吧……不过可惜的是 dictionary 1.0 的源代码已经找不到了……</p>
+                        </div>
                     </div>
                 </div>
             </section>
 
             <!-- 为什么要编写 Spark -->
-            <section class="content-section">
-                <div class="section-header">
-                    <span class="section-icon"><i class="fas fa-lightbulb"></i></span>
-                    <h2 class="section-title">为什么要编写 Spark？</h2>
-                    <div class="section-line"></div>
-                </div>
-                <div class="section-body">
-                    <div class="text-card">
-                        <div class="card-icon"><i class="fas fa-history"></i></div>
-                        <p>Spark 的灵感来源于开发者在编程社区中闲逛时，看到了一个名为 Windows 10 的模拟桌面编程作品，于是便有了制作一款模拟系统展示的想法。Spark 最早编写于 2021 年，每一代展示页面都随着上一代的迭代而更新，视觉效果也变得更加流畅和精致。随着越来越多的 Java 插件和云存储功能的引入，在 Spark 4 发布结束后，首次出现了联网的一批代表性展示作品，主要以多个用户移动不同的区块来进行图形交互操作。在 Spark 5 之后，模拟系统就支持了联网功能，Spark 也就顺理成章地进入了互联网时代。Java 插件是一个非常有用的东西，它允许开发者通过 Java 的引入来进行更多有趣的展示操作，比如 Spark 5 的一项功能——"聊天"就采用了"汉字转换英文 1.0"。</p>
+            <section class="content-section" data-window="history">
+                <div class="window">
+                    <div class="window-bar">
+                        <div class="window-dots">
+                            <i class="dot-r"></i><i class="dot-y"></i><i class="dot-g"></i>
+                        </div>
+                        <h2 class="window-title"><i class="fas fa-lightbulb"></i> 为什么要编写 Spark？</h2>
+                        <span class="window-status">spark://history</span>
+                    </div>
+                    <div class="window-body">
+                        <div class="text-card">
+                            <div class="card-icon"><i class="fas fa-history"></i></div>
+                            <p>Spark 的灵感来源于开发者在编程社区中闲逛时，看到了一个名为 Windows 10 的模拟桌面编程作品，于是便有了制作一款模拟系统展示的想法。Spark 最早编写于 2021 年，每一代展示页面都随着上一代的迭代而更新，视觉效果也变得更加流畅和精致。随着越来越多的 Java 插件和云存储功能的引入，在 Spark 4 发布结束后，首次出现了联网的一批代表性展示作品，主要以多个用户移动不同的区块来进行图形交互操作。在 Spark 5 之后，模拟系统就支持了联网功能，Spark 也就顺理成章地进入了互联网时代。Java 插件是一个非常有用的东西，它允许开发者通过 Java 的引入来进行更多有趣的展示操作，比如 Spark 5 的一项功能——"聊天"就采用了"汉字转换英文 1.0"。</p>
+                        </div>
+                        <div class="timeline">
+                            <div class="timeline-row">
+                                <div class="timeline-dot"></div>
+                                <span class="timeline-tag">2021 · 起点</span>
+                                <h3 class="timeline-title">dictionary 1.0</h3>
+                                <p class="timeline-body">第一代 Spark 的雏形，名字还叫 dictionary 1.0，可惜源代码已经找不到了。</p>
+                            </div>
+                            <div class="timeline-row">
+                                <div class="timeline-dot"></div>
+                                <span class="timeline-tag">Spark 4 · 联网开端</span>
+                                <h3 class="timeline-title">第一次联网</h3>
+                                <p class="timeline-body">发布结束后，首次出现联网的代表性作品：多个用户移动区块进行图形交互。</p>
+                            </div>
+                            <div class="timeline-row">
+                                <div class="timeline-dot"></div>
+                                <span class="timeline-tag">Spark 5 · 互联网时代</span>
+                                <h3 class="timeline-title">在线聊天</h3>
+                                <p class="timeline-body">支持联网功能，通过 Java 插件实现"聊天"，采用"汉字转换英文 1.0"。</p>
+                            </div>
+                            <div class="timeline-row">
+                                <div class="timeline-dot"></div>
+                                <span class="timeline-tag">Spark 6 · 最新一代</span>
+                                <h3 class="timeline-title">全新界面</h3>
+                                <p class="timeline-body">全新的界面设计与更丰富的功能体验，可直接在浏览器中运行体验。</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
 
             <!-- 如何部署 Spark -->
-            <section class="content-section">
-                <div class="section-header">
-                    <span class="section-icon"><i class="fas fa-cog"></i></span>
-                    <h2 class="section-title">如何获取 Spark 展示项目？</h2>
-                    <div class="section-line"></div>
-                </div>
-                <div class="section-body">
+            <section class="content-section" data-window="install">
+                <div class="window">
+                    <div class="window-bar">
+                        <div class="window-dots">
+                            <i class="dot-r"></i><i class="dot-y"></i><i class="dot-g"></i>
+                        </div>
+                        <h2 class="window-title"><i class="fas fa-cog"></i> 如何获取 Spark 展示项目？</h2>
+                        <span class="window-status">spark://install</span>
+                    </div>
+                    <div class="window-body">
                     <div class="deploy-grid">
                         <div class="deploy-card">
                             <div class="deploy-card-header">
@@ -122,8 +201,25 @@
                             </div>
                             <div class="deploy-card-body">
                                 <p>跳转到 <a href="https://spark-home.pages.dev/download" target="_blank" class="deploy-link">下载页面</a>，点击下载按钮，下载 APK 安装包（仅用于展示，无法真正安装运行）：</p>
-                                <div class="deploy-image-wrapper">
-                                    <img src="img/apk下载介绍.png" alt="APK 下载示例" class="deploy-image">
+                                <div class="download-sim" role="img" aria-label="下载 APK 文件示例">
+                                    <div class="dl-win-bar">
+                                        <span class="dl-dot dl-dot-r"></span>
+                                        <span class="dl-dot dl-dot-y"></span>
+                                        <span class="dl-dot dl-dot-g"></span>
+                                        <span class="dl-win-title">下载管理器</span>
+                                    </div>
+                                    <div class="dl-win-body">
+                                        <div class="dl-file">
+                                            <span class="dl-file-icon"><i class="fas fa-mobile-alt"></i></span>
+                                            <div class="dl-file-info">
+                                                <span class="dl-file-name">Spark-6.0.0.0.apk</span>
+                                                <span class="dl-file-meta">APK 安装包 · 约 24 MB</span>
+                                            </div>
+                                            <span class="dl-file-status"><i class="fas fa-check-circle"></i></span>
+                                        </div>
+                                        <div class="dl-progress"><span class="dl-progress-fill"></span></div>
+                                        <div class="dl-tip"><i class="fas fa-check"></i> 下载完成 · APK 文件</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -135,8 +231,25 @@
                             </div>
                             <div class="deploy-card-body">
                                 <p>跳转到 <a href="https://spark-home.pages.dev/download" target="_blank" class="deploy-link">下载页面</a>，点击下载按钮，下载 Zip 文件（解压后可在浏览器中打开展示）：</p>
-                                <div class="deploy-image-wrapper">
-                                    <img src="img/Windows下载介绍.png" alt="Windows 下载示例" class="deploy-image">
+                                <div class="download-sim" role="img" aria-label="下载 Windows 执行文件示例">
+                                    <div class="dl-win-bar">
+                                        <span class="dl-dot dl-dot-r"></span>
+                                        <span class="dl-dot dl-dot-y"></span>
+                                        <span class="dl-dot dl-dot-g"></span>
+                                        <span class="dl-win-title">下载管理器</span>
+                                    </div>
+                                    <div class="dl-win-body">
+                                        <div class="dl-file">
+                                            <span class="dl-file-icon windows"><i class="fab fa-windows"></i></span>
+                                            <div class="dl-file-info">
+                                                <span class="dl-file-name">Spark-Windows-v6.0.0.0.zip</span>
+                                                <span class="dl-file-meta">Zip 压缩包 · 约 38 MB</span>
+                                            </div>
+                                            <span class="dl-file-status"><i class="fas fa-check-circle"></i></span>
+                                        </div>
+                                        <div class="dl-progress"><span class="dl-progress-fill"></span></div>
+                                        <div class="dl-tip"><i class="fas fa-check"></i> 下载完成 · Windows 执行文件</div>
+                                    </div>
                                 </div>
                                 <div class="command-block">
                                     <div class="command-label">解压后运行：</div>
@@ -158,6 +271,7 @@
                         <i class="fas fa-info-circle"></i>
                         <span>Linux 和 Mac 文件可参阅解压后的 txt 文件进行操作</span>
                     </div>
+                    </div>
                 </div>
             </section>
         </main>
@@ -165,7 +279,7 @@
         <footer>
             <div class="footer-content">
                 <div class="footer-brand">
-                    <img src="img/MAIN.jpg" alt="Spark" class="footer-logo">
+                    <img src="img/MAIN.svg" alt="Spark" class="footer-logo">
                     <span>Spark 模拟系统</span>
                 </div>
                 <div class="footer-actions">
@@ -186,7 +300,7 @@
         </div>
         <div class="dialog-content">
             <div class="announcement-section">
-                <h3 style="color: #4CAF50;">
+                <h3 class="is-new">
                     <span class="icon">🆕</span> 新版本说明
                 </h3>
                 <ul class="announcement-list">
@@ -197,14 +311,16 @@
                 </ul>
             </div>
             <div class="announcement-section">
-                <h3 style="color: #2196F3;">
+                <h3 class="is-site">
                     <span class="icon">🌐</span> 网站公告
                 </h3>
                 <ul class="announcement-list">
+                    <li class="site-item">📌 网站主体已全面改版：主页与下载页统一采用「深夜模拟桌面」设计，焕然一新</li>
+                    <li class="site-item">📌 全新 Spark 矢量品牌图标上线，明暗双主题下同样清晰细腻</li>
+                    <li class="site-item">📌 部署指引升级为模拟「下载管理器」窗口，与模拟桌面风格融为一体</li>
                     <li class="site-item">📌 Spark 6 已正式发布，欢迎下载体验</li>
                     <li class="site-item">📌 网站新增了在网页中运行 Spark 6 的功能</li>
                     <li class="site-item">📌 优化了移动端的显示效果与加载动画</li>
-                    <li class="site-item">📌 产品的下载支持第四代、第五代和第六代的全代数下载</li>
                 </ul>
             </div>
         </div>
@@ -264,6 +380,138 @@
             });
         });
 
+        // ===== 创意交互系统 =====
+
+        // 1. 全局鼠标光晕（跟随光标）
+        function initCursorGlow() {
+            const glow = document.getElementById('cursorGlow');
+            if (!glow) return;
+            const isFine = window.matchMedia('(pointer: fine)').matches;
+            if (!isFine) return; // 触屏设备不启用
+
+            let raf = null;
+            let tx = window.innerWidth / 2, ty = window.innerHeight / 2;
+            let cx = tx, cy = ty;
+
+            window.addEventListener('mousemove', (e) => {
+                tx = e.clientX;
+                ty = e.clientY;
+                if (!raf) {
+                    raf = requestAnimationFrame(animate);
+                }
+            });
+
+            function animate() {
+                cx += (tx - cx) * 0.08;
+                cy += (ty - cy) * 0.08;
+                glow.style.transform = `translate(${cx - 240}px, ${cy - 240}px)`;
+                raf = null;
+            }
+        }
+
+        // 2. 窗口聚焦系统（点击窗口高亮，其他窗口变暗）
+        function initWindowFocus() {
+            const sections = document.querySelectorAll('main section');
+            const mainEl = document.querySelector('main');
+            sections.forEach(section => {
+                const win = section.querySelector('.window');
+                if (!win) return;
+                win.addEventListener('click', (e) => {
+                    // 点击交互元素时不触发（如按钮、链接）
+                    if (e.target.closest('button, a, .copy-btn, input, textarea')) return;
+                    sections.forEach(s => s.classList.remove('window-focused'));
+                    section.classList.add('window-focused');
+                    if (mainEl) mainEl.classList.add('has-focus');
+                });
+            });
+            // 点击空白处取消聚焦
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('main section .window') && !e.target.closest('.dock-icon')) {
+                    sections.forEach(s => s.classList.remove('window-focused'));
+                    if (mainEl) mainEl.classList.remove('has-focus');
+                }
+            });
+        }
+
+        // 3. 窗口折叠/展开（双击标题栏 + 红点）
+        function initWindowCollapse() {
+            document.querySelectorAll('.window').forEach(win => {
+                const bar = win.querySelector('.window-bar');
+                const dots = win.querySelector('.window-dots');
+                if (!bar) return;
+                bar.addEventListener('dblclick', (e) => {
+                    if (e.target.closest('.window-dots')) return;
+                    win.classList.toggle('window-collapsed');
+                });
+                if (dots) {
+                    dots.addEventListener('click', (e) => {
+                        const dot = e.target.closest('i');
+                        if (!dot) return;
+                        if (dot.classList.contains('dot-r')) {
+                            // 红点 = 折叠/展开
+                            win.classList.toggle('window-collapsed');
+                        } else if (dot.classList.contains('dot-g')) {
+                            // 绿点 = 聚焦
+                            const section = win.closest('main section');
+                            document.querySelectorAll('main section').forEach(s => s.classList.remove('window-focused'));
+                            if (section) section.classList.add('window-focused');
+                        }
+                    });
+                }
+            });
+        }
+
+        // 4. 桌面图标 Dock 交互
+        function initDock() {
+            const dock = document.getElementById('desktopDock');
+            if (!dock) return;
+            dock.addEventListener('click', (e) => {
+                const icon = e.target.closest('.dock-icon');
+                if (!icon) return;
+                const target = icon.dataset.target;
+                if (target === 'download') {
+                    window.location.href = 'download.html';
+                    return;
+                }
+                const section = document.querySelector(`main section[data-window="${target}"]`);
+                if (section) {
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    // 聚焦对应窗口
+                    document.querySelectorAll('main section').forEach(s => s.classList.remove('window-focused'));
+                    section.classList.add('window-focused');
+                    // 图标激活状态
+                    dock.querySelectorAll('.dock-icon').forEach(i => i.classList.remove('dock-active'));
+                    icon.classList.add('dock-active');
+                    // 展开折叠的窗口
+                    const win = section.querySelector('.window');
+                    if (win) win.classList.remove('window-collapsed');
+                } else if (target === 'top') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
+        }
+
+        // 5. 滚动驱动 reveal 动画
+        function initScrollReveal() {
+            const sections = document.querySelectorAll('main section');
+            if (!('IntersectionObserver' in window)) {
+                sections.forEach(s => s.classList.add('revealed'));
+                return;
+            }
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+            sections.forEach(section => {
+                section.classList.add('reveal');
+                observer.observe(section);
+            });
+        }
+
         function showAnnouncement() {
             const dialog = document.getElementById('announcementDialog');
             dialog.showModal();
@@ -322,12 +570,45 @@
         // 页面加载完成后执行
         window.addEventListener('load', function() {
             const loading = document.getElementById('loading');
+            const bootStatus = loading.querySelector('.boot-status');
+            const bootPercent = document.getElementById('bootPercent');
+            const bootBarFill = document.getElementById('bootBarFill');
+
+            // 分阶段开机序列（BIOS 风格）
+            const bootStages = [
+                { text: '正在检测内存…', percent: 20 },
+                { text: '正在加载内核模块…', percent: 45 },
+                { text: '正在初始化显卡驱动…', percent: 70 },
+                { text: '正在启动模拟桌面…', percent: 92 }
+            ];
+
+            let stageIndex = 0;
+            const stageTimer = setInterval(function() {
+                if (stageIndex < bootStages.length) {
+                    const stage = bootStages[stageIndex];
+                    if (bootStatus) {
+                        bootStatus.innerHTML = stage.text + '<span class="boot-cursor">▍</span>';
+                    }
+                    if (bootPercent) bootPercent.textContent = stage.percent + '%';
+                    if (bootBarFill) bootBarFill.style.width = stage.percent + '%';
+                    stageIndex++;
+                } else {
+                    clearInterval(stageTimer);
+                }
+            }, 300);
+
             setTimeout(function() {
+                if (bootPercent) bootPercent.textContent = '100%';
+                if (bootBarFill) bootBarFill.style.width = '100%';
                 loading.style.opacity = '0';
                 setTimeout(function() {
                     loading.style.display = 'none';
+                    // 开机完成：桌面图标逐个弹出
+                    document.querySelectorAll('.dock-icon').forEach((icon, i) => {
+                        setTimeout(() => icon.classList.add('dock-show'), 80 * i);
+                    });
                 }, 400);
-            }, 800);
+            }, 1500);
 
             // 创建粒子背景
             createParticles();
@@ -336,6 +617,13 @@
             updateUptime();
             // 每10分钟更新一次
             setInterval(updateUptime, 600000);
+
+            // 初始化创意交互系统
+            initCursorGlow();
+            initWindowFocus();
+            initWindowCollapse();
+            initDock();
+            initScrollReveal();
 
             // 触发 section 的动画延迟
             document.querySelectorAll('main section, .content-section').forEach((el, index) => {

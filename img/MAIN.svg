@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10182E"/>
+      <stop offset="55%" stop-color="#0B2A3A"/>
+      <stop offset="100%" stop-color="#0B7A84"/>
+    </linearGradient>
+    <linearGradient id="boltGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4FD8EB"/>
+      <stop offset="100%" stop-color="#7CE38B"/>
+    </linearGradient>
+    <linearGradient id="coreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E8FBFF"/>
+      <stop offset="100%" stop-color="#B8F2E0"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="45%" r="50%">
+      <stop offset="0%" stop-color="#4FD8EB" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#4FD8EB" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- 圆角方形背景（深夜桌面蓝 → 青） -->
+  <rect x="2" y="2" width="96" height="96" rx="24" fill="url(#bgGrad)"/>
+  <!-- 内部光晕 -->
+  <circle cx="50" cy="44" r="34" fill="url(#glow)"/>
+  <!-- 细描边（玻璃质感） -->
+  <rect x="2" y="2" width="96" height="96" rx="24" fill="none" stroke="#4FD8EB" stroke-opacity="0.28" stroke-width="1.5"/>
+
+  <!-- 闪电主体（Spark 火花） -->
+  <path d="M55 14 L27 55 L44 55 L36 86 L73 42 L53 42 Z" fill="url(#boltGrad)"/>
+  <!-- 闪电核心高光 -->
+  <path d="M51 22 L34 50 L44 50 L39 70 L58 46 L49 46 Z" fill="url(#coreGrad)" opacity="0.85"/>
+
+  <!-- 飞溅火花粒子 -->
+  <circle cx="80" cy="26" r="3.2" fill="#7CE38B"/>
+  <circle cx="22" cy="22" r="2.2" fill="#4FD8EB"/>
+  <circle cx="78" cy="70" r="2" fill="#4FD8EB" opacity="0.8"/>
+  <circle cx="28" cy="78" r="1.6" fill="#7CE38B" opacity="0.75"/>
+</svg>
