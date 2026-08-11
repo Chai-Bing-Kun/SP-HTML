@@ -24,9 +24,10 @@ argument-hint: '描述你想定位的功能或文件（如：下载链接配置�
 ## 硬性约束（必须遵守）
 
 - ⚠️ **禁止通读 `Spark for the web/Spark N.html`**（5~16 MB、单行超 200 万字符）。只读开头 3~5 行确认性质，或跳过。
-- ⚠️ **禁止全文读取 `download.html` 的内联 `<style>`（L10-832）**（那是下载页特有样式，约 800 行）。看正文从 L834 开始；下载页**通用**样式（header/导航/footer/dialog/响应式）继承 `spark-design.css`。
+- ⚠️ **禁止全文读取 `download.html` 的内联 `<style>`（L10-1405）**（那是下载页样式区，约 1400 行，含 L10-903 下载页特有样式 + L907-1404 同步自 index.html 的霓虹/仓鼠/主题卡片样式）。看正文从 L1406 开始；下载页**通用**样式（header/导航/footer/dialog）继承 `spark-design.css`。
 - ⚠️ **`spark-design.css` 是主页与下载页（index.html + download.html）共用的深夜模拟桌面设计系统**，改通用样式（header/导航/dialog/按钮/响应式/创意交互）时**应**修改它。（旧版 `style.css` 已于 2026-08 删除，两页均已切换至 spark-design.css）
-- ⚠️ **主页创意交互**（桌面 Dock、窗口聚焦/折叠、分阶段开机、滚动 reveal、鼠标光晕）：样式集中在 `spark-design.css` L2457-2731，逻辑在 `index.html` 内联脚本的 `initCursorGlow`/`initWindowFocus`/`initWindowCollapse`/`initDock`/`initScrollReveal` 五个函数（L350-590 区间）+ 分阶段开机 `bootStages`（L542）。改交互逻辑只动 `index.html`，改交互样式只动 `spark-design.css`。
+- ⚠️ **主页创意交互**（桌面 Dock、窗口聚焦/折叠、分阶段开机、滚动 reveal、鼠标光晕）：样式集中在 `spark-design.css` L2603-2880，逻辑在 `index.html` 内联脚本的 `initCursorGlow`/`initWindowFocus`/`initWindowCollapse`/`initDock`/`initScrollReveal` 五个函数（L1415-1657）+ 分阶段开机 `bootStages`（L1609）。改交互逻辑只动 `index.html`，改交互样式只动 `spark-design.css`。
+- ⚠️ **加载条（启动画面）与主题卡片弹窗已在 index.html 与 download.html 两页同步**（2026-08-11）：`--neon*` 变量不在 spark-design.css 中，由两页内联 `<style>` 各自维护，**改一处须同步另一处**。
 - ⚠️ **旧版 `feedback.js` 已删除**（2026-08），主页反馈逻辑已内联在 `index.html`（`#feedbackDialog` + EmailJS）。
 - 本项目是静态网站，无构建步骤；修改后直接刷新浏览器即可验证。
 
@@ -38,10 +39,11 @@ argument-hint: '描述你想定位的功能或文件（如：下载链接配置�
 | 工具导航入口 | `tools-dialog.js` → `toolsPages` |
 | 主题切换 | `theme.js` |
 | 加密工具功能 | `Other-Sites/lock.html`（自包含单文件） |
-| 主页/下载页文案与结构 | `index.html` / `download.html`（正文 L834 起，样式见下） |
+| 主页/下载页文案与结构 | `index.html` / `download.html`（正文 L1406 起，样式见下） |
 | 主页（index.html）样式 | `spark-design.css` |
-| 主页创意交互（Dock/聚焦/折叠/开机/reveal） | 样式 `spark-design.css` L2457-2731；逻辑 `index.html` 五个 `init*` 函数 + `bootStages` |
+| 主页创意交互（Dock/聚焦/折叠/开机/reveal） | 样式 `spark-design.css` L2603-2880；逻辑 `index.html` 五个 `init*` 函数（L1415-1657）+ `bootStages`（L1609） |
 | 下载页（download.html）通用样式（header/导航/footer/dialog） | `spark-design.css` |
-| 下载页（download.html）特有样式（筛选/列表/版本卡/hero 装饰/action-btn/公告列表） | `download.html` 内联 `<style>` L10-832 |
-| 弹窗/按钮/响应式样式（主页） | `spark-design.css` L1196-1619、L1934+ |
-| 弹窗/按钮/响应式样式（下载页） | `spark-design.css`（通用）+ `download.html` 内联 L10-832（特有） |
+| 下载页（download.html）特有样式（筛选/列表/版本卡/hero 装饰/action-btn/公告列表） | `download.html` 内联 `<style>` L10-903 |
+| 加载条（启动画面）/ 主题卡片弹窗（两页已同步） | `index.html` L995-1030 / L1289-1322；`download.html` L1423-1470 / L1586-1620；CSS/JS 各自内联 |
+| 弹窗/按钮/响应式样式（主页） | `spark-design.css` L1352-1812、L2078-2602 |
+| 弹窗/按钮/响应式样式（下载页） | `spark-design.css`（通用）+ `download.html` 内联 L10-903（特有） |

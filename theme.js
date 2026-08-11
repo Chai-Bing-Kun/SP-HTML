@@ -21,6 +21,43 @@ function updateThemeButton(theme) {
     }
 }
 
+// 应用主题（带动画）
+function applyThemeWithAnimation(theme) {
+    // 创建或获取闪光层
+    let overlay = document.getElementById('themeTransitionOverlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'themeTransitionOverlay';
+        overlay.className = 'theme-transition-overlay';
+        document.body.appendChild(overlay);
+    }
+    
+    // 获取主题切换按钮
+    const btn = document.getElementById('themeToggle');
+    
+    // 添加按钮脉冲动画
+    if (btn) {
+        btn.classList.add('theme-btn-animating');
+        setTimeout(() => btn.classList.remove('theme-btn-animating'), 500);
+    }
+    
+    // 触发闪光动画
+    overlay.classList.remove('active');
+    // 强制重绘
+    void overlay.offsetWidth;
+    overlay.classList.add('active');
+    
+    // 在动画进行到一半时应用主题（更自然）
+    setTimeout(() => {
+        applyTheme(theme, true);
+    }, 150);
+    
+    // 动画结束后移除闪光层
+    setTimeout(() => {
+        overlay.classList.remove('active');
+    }, 500);
+}
+
 // 应用主题到页面
 function applyTheme(theme, updateButton = true) {
     if (theme === 'dark') {
@@ -33,12 +70,12 @@ function applyTheme(theme, updateButton = true) {
     }
 }
 
-// 切换主题
+// 切换主题（带动画）
 function toggleTheme() {
     const isDark = document.body.classList.contains('dark-theme');
     const newTheme = isDark ? 'light' : 'dark';
     localStorage.setItem('theme', newTheme);
-    applyTheme(newTheme);
+    applyThemeWithAnimation(newTheme);
 }
 
 // 初始化主题（由页面在内联脚本中调用）

@@ -3,334 +3,829 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>文件加密/解密工具</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>Spark 文件保险库 · 加密/解密工具</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../lib/fontawesome/css/all.min.css">
+    <!-- 主题初始化：与主站同步（localStorage.theme），无设置时跟随系统 -->
+    <script>
+        (function() {
+            var saved = localStorage.getItem('theme');
+            var dark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (dark) document.documentElement.classList.add('dark');
+        })();
+    </script>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-            color: #333;
-        }
-        
-        h1 {
-            text-align: center;
-            color: #2c3e50;
-            margin-bottom: 30px;
-        }
-        
-        .container {
-            background-color: white;
-            border-radius: 8px;
-            padding: 30px;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .drop-area {
-            border: 2px dashed #3498db;
-            border-radius: 5px;
-            padding: 40px;
-            text-align: center;
-            margin-bottom: 25px;
-            transition: all 0.3s;
-            cursor: pointer;
-            position: relative;
-        }
-        
-        .drop-area.highlight {
-            border-color: #2ecc71;
-            background-color: rgba(46, 204, 113, 0.05);
-        }
-        
-        .drop-area p {
-            margin: 15px 0 0;
-            font-size: 16px;
-            color: #7f8c8d;
-        }
-        
-        .drop-area .icon {
-            font-size: 48px;
-            color: #3498db;
-            margin-bottom: 10px;
-        }
-        
-        .buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 25px;
-        }
-        
-        button {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: bold;
-        }
-        
-        #encryptBtn {
-            background-color: #3498db;
-            color: white;
-            box-shadow: 0 2px 5px rgba(52, 152, 219, 0.3);
-        }
-        
-        #encryptBtn:hover {
-            background-color: #2980b9;
-            transform: translateY(-2px);
-        }
-        
-        #decryptBtn {
-            background-color: #2ecc71;
-            color: white;
-            box-shadow: 0 2px 5px rgba(46, 204, 113, 0.3);
-        }
-        
-        #decryptBtn:hover {
-            background-color: #27ae60;
-            transform: translateY(-2px);
-        }
-        
-        #cancelBtn {
-            background-color: #e74c3c;
-            color: white;
-            box-shadow: 0 2px 5px rgba(231, 76, 60, 0.3);
-        }
-        
-        #cancelBtn:hover {
-            background-color: #c0392b;
-            transform: translateY(-2px);
-        }
-        
-        #fileInfo {
-            margin-top: 20px;
-            font-size: 15px;
-            color: #34495e;
-            text-align: center;
-        }
-        
-        .hidden {
-            display: none;
-        }
-        
-        #status {
-            margin-top: 20px;
-            text-align: center;
-            font-weight: bold;
-            min-height: 24px;
-            padding: 10px;
-            border-radius: 4px;
-        }
-        
-        .success {
-            color: #27ae60;
-            background-color: rgba(39, 174, 96, 0.1);
-        }
-        
-        .error {
-            color: #e74c3c;
-            background-color: rgba(231, 76, 60, 0.1);
-        }
-        
-        .progress {
-            color: #3498db;
-        }
-        
-        #passwordContainer {
-            margin-top: 20px;
-            text-align: center;
-        }
-        
-        #passwordInput {
-            padding: 10px 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            width: 300px;
-            max-width: 100%;
-            font-size: 16px;
-        }
-        
-        .file-type {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 3px 8px;
-            background-color: #f1c40f;
-            color: white;
-            border-radius: 3px;
-            font-size: 12px;
-            font-weight: bold;
+        /* ============================================================
+           Spark 文件保险库 · 设计系统
+           深海军蓝 + 磷光青 · 与主站 spark-design 同源
+           ============================================================ */
+        :root {
+            /* 浅色（呼应主站浅色主题） */
+            --bg-0: #E9EEF7;
+            --bg-1: #DCE4F0;
+            --panel: rgba(255, 255, 255, 0.62);
+            --panel-strong: rgba(255, 255, 255, 0.86);
+            --field: #FFFFFF;
+            --line: rgba(22, 32, 59, 0.12);
+            --line-strong: rgba(11, 122, 132, 0.5);
+            --ink: #16203B;
+            --ink-soft: #4E5B78;
+            --ink-faint: #7C88A3;
+            --accent: #0B7A84;
+            --accent-strong: #085E66;
+            --accent-soft: rgba(11, 122, 132, 0.12);
+            --accent-glow: rgba(11, 122, 132, 0.35);
+            --success: #1FA971;
+            --success-soft: rgba(31, 169, 113, 0.12);
+            --warn: #D98E04;
+            --danger: #D64545;
+            --danger-soft: rgba(214, 69, 69, 0.1);
+            --grid-line: rgba(22, 32, 59, 0.05);
+            --shadow-sm: 0 1px 2px rgba(5, 8, 20, 0.05), 0 4px 14px rgba(5, 8, 20, 0.07);
+            --shadow-md: 0 10px 34px rgba(5, 8, 20, 0.14);
+            --shadow-lg: 0 24px 70px rgba(5, 8, 20, 0.24);
+            --font-display: 'Chakra Petch', 'Noto Sans SC', sans-serif;
+            --font-body: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            --font-mono: 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
         }
 
-        /* 加密选项面板样式 */
-        .encryption-options {
-            margin: 20px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            overflow: hidden;
+        html.dark {
+            --bg-0: #070B14;
+            --bg-1: #0C1220;
+            --panel: rgba(146, 178, 216, 0.055);
+            --panel-strong: rgba(146, 178, 216, 0.1);
+            --field: rgba(146, 178, 216, 0.08);
+            --line: rgba(146, 196, 235, 0.14);
+            --line-strong: rgba(79, 216, 235, 0.5);
+            --ink: #E8EFFC;
+            --ink-soft: #96A3C4;
+            --ink-faint: #5E6E93;
+            --accent: #4FD8EB;
+            --accent-strong: #7FE6F2;
+            --accent-soft: rgba(79, 216, 235, 0.13);
+            --accent-glow: rgba(79, 216, 235, 0.32);
+            --success: #3DDC97;
+            --success-soft: rgba(61, 220, 151, 0.13);
+            --warn: #FFB84D;
+            --danger: #FF7B7B;
+            --danger-soft: rgba(255, 123, 123, 0.12);
+            --grid-line: rgba(148, 196, 235, 0.05);
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.35);
+            --shadow-md: 0 10px 34px rgba(0, 0, 0, 0.5);
+            --shadow-lg: 0 24px 70px rgba(0, 0, 0, 0.6);
         }
-        
-        .options-header {
-            background-color: #3498db;
-            color: white;
-            padding: 10px 15px;
+
+        * { box-sizing: border-box; }
+
+        html, body { margin: 0; padding: 0; }
+
+        body {
+            font-family: var(--font-body);
+            min-height: 100vh;
+            color: var(--ink);
+            background:
+                radial-gradient(1100px 560px at 12% -8%, var(--accent-soft), transparent 62%),
+                radial-gradient(900px 520px at 108% 108%, rgba(122, 92, 231, 0.1), transparent 60%),
+                linear-gradient(180deg, var(--bg-0), var(--bg-1));
+            background-attachment: fixed;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 细网格氛围层 */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 34px 34px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .mono { font-family: var(--font-mono); }
+
+        .hidden { display: none !important; }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 760px;
+            margin: 28px auto 48px;
+            padding: 26px 34px 36px;
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* ===== 页头 ===== */
+        .page-head {
+            text-align: center;
+            margin-bottom: 26px;
+        }
+
+        .head-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.22em;
+            color: var(--accent);
+            background: var(--accent-soft);
+            border: 1px solid var(--line);
+            border-radius: 99px;
+            padding: 6px 14px;
+            margin-bottom: 16px;
+        }
+
+        .chip-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 8px var(--accent-glow);
+            animation: chipPulse 2.4s ease-in-out infinite;
+        }
+
+        @keyframes chipPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.35; }
+        }
+
+        .page-head h1 {
+            margin: 0 0 8px;
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            color: var(--ink);
+        }
+
+        .head-sub {
+            margin: 0 0 14px;
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--ink-soft);
+            letter-spacing: 0.02em;
+        }
+
+        .head-meta {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .meta-chip {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 0.06em;
+            color: var(--ink-faint);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 3px 10px;
+            background: var(--panel-strong);
+        }
+
+        /* 页头下缘青色渐光线 */
+        .page-head::after {
+            content: '';
+            display: block;
+            width: 72px;
+            height: 2px;
+            margin: 18px auto 0;
+            border-radius: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0.8;
+        }
+
+        /* ===== 文件保险舱（拖放区） ===== */
+        .drop-area {
+            position: relative;
+            border: 1.5px dashed var(--line-strong);
+            border-radius: 18px;
+            padding: 40px 26px 34px;
+            text-align: center;
             cursor: pointer;
+            overflow: hidden;
+            background:
+                radial-gradient(340px 180px at 50% 0%, var(--accent-soft), transparent 70%),
+                var(--panel-strong);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+        }
+
+        .drop-area:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px var(--accent-soft), 0 14px 40px -14px var(--accent-glow);
+            transform: translateY(-1px);
+        }
+
+        .drop-area.highlight {
+            border-color: var(--success);
+            border-style: solid;
+            box-shadow: 0 0 0 5px var(--success-soft), 0 14px 44px -14px rgba(61, 220, 151, 0.35);
+        }
+
+        .vault-seal {
+            width: 74px;
+            height: 74px;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 27px;
+            color: var(--accent);
+            background: var(--accent-soft);
+            border: 1px solid var(--line-strong);
+            box-shadow: 0 0 26px -6px var(--accent-glow), inset 0 0 20px -10px var(--accent-glow);
+            transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.3s, box-shadow 0.3s, border-color 0.3s;
+        }
+
+        .drop-area:hover .vault-seal {
+            transform: rotate(-14deg) scale(1.07);
+        }
+
+        .drop-area.highlight .vault-seal {
+            transform: rotate(0deg) scale(1.12);
+            color: var(--success);
+            border-color: var(--success);
+            box-shadow: 0 0 34px -4px rgba(61, 220, 151, 0.5), inset 0 0 22px -8px rgba(61, 220, 151, 0.4);
+        }
+
+        .drop-title {
+            margin: 0 0 6px;
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .drop-sub {
+            margin: 0 0 10px;
+            font-size: 13px;
+            color: var(--ink-soft);
+        }
+
+        .drop-mono {
+            margin: 0;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 0.04em;
+            color: var(--ink-faint);
+        }
+
+        /* ===== 加密强度面板 ===== */
+        .encryption-options {
+            margin: 20px 0 0;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            overflow: hidden;
+            background: var(--panel-strong);
+        }
+
+        .options-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-        
-        .options-header:hover {
-            background-color: #2980b9;
-        }
-        
-        .options-content {
-            background-color: white;
-            padding: 0;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-        }
-        
-        .options-content.show {
-            padding: 15px;
-            max-height: 300px;
-        }
-        
-        .encryption-level {
-            margin-bottom: 10px;
-            padding: 10px;
-            border-radius: 4px;
+            padding: 13px 18px;
             cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .encryption-level:hover {
-            background-color: #f0f8ff;
-        }
-        
-        .encryption-level.selected {
-            background-color: #e1f0fa;
-            border-left: 4px solid #3498db;
-        }
-        
-        .level-title {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        
-        .level-desc {
+            user-select: none;
             font-size: 14px;
-            color: #7f8c8d;
-        }
-        
-        .level-badge {
-            display: inline-block;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-size: 12px;
-            font-weight: bold;
-            margin-right: 8px;
-        }
-        
-        .level-basic {
-            background-color: #2ecc71;
-            color: white;
-        }
-        
-        .level-medium {
-            background-color: #f39c12;
-            color: white;
-        }
-        
-        .level-high {
-            background-color: #e74c3c;
-            color: white;
+            font-weight: 600;
+            color: var(--ink);
+            background: linear-gradient(180deg, var(--panel-strong), transparent);
+            border-bottom: 1px solid transparent;
+            transition: background 0.25s ease;
         }
 
-        /* 密码强度指示器 */
+        .options-header:hover {
+            background: var(--accent-soft);
+        }
+
+        .options-header .opts-title i {
+            color: var(--accent);
+            margin-right: 8px;
+            font-size: 13px;
+        }
+
+        .options-header .opts-arrow {
+            font-size: 12px;
+            color: var(--ink-faint);
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .options-content {
+            padding: 0 16px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+        }
+
+        .options-content.show {
+            padding: 16px;
+            max-height: 340px;
+        }
+
+        .encryption-level {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-bottom: 10px;
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--line);
+            background: var(--panel);
+            cursor: pointer;
+            transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+            position: relative;
+        }
+
+        .encryption-level:last-child { margin-bottom: 0; }
+
+        .encryption-level:hover {
+            background: var(--accent-soft);
+            transform: translateX(3px);
+        }
+
+        .encryption-level.selected {
+            border-color: var(--line-strong);
+            background: var(--accent-soft);
+            box-shadow: inset 3px 0 0 var(--accent), 0 6px 22px -12px var(--accent-glow);
+        }
+
+        .level-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--ink);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+
+        .level-desc {
+            font-size: 12.5px;
+            line-height: 1.6;
+            color: var(--ink-soft);
+        }
+
+        .level-badge {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            padding: 3px 8px;
+            border-radius: 5px;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .level-basic   { background: var(--success); }
+        .level-medium  { background: var(--warn); }
+        .level-high    { background: var(--danger); }
+
+        /* ===== 三参数密码生成器 ===== */
+        .pwd-generator {
+            margin: 14px 0 0;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            overflow: hidden;
+            background: var(--panel-strong);
+        }
+
+        .pwd-gen-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 13px 18px;
+            cursor: pointer;
+            user-select: none;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--ink);
+            background: linear-gradient(180deg, var(--panel-strong), transparent);
+            border-bottom: 1px solid transparent;
+            transition: background 0.25s ease;
+        }
+
+        .pwd-gen-header:hover {
+            background: var(--accent-soft);
+        }
+
+        .pwd-gen-header .gen-icon {
+            color: var(--accent);
+            margin-right: 8px;
+            font-size: 13px;
+        }
+
+        .gen-toggle {
+            font-size: 12px;
+            color: var(--ink-faint);
+            transition: transform 0.3s ease;
+        }
+
+        .gen-toggle.open { transform: rotate(180deg); }
+
+        .pwd-gen-body {
+            padding: 0 16px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+        }
+
+        .pwd-gen-body.open {
+            padding: 16px;
+            max-height: 340px;
+        }
+
+        .pwd-gen-desc {
+            font-size: 12.5px;
+            line-height: 1.7;
+            color: var(--ink-soft);
+            margin-bottom: 14px;
+        }
+
+        .pwd-gen-fields {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .pwd-gen-input {
+            flex: 1;
+            min-width: 0;
+            padding: 11px 14px;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--field);
+            font-size: 14px;
+            font-family: var(--font-body);
+            color: var(--ink);
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .pwd-gen-input::placeholder { color: var(--ink-faint); }
+
+        .pwd-gen-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-soft);
+        }
+
+        .pwd-gen-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: var(--font-body);
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+            box-shadow: 0 8px 24px -10px var(--accent-glow);
+        }
+
+        .pwd-gen-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 12px 30px -10px var(--accent-glow);
+            filter: brightness(1.06);
+        }
+
+        .pwd-gen-btn:active { transform: translateY(0); }
+        .pwd-gen-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .pwd-gen-result {
+            margin-top: 14px;
+            padding: 14px;
+            background: var(--accent-soft);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            animation: resultFadeIn 0.3s ease;
+        }
+
+        @keyframes resultFadeIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .pwd-result-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .pwd-result-row { display: flex; gap: 8px; }
+
+        .pwd-result-input {
+            flex: 1;
+            min-width: 0;
+            padding: 10px 14px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            font-family: var(--font-mono);
+            font-size: 14px;
+            letter-spacing: 0.08em;
+            background: var(--field);
+            color: var(--ink);
+            outline: none;
+        }
+
+        .pwd-result-copy,
+        .pwd-result-fill {
+            padding: 10px 14px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-family: var(--font-body);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            white-space: nowrap;
+            transition: transform 0.2s ease, filter 0.2s ease, background 0.2s ease;
+        }
+
+        .pwd-result-copy { background: var(--accent); min-width: 44px; }
+        .pwd-result-copy:hover { filter: brightness(1.1); transform: scale(1.04); }
+        .pwd-result-copy:active { transform: scale(0.95); }
+        .pwd-result-copy.copied { background: var(--success); }
+
+        .pwd-result-fill { background: var(--ink-soft); }
+        .pwd-result-fill:hover { filter: brightness(1.15); transform: scale(1.04); }
+        .pwd-result-fill:active { transform: scale(0.95); }
+        .pwd-result-fill.filled { background: var(--success); }
+
+        .pwd-result-hint {
+            margin-top: 8px;
+            font-size: 11px;
+            color: var(--ink-faint);
+        }
+
+        /* ===== 密钥槽（密码输入） ===== */
+        #passwordContainer {
+            margin-top: 18px;
+            text-align: center;
+        }
+
+        .key-slot {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 4px 16px 4px 18px;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            background: var(--field);
+            transition: border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .key-slot:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px var(--accent-soft), 0 0 24px -8px var(--accent-glow);
+        }
+
+        .key-slot i {
+            color: var(--accent);
+            font-size: 15px;
+            opacity: 0.85;
+        }
+
+        #passwordInput {
+            flex: 1;
+            min-width: 0;
+            padding: 13px 4px;
+            border: none;
+            background: transparent;
+            font-size: 16px;
+            font-family: var(--font-mono);
+            letter-spacing: 0.04em;
+            color: var(--ink);
+            outline: none;
+        }
+
+        #passwordInput::placeholder {
+            font-family: var(--font-body);
+            font-size: 14px;
+            letter-spacing: 0;
+            color: var(--ink-faint);
+        }
+
         .password-strength {
+            max-width: 480px;
             height: 4px;
-            background: #eee;
-            margin-top: 5px;
-            border-radius: 2px;
+            background: var(--line);
+            margin: 10px auto 0;
+            border-radius: 99px;
             overflow: hidden;
         }
-        
+
         .strength-bar {
             height: 100%;
             width: 0;
-            transition: width 0.3s, background 0.3s;
-        }
-        
-        .strength-weak {
-            background: #e74c3c;
-            width: 30%;
-        }
-        
-        .strength-medium {
-            background: #f39c12;
-            width: 60%;
-        }
-        
-        .strength-strong {
-            background: #2ecc71;
-            width: 100%;
+            border-radius: 99px;
+            transition: width 0.35s ease, background 0.35s ease, box-shadow 0.35s ease;
         }
 
-        /* 进度条样式 */
+        .strength-weak   { background: var(--danger); width: 30%; box-shadow: 0 0 10px var(--danger); }
+        .strength-medium { background: var(--warn);   width: 60%; box-shadow: 0 0 10px var(--warn); }
+        .strength-strong { background: var(--success); width: 100%; box-shadow: 0 0 10px var(--success); }
+
+        /* ===== 文件信息 / 状态 ===== */
+        #fileInfo {
+            margin-top: 18px;
+            font-size: 13.5px;
+            color: var(--ink-soft);
+            text-align: center;
+        }
+
+        #fileInfo strong { color: var(--ink); font-weight: 600; }
+
+        .file-type {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 3px 10px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            color: var(--accent);
+            background: var(--accent-soft);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+        }
+
+        #status {
+            margin-top: 16px;
+            text-align: center;
+            font-size: 13.5px;
+            font-weight: 500;
+            min-height: 22px;
+            padding: 10px 14px;
+            border-radius: 10px;
+        }
+
+        #status.success { color: var(--success); background: var(--success-soft); }
+        #status.error   { color: var(--danger);  background: var(--danger-soft); }
+        #status.progress { color: var(--accent); }
+
+        /* ===== 模式提示条 ===== */
+        .mode-hint {
+            display: none;
+            padding: 11px 16px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 16px;
+            text-align: center;
+            animation: modeHintIn 0.3s ease;
+        }
+
+        .mode-hint.show { display: block; }
+
+        .mode-hint-encrypt { background: var(--accent-soft); color: var(--accent); border: 1px solid var(--line); }
+        .mode-hint-decrypt { background: var(--success-soft); color: var(--success); border: 1px solid var(--line); }
+        .mode-hint-generate { background: rgba(122, 92, 231, 0.12); color: var(--accent); border: 1px solid var(--line); }
+
+        @keyframes modeHintIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== 进度条 ===== */
         .progress-container {
             width: 100%;
-            margin: 15px 0;
+            margin: 18px 0 4px;
             display: none;
         }
-        
+
         .progress-bar {
-            height: 20px;
-            background-color: #ecf0f1;
-            border-radius: 10px;
+            height: 22px;
+            background: var(--line);
+            border-radius: 99px;
             overflow: hidden;
             position: relative;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.12);
         }
-        
+
         .progress-fill {
             height: 100%;
-            background-color: #3498db;
             width: 0%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+            border-radius: 99px;
             transition: width 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
-        
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -40%;
+            width: 40%;
+            height: 100%;
+            background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: progressShine 1.6s ease-in-out infinite;
+        }
+
+        @keyframes progressShine {
+            0%   { left: -40%; }
+            100% { left: 110%; }
+        }
+
         .progress-text {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            color: #2c3e50;
-            font-weight: bold;
-            font-size: 12px;
-        }
-        
-        .progress-complete .progress-fill {
-            background-color: #2ecc71;
-        }
-        
-        .progress-error .progress-fill {
-            background-color: #e74c3c;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--ink);
+            text-shadow: 0 0 6px var(--panel);
         }
 
-        /* ===== 引导对话框样式 ===== */
+        .progress-complete .progress-fill { background: linear-gradient(90deg, var(--success), #2FBF87); }
+        .progress-complete .progress-fill::after { display: none; }
+        .progress-error .progress-fill { background: linear-gradient(90deg, var(--danger), #FF8A8A); }
+        .progress-error .progress-fill::after { display: none; }
+
+        /* ===== 操作按钮 ===== */
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            margin-top: 26px;
+            flex-wrap: wrap;
+        }
+
+        .buttons button {
+            min-width: 176px;
+            padding: 13px 26px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: var(--font-body);
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .buttons button:hover { transform: translateY(-2px); }
+        .buttons button:active { transform: translateY(0); }
+
+        #encryptBtn {
+            background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+            color: #fff;
+            box-shadow: 0 10px 26px -10px var(--accent-glow);
+        }
+        #encryptBtn:hover { filter: brightness(1.08); }
+
+        #decryptBtn {
+            background: linear-gradient(135deg, var(--success), #1C9B67);
+            color: #fff;
+            box-shadow: 0 10px 26px -10px rgba(61, 220, 151, 0.45);
+        }
+        #decryptBtn:hover { filter: brightness(1.08); }
+
+        #cancelBtn {
+            background: transparent;
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+        #cancelBtn:hover {
+            background: var(--danger-soft);
+            box-shadow: 0 8px 22px -12px var(--danger);
+        }
+
+        /* ============================================================
+           引导对话框（模式选择）
+           ============================================================ */
         .guide-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.55);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
+            inset: 0;
+            background: rgba(4, 8, 16, 0.62);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -338,349 +833,167 @@
             opacity: 0;
             visibility: hidden;
             transition: opacity 0.4s ease, visibility 0.4s ease;
+            padding: 16px;
         }
 
-        .guide-overlay.show {
-            opacity: 1;
-            visibility: visible;
-        }
+        .guide-overlay.show { opacity: 1; visibility: visible; }
 
         .guide-dialog {
-            background: white;
-            border-radius: 16px;
-            padding: 36px 32px 28px;
-            max-width: 520px;
-            width: 90%;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            padding: 34px 30px 28px;
+            max-width: 540px;
+            width: 100%;
+            max-height: 88vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
             transform: translateY(30px) scale(0.95);
             transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             position: relative;
         }
 
-        .guide-overlay.show .guide-dialog {
-            transform: translateY(0) scale(1);
-        }
+        .guide-overlay.show .guide-dialog { transform: translateY(0) scale(1); }
 
         .guide-icon {
             text-align: center;
-            font-size: 48px;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
+        }
+
+        .guide-icon i {
+            font-size: 30px;
+            color: var(--accent);
+            width: 76px;
+            height: 76px;
+            line-height: 76px;
+            border-radius: 50%;
+            background: var(--accent-soft);
+            border: 1px solid var(--line-strong);
+            box-shadow: 0 0 34px -6px var(--accent-glow), inset 0 0 22px -10px var(--accent-glow);
         }
 
         .guide-title {
             text-align: center;
-            font-size: 22px;
+            font-family: var(--font-display);
+            font-size: 21px;
             font-weight: 700;
-            color: #2c3e50;
-            margin: 0 0 6px 0;
+            color: var(--ink);
+            margin: 0 0 6px;
+            letter-spacing: 0.02em;
         }
 
         .guide-subtitle {
             text-align: center;
-            font-size: 14px;
-            color: #7f8c8d;
-            margin: 0 0 24px 0;
-            line-height: 1.5;
+            font-size: 13.5px;
+            color: var(--ink-soft);
+            margin: 0 0 24px;
+            line-height: 1.6;
         }
 
         .guide-options {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
         .guide-option {
             display: flex;
             align-items: center;
             gap: 16px;
-            padding: 16px 20px;
-            border: 2px solid #e8e8e8;
-            border-radius: 12px;
+            padding: 14px 18px;
+            border: 1px solid var(--line);
+            border-radius: 14px;
             cursor: pointer;
-            transition: all 0.25s ease;
-            background: #fafafa;
+            transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+            background: var(--panel-strong);
         }
 
         .guide-option:hover {
-            border-color: #6c5ce7;
-            background: #f8f7ff;
+            border-color: var(--line-strong);
+            background: var(--accent-soft);
             transform: translateX(4px);
+            box-shadow: 0 10px 28px -14px var(--accent-glow);
         }
 
-        .guide-option:active {
-            transform: translateX(2px) scale(0.99);
-        }
+        .guide-option:active { transform: translateX(2px) scale(0.995); }
 
         .guide-option-icon {
-            font-size: 32px;
             flex-shrink: 0;
-            width: 48px;
-            text-align: center;
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            font-size: 19px;
+            color: var(--accent);
+            background: var(--accent-soft);
+            border: 1px solid var(--line);
+            transition: transform 0.25s ease;
         }
 
-        .guide-option-content {
-            flex: 1;
+        .guide-option:hover .guide-option-icon {
+            transform: scale(1.08) rotate(-4deg);
         }
+
+        .guide-option-content { flex: 1; min-width: 0; }
 
         .guide-option-title {
-            font-size: 15px;
+            font-size: 14.5px;
             font-weight: 600;
-            color: #2c3e50;
+            color: var(--ink);
             margin-bottom: 3px;
         }
 
         .guide-option-desc {
-            font-size: 13px;
-            color: #7f8c8d;
-            line-height: 1.4;
+            font-size: 12.5px;
+            color: var(--ink-soft);
+            line-height: 1.5;
         }
 
         .guide-option-arrow {
-            font-size: 18px;
-            color: #ccc;
-            transition: color 0.2s, transform 0.2s;
+            font-size: 17px;
+            color: var(--ink-faint);
+            transition: transform 0.25s ease, color 0.25s ease;
             flex-shrink: 0;
         }
 
         .guide-option:hover .guide-option-arrow {
-            color: #6c5ce7;
+            color: var(--accent);
             transform: translateX(4px);
         }
 
-        /* ===== 三参数密码生成器样式 ===== */
-        .pwd-generator {
-            margin: 16px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            overflow: hidden;
-        }
-
-        .pwd-gen-header {
-            background-color: #6c5ce7;
-            color: white;
-            padding: 10px 15px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            user-select: none;
-        }
-
-        .pwd-gen-header:hover {
-            background-color: #5f3dc4;
-        }
-
-        .gen-icon {
-            margin-right: 6px;
-        }
-
-        .gen-toggle {
-            transition: transform 0.3s ease;
-        }
-
-        .gen-toggle.open {
-            transform: rotate(180deg);
-        }
-
-        .pwd-gen-body {
-            background-color: white;
-            padding: 0;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
-        }
-
-        .pwd-gen-body.open {
-            padding: 15px;
-            max-height: 300px;
-        }
-
-        .pwd-gen-desc {
-            font-size: 13px;
-            color: #7f8c8d;
-            margin-bottom: 12px;
-            line-height: 1.5;
-        }
-
-        .pwd-gen-fields {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .pwd-gen-input {
-            flex: 1;
-            padding: 10px 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-            outline: none;
-            transition: border-color 0.2s;
-            font-family: inherit;
-        }
-
-        .pwd-gen-input:focus {
-            border-color: #6c5ce7;
-            box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.15);
-        }
-
-        .pwd-gen-btn {
-            width: 100%;
-            padding: 10px;
-            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-family: inherit;
-        }
-
-        .pwd-gen-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
-        }
-
-        .pwd-gen-btn:active {
-            transform: translateY(0);
-        }
-
-        /* 密码生成结果显示区域 */
-        .pwd-gen-result {
-            margin-top: 12px;
-            padding: 12px;
-            background: #f8f7ff;
-            border: 1px solid #d5d0ff;
-            border-radius: 8px;
-            animation: resultFadeIn 0.3s ease;
-        }
-
-        @keyframes resultFadeIn {
-            from { opacity: 0; transform: translateY(-8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .pwd-result-label {
-            font-size: 12px;
-            color: #6c5ce7;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-
-        .pwd-result-row {
-            display: flex;
-            gap: 6px;
-        }
-
-        .pwd-result-input {
-            flex: 1;
-            padding: 8px 12px;
-            border: 1px solid #d5d0ff;
-            border-radius: 4px;
-            font-size: 14px;
-            font-family: 'Courier New', monospace;
-            background: white;
-            color: #2c3e50;
-            outline: none;
-            letter-spacing: 1px;
-        }
-
-        .pwd-result-copy {
-            padding: 8px 14px;
-            background: #6c5ce7;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 40px;
-        }
-
-        .pwd-result-copy:hover {
-            background: #5f3dc4;
-            transform: scale(1.05);
-        }
-
-        .pwd-result-copy:active {
-            transform: scale(0.95);
-        }
-
-        .pwd-result-copy.copied {
-            background: #2ecc71;
-        }
-
-        .pwd-result-fill {
-            padding: 8px 14px;
-            background: #3498db;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 13px;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-            white-space: nowrap;
-        }
-
-        .pwd-result-fill:hover {
-            background: #2980b9;
-            transform: scale(1.05);
-        }
-
-        .pwd-result-fill:active {
-            transform: scale(0.95);
-        }
-
-        .pwd-result-fill.filled {
-            background: #2ecc71;
-        }
-
-        .pwd-result-hint {
-            font-size: 11px;
-            color: #aaa;
-            margin-top: 4px;
-        }
-
-        /* ===== 步骤引导遮罩 ===== */
+        /* ============================================================
+           步骤引导卡片（右下角）
+           ============================================================ */
         .step-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             z-index: 9998;
             display: none;
-            pointer-events: none; /* 让所有点击穿透 */
+            pointer-events: none;
         }
 
-        .step-overlay.show {
-            display: block;
-            pointer-events: none; /* 确保不拦截点击和拖拽事件 */
-        }
+        .step-overlay.show { display: block; }
 
         .step-card {
             position: fixed;
             bottom: 20px;
             right: 20px;
             z-index: 9999;
-            background: white;
-            border-radius: 12px;
-            padding: 14px 18px 12px;
-            max-width: 280px;
+            background: var(--panel);
+            border: 1px solid var(--line-strong);
+            border-radius: 16px;
+            padding: 16px 20px 14px;
+            max-width: 286px;
             width: auto;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+            box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             animation: stepCardIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
             pointer-events: auto;
-            border: 1.5px solid rgba(52, 152, 219, 0.25);
             transition: all 0.3s ease;
             overflow-wrap: break-word;
             word-break: break-word;
@@ -688,21 +1001,19 @@
 
         .step-card.collapsed {
             padding: 0;
-            max-width: 32px;
-            min-width: 32px;
-            width: 32px;
-            height: 32px;
+            max-width: 34px;
+            min-width: 34px;
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--shadow-md);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .step-card.collapsed .step-card-body {
-            display: none;
-        }
+        .step-card.collapsed .step-card-body { display: none; }
 
         .step-card.collapsed .step-toggle-btn {
             position: static;
@@ -715,101 +1026,91 @@
         }
 
         .step-toggle-btn {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            z-index: 1;
             background: none;
             border: none;
             cursor: pointer;
-            font-size: 12px;
-            color: #6c5ce7;
-            padding: 2px;
-            transition: transform 0.3s ease;
+            font-size: 11px;
+            color: var(--ink-faint);
+            padding: 3px;
             line-height: 1;
-            opacity: 0.6;
-            position: absolute;
-            top: 4px;
-            right: 4px;
-            z-index: 1;
+            opacity: 0.7;
+            transition: opacity 0.2s ease, transform 0.3s ease;
         }
 
-        .step-toggle-btn:hover {
-            opacity: 1;
-        }
+        .step-toggle-btn:hover { opacity: 1; }
 
-        .step-card-body {
-            overflow-wrap: break-word;
-            word-break: break-word;
-        }
+        .step-card-body { overflow-wrap: break-word; word-break: break-word; }
 
-        .step-card * {
-            pointer-events: auto;
-        }
+        .step-card * { pointer-events: auto; }
 
         @keyframes stepCardIn {
             from { opacity: 0; transform: translateY(20px) scale(0.92); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .step-progress {
             display: flex;
-            gap: 4px;
+            gap: 5px;
             justify-content: center;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         .step-dot {
             width: 6px;
             height: 6px;
             border-radius: 50%;
-            background: #ddd;
-            transition: all 0.3s;
+            background: var(--line);
+            transition: all 0.3s ease;
         }
 
         .step-dot.active {
-            background: #6c5ce7;
-            transform: scale(1.3);
+            background: var(--accent);
+            box-shadow: 0 0 8px var(--accent-glow);
+            transform: scale(1.35);
         }
 
         .step-dot.done {
-            background: #6c5ce7;
+            background: var(--accent);
             opacity: 0.4;
         }
 
-        .step-icon {
-            display: none;
-        }
+        .step-icon { display: none; }
 
         .step-title {
             text-align: center;
             font-size: 13px;
             font-weight: 700;
-            color: #2c3e50;
-            margin: 0 0 3px 0;
+            color: var(--ink);
+            margin: 0 0 4px;
         }
 
         .step-desc {
             text-align: center;
             font-size: 12px;
-            color: #7f8c8d;
-            margin: 0 0 4px 0;
-            line-height: 1.5;
+            color: var(--ink-soft);
+            margin: 0 0 6px;
+            line-height: 1.6;
         }
 
         .step-tip {
             text-align: center;
             font-size: 11px;
-            color: #6c5ce7;
-            background: #f8f7ff;
-            padding: 6px 10px;
-            border-radius: 6px;
-            margin: 6px 0 10px;
-            line-height: 1.5;
-            border: 1px solid #e8e5ff;
+            line-height: 1.6;
+            color: var(--accent);
+            background: var(--accent-soft);
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            padding: 8px 12px;
+            margin: 6px 0 12px;
             overflow-wrap: break-word;
             word-break: break-word;
         }
 
-        .step-tip .tip-icon {
-            margin-right: 4px;
-        }
+        .step-tip .tip-icon { margin-right: 4px; }
 
         .step-actions {
             display: flex;
@@ -818,58 +1119,53 @@
         }
 
         .step-btn {
-            padding: 6px 14px;
+            padding: 8px 16px;
             border: none;
-            border-radius: 6px;
-            font-size: 12px;
+            border-radius: 9px;
+            font-size: 12.5px;
             font-weight: 600;
+            font-family: var(--font-body);
             cursor: pointer;
-            transition: all 0.2s;
-            font-family: inherit;
+            transition: all 0.2s ease;
         }
 
         .step-btn-primary {
-            background: #6c5ce7;
-            color: white;
+            background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+            color: #fff;
             flex: 1;
+            box-shadow: 0 6px 18px -8px var(--accent-glow);
         }
 
-        .step-btn-primary:hover {
-            background: #5f3dc4;
-        }
+        .step-btn-primary:hover { filter: brightness(1.1); }
 
         .step-btn-secondary {
-            background: #f0f0f0;
-            color: #666;
+            background: var(--panel-strong);
+            color: var(--ink-soft);
+            border: 1px solid var(--line);
         }
 
-        .step-btn-secondary:hover {
-            background: #e0e0e0;
-        }
+        .step-btn-secondary:hover { color: var(--ink); }
 
         .step-btn-skip {
             background: transparent;
-            color: #aaa;
+            color: var(--ink-faint);
             font-size: 11px;
-            padding: 6px 8px;
+            padding: 8px 10px;
         }
 
-        .step-btn-skip:hover {
-            color: #666;
-        }
+        .step-btn-skip:hover { color: var(--ink-soft); }
 
-        /* 高亮闪烁动画 */
         .step-highlight {
             animation: stepPulse 1.2s ease-in-out 3;
-            border-radius: 6px;
+            border-radius: 8px;
         }
 
         @keyframes stepPulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(108, 92, 231, 0); }
-            50% { box-shadow: 0 0 0 6px rgba(108, 92, 231, 0.25); }
+            0%, 100% { box-shadow: 0 0 0 0 var(--accent-soft); }
+            50%      { box-shadow: 0 0 0 6px var(--accent-soft); }
         }
 
-        /* ===== 模式引导 - 禁用状态样式 ===== */
+        /* ===== 模式引导 - 禁用状态 ===== */
         .mode-disabled {
             opacity: 0.45 !important;
             pointer-events: none !important;
@@ -880,19 +1176,16 @@
         .mode-disabled::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.3);
+            inset: 0;
+            background: var(--panel);
             border-radius: inherit;
             z-index: 1;
         }
 
         .mode-disabled-area {
-            opacity: 0.4;
+            opacity: 0.42;
             pointer-events: none;
-            filter: grayscale(0.5);
+            filter: grayscale(0.55);
             position: relative;
         }
 
@@ -902,15 +1195,17 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.65);
-            color: white;
-            padding: 6px 14px;
-            border-radius: 6px;
-            font-size: 13px;
+            background: rgba(4, 8, 16, 0.72);
+            backdrop-filter: blur(2px);
+            color: #fff;
+            padding: 7px 16px;
+            border-radius: 99px;
+            font-size: 12px;
             font-weight: 600;
             z-index: 10;
             white-space: nowrap;
             pointer-events: none;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
         }
 
         .mode-disabled-btn {
@@ -920,630 +1215,141 @@
             cursor: not-allowed !important;
         }
 
-        /* 模式提示条 */
-        .mode-hint {
-            display: none;
-            padding: 10px 14px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            text-align: center;
-            animation: modeHintIn 0.3s ease;
+        /* ===== 键盘焦点可见性 ===== */
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
         }
 
-        .mode-hint.show {
-            display: block;
-        }
-
-        .mode-hint-encrypt {
-            background: rgba(52, 152, 219, 0.12);
-            color: #2980b9;
-            border: 1px solid rgba(52, 152, 219, 0.25);
-        }
-
-        .mode-hint-decrypt {
-            background: rgba(46, 204, 113, 0.12);
-            color: #27ae60;
-            border: 1px solid rgba(46, 204, 113, 0.25);
-        }
-
-        .mode-hint-generate {
-            background: rgba(108, 92, 231, 0.12);
-            color: #5f3dc4;
-            border: 1px solid rgba(108, 92, 231, 0.25);
-        }
-
-        @keyframes modeHintIn {
-            from { opacity: 0; transform: translateY(-8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ===== 移动端竖屏适配 ===== */
-
-        /* 平板/大屏手机竖屏 */
+        /* ============================================================
+           移动端适配
+           ============================================================ */
         @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-
             .container {
-                padding: 18px 14px;
-                border-radius: 6px;
+                margin: 14px auto 32px;
+                padding: 18px 16px 26px;
+                border-radius: 16px;
             }
 
-            h1 {
-                font-size: 20px;
-                margin-bottom: 18px;
-            }
+            .page-head h1 { font-size: 23px; }
+            .head-sub { font-size: 13px; }
 
-            .drop-area {
-                padding: 28px 14px;
-            }
-
-            .drop-area .icon {
-                font-size: 36px;
-            }
-
-            .drop-area p {
-                font-size: 14px;
-                margin: 10px 0 0;
-            }
+            .drop-area { padding: 30px 18px 26px; }
 
             .buttons {
                 flex-direction: column;
                 gap: 10px;
             }
 
-            button {
+            .buttons button {
                 width: 100%;
+                min-width: 0;
                 padding: 14px 20px;
                 font-size: 15px;
-                margin: 0;
             }
 
-            #passwordInput {
-                width: 100%;
-                font-size: 15px;
-                padding: 12px 14px;
-                box-sizing: border-box;
-            }
+            .encryption-level { padding: 12px 14px; }
 
-            .encryption-level {
-                padding: 8px 10px;
-            }
+            .pwd-gen-fields { flex-direction: column; gap: 8px; }
+            .pwd-gen-body.open { max-height: 420px; }
 
-            .level-title {
-                font-size: 14px;
-            }
+            .pwd-result-row { flex-wrap: wrap; }
+            .pwd-result-input { width: 100%; }
+            .pwd-result-copy, .pwd-result-fill { flex: 1; min-width: 0; }
 
-            .level-desc {
-                font-size: 13px;
-            }
+            .guide-dialog { padding: 26px 18px 22px; }
+            .guide-option { padding: 13px 14px; gap: 12px; }
 
-            .options-content.show {
-                padding: 10px;
-            }
+            .step-card { padding: 14px 16px 12px; max-width: 246px; }
 
-            .options-header {
-                font-size: 14px;
-                padding: 8px 12px;
-            }
-
-            #fileInfo {
-                font-size: 14px;
-            }
-
-            #status {
-                font-size: 14px;
-                padding: 8px;
-            }
-
-            /* 密码生成器竖屏：三参数改为纵向排列 */
-            .pwd-gen-fields {
-                flex-direction: column;
-                gap: 6px;
-            }
-
-            .pwd-gen-input {
-                font-size: 14px;
-                padding: 10px 12px;
-            }
-
-            .pwd-gen-body.open {
-                padding: 12px;
-                max-height: 380px;
-            }
-
-            .pwd-gen-btn {
-                padding: 12px 10px;
-                font-size: 15px;
-            }
-
-            /* 密码结果区域竖屏适配 */
-            .pwd-result-row {
-                flex-wrap: wrap;
-            }
-
-            .pwd-result-input {
-                font-size: 13px;
-                padding: 10px 10px;
-                min-width: 0;
-                width: 100%;
-            }
-
-            .pwd-result-copy,
-            .pwd-result-fill {
-                flex: 1;
-                min-width: 0;
-                padding: 10px 8px;
-                font-size: 13px;
-                justify-content: center;
-            }
-
-            /* 引导对话框竖屏适配 */
-            .guide-dialog {
-                padding: 24px 16px 20px;
-                width: 90%;
-                max-height: 85vh;
-                overflow-y: auto;
-            }
-
-            .guide-icon {
-                font-size: 36px;
-                margin-bottom: 8px;
-            }
-
-            .guide-title {
-                font-size: 18px;
-            }
-
-            .guide-subtitle {
-                font-size: 13px;
-                margin-bottom: 16px;
-            }
-
-            .guide-options {
-                gap: 8px;
-            }
-
-            .guide-option {
-                padding: 12px 14px;
-                gap: 10px;
-            }
-
-            .guide-option-icon {
-                font-size: 24px;
-                width: 36px;
-            }
-
-            .guide-option-title {
-                font-size: 14px;
-            }
-
-            .guide-option-desc {
-                font-size: 12px;
-            }
-
-            .guide-option-arrow {
-                font-size: 16px;
-            }
-
-            /* 步骤引导竖屏适配 */
-            .step-card {
-                padding: 12px 14px 10px;
-                max-width: 240px;
-            }
-
-            .step-card.collapsed {
-                padding: 0;
-                max-width: 26px;
-                min-width: 26px;
-                width: 26px;
-                height: 26px;
-            }
-
-            .step-card.collapsed .step-toggle-btn {
-                font-size: 12px;
-                padding: 0;
-            }
-
-            .step-title {
-                font-size: 12px;
-            }
-
-            .step-desc {
-                font-size: 11px;
-            }
-
-            .step-tip {
-                font-size: 10px;
-                padding: 5px 8px;
-            }
-
-            .step-btn {
-                padding: 5px 12px;
-                font-size: 11px;
-            }
-
-            .step-btn-skip {
-                font-size: 10px;
-                padding: 5px 6px;
-            }
-
-            /* 进度条竖屏适配 */
-            .progress-bar {
-                height: 18px;
-            }
-
-            .progress-text {
-                font-size: 11px;
-            }
+            #passwordInput { font-size: 15px; }
         }
 
-        /* 小屏手机竖屏 */
         @media (max-width: 480px) {
-            body {
-                padding: 6px;
-            }
+            .container { margin: 8px auto 24px; padding: 14px 12px 22px; }
 
-            .container {
-                padding: 14px 10px;
-                border-radius: 4px;
-            }
+            .page-head h1 { font-size: 20px; }
+            .head-chip { font-size: 10px; letter-spacing: 0.16em; }
+            .meta-chip { font-size: 10px; padding: 2px 8px; }
 
-            h1 {
-                font-size: 17px;
-                margin-bottom: 14px;
-            }
+            .drop-area { padding: 26px 14px 22px; }
+            .vault-seal { width: 62px; height: 62px; font-size: 23px; }
+            .drop-title { font-size: 15px; }
+            .drop-sub { font-size: 12px; }
 
-            .drop-area {
-                padding: 18px 10px;
-                margin-bottom: 16px;
-            }
+            .guide-dialog { padding: 20px 14px 18px; border-radius: 16px; }
+            .guide-icon i { width: 60px; height: 60px; line-height: 60px; font-size: 24px; }
+            .guide-title { font-size: 18px; }
+            .guide-option { padding: 11px 12px; gap: 10px; }
+            .guide-option-icon { width: 38px; height: 38px; font-size: 16px; border-radius: 10px; }
+            .guide-option-title { font-size: 13.5px; }
+            .guide-option-desc { font-size: 12px; }
 
-            .drop-area .icon {
-                font-size: 28px;
+            .step-card { padding: 12px 14px 11px; max-width: 220px; }
+            .step-card.collapsed {
+                max-width: 28px; min-width: 28px; width: 28px; height: 28px;
             }
+            .step-title { font-size: 12px; }
+            .step-desc { font-size: 11px; }
+            .step-tip { font-size: 10.5px; padding: 7px 10px; }
 
-            .drop-area p {
-                font-size: 13px;
-                margin: 8px 0 0;
-            }
+            .pwd-gen-input { font-size: 13px; padding: 10px 12px; }
+            .pwd-result-input { font-size: 12px; padding: 9px 10px; }
+            .pwd-result-copy, .pwd-result-fill { font-size: 12px; padding: 9px 8px; }
 
-            .drop-area p small {
-                font-size: 11px;
-            }
+            .level-title { font-size: 13px; }
+            .level-desc { font-size: 12px; }
 
-            .buttons {
-                gap: 8px;
-                margin-top: 16px;
-            }
-
-            button {
-                padding: 12px 16px;
-                font-size: 14px;
-            }
-
-            #passwordInput {
-                font-size: 14px;
-                padding: 10px 12px;
-            }
-
-            #fileInfo {
-                font-size: 13px;
-                margin-top: 14px;
-            }
-
-            #status {
-                font-size: 13px;
-                padding: 6px;
-                margin-top: 14px;
-            }
-
-            .encryption-level {
-                padding: 6px 8px;
-                margin-bottom: 6px;
-            }
-
-            .level-title {
-                font-size: 13px;
-            }
-
-            .level-desc {
-                font-size: 12px;
-            }
-
-            .options-content.show {
-                padding: 8px;
-                max-height: 260px;
-            }
-
-            .options-header {
-                font-size: 13px;
-                padding: 6px 10px;
-            }
-
-            /* 密码生成器小屏 */
-            .pwd-gen-header {
-                padding: 8px 12px;
-                font-size: 13px;
-            }
-
-            .pwd-gen-body.open {
-                padding: 10px;
-                max-height: 360px;
-            }
-
-            .pwd-gen-desc {
-                font-size: 12px;
-                margin-bottom: 10px;
-            }
-
-            .pwd-gen-input {
-                font-size: 13px;
-                padding: 8px 10px;
-            }
-
-            .pwd-gen-btn {
-                padding: 10px 8px;
-                font-size: 14px;
-            }
-
-            .pwd-gen-result {
-                padding: 10px;
-                margin-top: 10px;
-            }
-
-            .pwd-result-label {
-                font-size: 11px;
-            }
-
-            .pwd-result-input {
-                font-size: 12px;
-                padding: 8px 8px;
-                letter-spacing: 0.5px;
-            }
-
-            .pwd-result-copy,
-            .pwd-result-fill {
-                padding: 8px 6px;
-                font-size: 12px;
-                min-width: 36px;
-            }
-
-            .pwd-result-hint {
-                font-size: 10px;
-            }
-
-            /* 引导对话框小屏 */
-            .guide-dialog {
-                padding: 20px 12px 16px;
-                width: 92%;
-                max-height: 90vh;
-                border-radius: 12px;
-            }
-
-            .guide-icon {
-                font-size: 32px;
-                margin-bottom: 6px;
-            }
-
-            .guide-title {
-                font-size: 16px;
-            }
-
-            .guide-subtitle {
-                font-size: 12px;
-                margin-bottom: 14px;
-            }
-
-            .guide-options {
-                gap: 6px;
-            }
-
-            .guide-option {
-                padding: 10px 12px;
-                gap: 8px;
-                border-radius: 8px;
-                border-width: 1.5px;
-            }
-
-            .guide-option-icon {
-                font-size: 20px;
-                width: 30px;
-            }
-
-            .guide-option-title {
-                font-size: 13px;
-            }
-
-            .guide-option-desc {
-                font-size: 11px;
-            }
-
-            .guide-option-arrow {
-                font-size: 14px;
-            }
-
-            /* 步骤引导小屏 */
-            .step-card {
-                padding: 10px 12px 8px;
-                max-width: 220px;
-            }
-
-            .step-title {
-                font-size: 11px;
-            }
-
-            .step-desc {
-                font-size: 10px;
-            }
-
-            .step-tip {
-                font-size: 10px;
-                padding: 4px 8px;
-            }
-
-            .step-btn {
-                padding: 4px 10px;
-                font-size: 10px;
-            }
-
-            .step-btn-skip {
-                font-size: 10px;
-                padding: 4px 6px;
-            }
-
-            /* 进度条小屏 */
-            .progress-bar {
-                height: 16px;
-            }
-
-            .progress-text {
-                font-size: 10px;
-            }
-
-            /* 文件类型标签小屏 */
-            .file-type {
-                font-size: 10px;
-                padding: 2px 6px;
-            }
+            #status { font-size: 12.5px; }
+            #fileInfo { font-size: 12.5px; }
         }
 
-        /* 超小屏手机（320px 左右） */
         @media (max-width: 360px) {
-            body {
-                padding: 4px;
-            }
+            .container { padding: 10px 10px 18px; }
+            .page-head h1 { font-size: 18px; }
+            .head-sub { font-size: 12px; }
 
-            .container {
-                padding: 10px 8px;
-            }
+            .drop-area { padding: 22px 10px 20px; }
+            .vault-seal { width: 54px; height: 54px; font-size: 20px; }
+            .drop-mono { font-size: 10px; }
 
-            h1 {
-                font-size: 15px;
-            }
+            .guide-dialog { padding: 16px 10px 14px; }
+            .guide-option { flex-wrap: wrap; }
+            .guide-option-arrow { display: none; }
+            .guide-option-icon { width: 34px; height: 34px; font-size: 14px; }
+            .guide-subtitle { font-size: 12px; margin-bottom: 16px; }
 
-            .drop-area {
-                padding: 14px 8px;
-            }
-
-            .drop-area .icon {
-                font-size: 24px;
-            }
-
-            .drop-area p {
-                font-size: 12px;
-            }
-
-            .guide-dialog {
-                padding: 16px 10px 14px;
-                width: 94%;
-            }
-
-            .guide-option {
-                padding: 8px 10px;
-            }
-
-            .guide-option-icon {
-                font-size: 18px;
-                width: 26px;
-            }
-
-            .guide-option-title {
-                font-size: 12px;
-            }
-
-            .guide-option-desc {
-                font-size: 10px;
-            }
-
-            /* 步骤引导超小屏 */
-            .step-card {
-                padding: 8px 10px 8px;
-                max-width: 200px;
-            }
-
+            .step-card { padding: 10px 12px 10px; max-width: 200px; }
             .step-card.collapsed {
-                padding: 0;
-                max-width: 22px;
-                min-width: 22px;
-                width: 22px;
-                height: 22px;
+                max-width: 24px; min-width: 24px; width: 24px; height: 24px;
             }
+            .step-card.collapsed .step-toggle-btn { font-size: 11px; }
+            .step-progress { margin-bottom: 10px; }
 
-            .step-card.collapsed .step-toggle-btn {
-                font-size: 10px;
-                padding: 0;
-            }
+            .pwd-gen-input { font-size: 12px; }
+            .pwd-result-row { flex-direction: column; }
+            .pwd-result-copy, .pwd-result-fill { width: 100%; }
+            .pwd-result-hint { font-size: 10px; }
 
-            .step-title {
-                font-size: 10px;
-            }
+            .options-content.show { max-height: 480px; }
+            .level-badge { font-size: 9px; padding: 2px 6px; }
 
-            .step-desc {
-                font-size: 10px;
-            }
-
-            .step-tip {
-                font-size: 11px;
-                padding: 6px 10px;
-            }
-
-            .step-btn {
-                padding: 8px 12px;
-                font-size: 12px;
-            }
-
-            .step-btn-skip {
-                font-size: 11px;
-                padding: 6px 8px;
-            }
-
-            .step-progress {
-                margin-bottom: 14px;
-            }
-
-            .step-dot {
-                width: 6px;
-                height: 6px;
-            }
-
-            .pwd-gen-input {
-                font-size: 12px;
-                padding: 6px 8px;
-            }
-
-            .pwd-result-input {
-                font-size: 11px;
-                padding: 6px 6px;
-            }
-
-            .pwd-result-copy,
-            .pwd-result-fill {
-                padding: 6px 4px;
-                font-size: 11px;
-                min-width: 30px;
-            }
-
-            button {
-                padding: 10px 12px;
-                font-size: 13px;
-            }
+            .buttons button { padding: 12px 14px; font-size: 14px; }
         }
     </style>
+
+
 </head>
 <body>
-    <!-- ===== 引导对话框 ===== -->
+    <!-- ===== 引导对话框（模式选择） ===== -->
     <div class="guide-overlay" id="guideOverlay">
         <div class="guide-dialog">
-            <div class="guide-icon">🔐</div>
-            <h2 class="guide-title">欢迎使用加密工具</h2>
-            <p class="guide-subtitle">请选择你要执行的操作，我们将引导你到对应功能</p>
+            <div class="guide-icon"><i class="fas fa-shield-halved"></i></div>
+            <h2 class="guide-title">选择一个操作</h2>
+            <p class="guide-subtitle">我们将按步骤引导你完成，其余无关功能会暂时隐藏</p>
             <div class="guide-options">
                 <div class="guide-option" data-action="encrypt-single">
-                    <div class="guide-option-icon">🔒</div>
+                    <div class="guide-option-icon"><i class="fas fa-lock"></i></div>
                     <div class="guide-option-content">
                         <div class="guide-option-title">加密文件</div>
                         <div class="guide-option-desc">我有一组密钥，想加密一个文件为 .sp 格式</div>
@@ -1551,7 +1357,7 @@
                     <div class="guide-option-arrow">→</div>
                 </div>
                 <div class="guide-option" data-action="decrypt-single">
-                    <div class="guide-option-icon">🔓</div>
+                    <div class="guide-option-icon"><i class="fas fa-lock-open"></i></div>
                     <div class="guide-option-content">
                         <div class="guide-option-title">解密文件</div>
                         <div class="guide-option-desc">我有一组密钥和加密文件（.sp），需要解密还原</div>
@@ -1559,7 +1365,7 @@
                     <div class="guide-option-arrow">→</div>
                 </div>
                 <div class="guide-option" data-action="encrypt-triple">
-                    <div class="guide-option-icon">🔑</div>
+                    <div class="guide-option-icon"><i class="fas fa-key"></i></div>
                     <div class="guide-option-content">
                         <div class="guide-option-title">三密钥加密</div>
                         <div class="guide-option-desc">我有三组字符密钥，想加密一个文件为 .sp 格式</div>
@@ -1567,7 +1373,7 @@
                     <div class="guide-option-arrow">→</div>
                 </div>
                 <div class="guide-option" data-action="decrypt-triple">
-                    <div class="guide-option-icon">🔐</div>
+                    <div class="guide-option-icon"><i class="fas fa-shield-halved"></i></div>
                     <div class="guide-option-content">
                         <div class="guide-option-title">三密钥解密</div>
                         <div class="guide-option-desc">我有三组字符密钥和加密文件（.sp），需要解密还原</div>
@@ -1575,10 +1381,10 @@
                     <div class="guide-option-arrow">→</div>
                 </div>
                 <div class="guide-option" data-action="generate">
-                    <div class="guide-option-icon">🔑</div>
+                    <div class="guide-option-icon"><i class="fas fa-fingerprint"></i></div>
                     <div class="guide-option-content">
                         <div class="guide-option-title">生成密码</div>
-                        <div class="guide-option-desc">我有三组字符密钥，想生成一串16位固定密码</div>
+                        <div class="guide-option-desc">我有三组字符密钥，想生成一串 16 位固定密码</div>
                     </div>
                     <div class="guide-option-arrow">→</div>
                 </div>
@@ -1602,71 +1408,81 @@
     </div>
 
     <div class="container">
-        <h1>高级文件加密/解密工具</h1>
-        
+        <header class="page-head">
+            <div class="head-chip"><span class="chip-dot"></span> SPARK SECURE VAULT</div>
+            <h1>文件保险库</h1>
+            <p class="head-sub">本地加解密工作台 · 文件全程不离开你的设备</p>
+            <div class="head-meta">
+                <span class="meta-chip">AES-256-GCM</span>
+                <span class="meta-chip">PBKDF2-SHA256</span>
+                <span class="meta-chip">100K ITER</span>
+            </div>
+        </header>
+
         <div id="dropArea" class="drop-area">
-            <div class="icon">🔒</div>
-            <p>点击或拖拽文件到此处上传</p>
-            <p><small>支持任何文件类型 (docx, mp4, pdf等)</small></p>
+            <div class="vault-seal"><i class="fas fa-lock"></i></div>
+            <p class="drop-title">把文件放进保险舱</p>
+            <p class="drop-sub">点击选择，或将文件拖拽到此处</p>
+            <p class="drop-mono">支持 docx · mp4 · pdf · zip 等任意格式</p>
             <input type="file" id="fileInput" class="hidden">
         </div>
-        
+
         <!-- 加密选项面板 -->
         <div class="encryption-options">
             <div class="options-header" id="optionsHeader">
-                <span>加密选项 (点击展开)</span>
-                <span>▼</span>
+                <span class="opts-title"><i class="fas fa-sliders"></i> 加密强度</span>
+                <span class="opts-arrow">▼</span>
             </div>
             <div class="options-content" id="optionsContent">
                 <div class="encryption-level" data-level="basic">
                     <div class="level-title">
-                        <span class="level-badge level-basic">普通</span>
-                        <span>快速加密 (AES-256-GCM)</span>
+                        <span class="level-badge level-basic">BASIC</span>
+                        <span>快速加密 · AES-256-GCM</span>
                     </div>
                     <div class="level-desc">
-                        加密速度快，适合日常使用。PBKDF2迭代10,000次。
+                        加密速度快，适合日常使用。PBKDF2 迭代 10,000 次。
                     </div>
                 </div>
-                
+
                 <div class="encryption-level selected" data-level="medium">
                     <div class="level-title">
-                        <span class="level-badge level-medium">中等</span>
-                        <span>平衡加密 (AES-256-GCM)</span>
+                        <span class="level-badge level-medium">MEDIUM</span>
+                        <span>平衡加密 · AES-256-GCM</span>
                     </div>
                     <div class="level-desc">
-                        速度与安全性的平衡选择。PBKDF2迭代50,000次。
+                        速度与安全性的平衡选择。PBKDF2 迭代 50,000 次。
                     </div>
                 </div>
-                
+
                 <div class="encryption-level" data-level="high">
                     <div class="level-title">
-                        <span class="level-badge level-high">高等</span>
-                        <span>最强加密 (AES-256-GCM)</span>
+                        <span class="level-badge level-high">HIGH</span>
+                        <span>最强加密 · AES-256-GCM</span>
                     </div>
                     <div class="level-desc">
-                        最高安全级别，适合敏感数据。PBKDF2迭代100,000次。
+                        最高安全级别，适合敏感数据。PBKDF2 迭代 100,000 次。
                     </div>
                 </div>
             </div>
         </div>
-        
+
         <!-- ===== 三参数密码生成器 ===== -->
         <div class="pwd-generator" id="pwdGenerator">
             <div class="pwd-gen-header" id="pwdGenHeader">
-                <span><span class="gen-icon">🔑</span> 三参数密码生成器</span>
+                <span><span class="gen-icon"><i class="fas fa-fingerprint"></i></span> 三参数密码生成器</span>
                 <span class="gen-toggle">▼</span>
             </div>
             <div class="pwd-gen-body" id="pwdGenBody">
-                <div class="pwd-gen-desc">输入三个参数（支持中文、英文、数字等），生成固定16位密码。同样的参数始终生成同样的密码。</div>
+                <div class="pwd-gen-desc">输入三个参数（中文 / 英文 / 数字均可），生成固定的 16 位密码 —— 同样的参数，永远得到同样的密码。</div>
                 <div class="pwd-gen-fields">
                     <input type="text" id="p1Input" class="pwd-gen-input" placeholder="参数 1" autocomplete="off">
                     <input type="text" id="p2Input" class="pwd-gen-input" placeholder="参数 2" autocomplete="off">
                     <input type="text" id="p3Input" class="pwd-gen-input" placeholder="参数 3" autocomplete="off">
                 </div>
-                <button id="generatePwdBtn" class="pwd-gen-btn">生成密码</button>
+                <button id="generatePwdBtn" class="pwd-gen-btn"><i class="fas fa-wand-magic-sparkles"></i> 生成密码</button>
                 <!-- 密码结果显示区域 -->
                 <div class="pwd-gen-result hidden" id="pwdGenResult">
-                    <div class="pwd-result-label">生成的密码：</div>
+                    <div class="pwd-result-label">生成的密码</div>
                     <div class="pwd-result-row">
                         <input type="text" class="pwd-result-input" id="pwdResultInput" readonly>
                         <button class="pwd-result-copy" id="pwdResultCopyBtn" title="复制密码">
@@ -1676,24 +1492,28 @@
                             <i class="fas fa-arrow-right-to-bracket"></i> 填充
                         </button>
                     </div>
-                    <div class="pwd-result-hint">点击复制按钮可一键复制密码，点击填充按钮可填入密码框</div>
+                    <div class="pwd-result-hint">复制到剪贴板，或直接填入下方密钥槽</div>
                 </div>
             </div>
         </div>
 
+        <!-- 密钥槽 -->
         <div id="passwordContainer" class="hidden">
-            <input type="password" id="passwordInput" placeholder="输入加密密码(至少8个字符)" autocomplete="off">
+            <div class="key-slot">
+                <i class="fas fa-key"></i>
+                <input type="password" id="passwordInput" placeholder="输入加密密钥（至少 8 个字符）" autocomplete="off">
+            </div>
             <div class="password-strength">
                 <div class="strength-bar" id="strengthBar"></div>
             </div>
         </div>
-        
+
         <div id="fileInfo"></div>
         <div id="status"></div>
-        
+
         <!-- 模式提示条 -->
         <div class="mode-hint" id="modeHint"></div>
-        
+
         <!-- 进度条容器 -->
         <div class="progress-container" id="progressContainer">
             <div class="progress-bar">
@@ -1701,15 +1521,14 @@
                 <div class="progress-text" id="progressText">0%</div>
             </div>
         </div>
-        
+
         <div class="buttons">
-            <button id="encryptBtn" class="hidden">加密为 .sp 文件</button>
-            <button id="decryptBtn" class="hidden">解密为原始文件</button>
-            <button id="cancelBtn" class="hidden">取消</button>
+            <button id="encryptBtn" class="hidden"><i class="fas fa-lock"></i> 加密为 .sp 文件</button>
+            <button id="decryptBtn" class="hidden"><i class="fas fa-lock-open"></i> 解密为原始文件</button>
+            <button id="cancelBtn" class="hidden"><i class="fas fa-xmark"></i> 取消</button>
         </div>
     </div>
-
-    <script>
+<script>
         // 获取DOM元素
         const dropArea = document.getElementById('dropArea');
         const fileInput = document.getElementById('fileInput');

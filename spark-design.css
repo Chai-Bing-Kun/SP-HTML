@@ -113,7 +113,11 @@ body {
     scrollbar-width: thin;
     scrollbar-color: transparent transparent;
     scrollbar-gutter: stable;
-    transition: background-color 0.3s ease, color 0.3s ease, scrollbar-color 0.3s ease;
+    /* 主题切换过渡：使用更流畅的 cubic-bezier 缓动 */
+    transition: 
+        background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+        color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+        scrollbar-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     -webkit-font-smoothing: antialiased;
 }
 
@@ -160,6 +164,8 @@ body:hover::-webkit-scrollbar-thumb:hover {
     display: flex;
     flex-direction: column;
     position: relative;
+    /* 背景容器过渡 */
+    transition: filter 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* 桌面滤镜：叠加渐变以保证文字可读性 */
@@ -174,6 +180,8 @@ body:hover::-webkit-scrollbar-thumb:hover {
     backdrop-filter: blur(3px);
     -webkit-backdrop-filter: blur(3px);
     z-index: 0;
+    /* 滤镜层过渡 */
+    transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body.dark-theme .background-container::before {
