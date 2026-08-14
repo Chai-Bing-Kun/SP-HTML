@@ -5,8 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>下载 Spark - 柴炳坤</title>
     <link rel="stylesheet" href="spark-design.css">
-    <link rel="stylesheet" href="lib/fonts/google-fonts.css">
+    <link rel="stylesheet" href="lib/fonts/google-fonts.css" id="local-google-fonts">
     <link rel="stylesheet" href="lib/fontawesome/css/all.min.css">
+    <script>
+    /* 字体资源智能切换：默认本地（离线/慢网可用，防闪烁）；百度官网测速通过(<1500ms)则切换 Google Fonts CDN */
+    (function () {
+        if (!window.fetch || !window.AbortController) return;
+        var CDN_FONTS = 'https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap';
+        var localLink = document.getElementById('local-google-fonts');
+        var ctrl = new AbortController();
+        var timer = setTimeout(function () { ctrl.abort(); }, 2500);
+        var start = performance.now();
+        fetch('https://www.baidu.com/', { mode: 'no-cors', cache: 'no-store', signal: ctrl.signal })
+            .then(function () {
+                clearTimeout(timer);
+                if (performance.now() - start < 1500) {
+                    var cdn = document.createElement('link');
+                    cdn.rel = 'stylesheet';
+                    cdn.href = CDN_FONTS;
+                    cdn.onload = function () { if (localLink && localLink.parentNode) localLink.parentNode.removeChild(localLink); };
+                    document.head.appendChild(cdn);
+                }
+            })
+            .catch(function () { clearTimeout(timer); });
+    })();
+    </script>
     <style>
         /* ============================================================
            下载页扩展样式（继承 spark-design.css 深夜桌面主题）
@@ -835,573 +858,6 @@
                 padding: 14px;
             }
         }
-
-        /* ============================================================
-           以下同步自 index.html（2026-08-11 主题 / 加载 UI 更新）
-           ============================================================ */
-
-        /* ---- 霓虹色变量（亮色 · 日间桌面） ---- */
-        :root {
-            --neon: #0B7A84;
-            --neon-bright: #16B8C4;
-            --neon-pink: #C2438F;
-            --neon-amber: #B5660A;
-            --neon-green: #1F8A4C;
-            --neon-glow: rgba(11, 122, 132, 0.3);
-            --neon-glow-pink: rgba(194, 67, 143, 0.26);
-            --neon-glow-amber: rgba(181, 102, 10, 0.26);
-            --neon-glow-green: rgba(31, 138, 76, 0.26);
-            --neon-text-glow: 0 0 12px rgba(11, 122, 132, 0.2), 0 0 30px rgba(11, 122, 132, 0.1);
-            --neon-border: linear-gradient(120deg, rgba(11,122,132,.6), rgba(194,67,143,.4), rgba(181,102,10,.5));
-        }
-
-        /* ---- 霓虹色变量（暗色 · 深夜桌面） ---- */
-        body.dark-theme {
-            --neon: #4FD8EB;
-            --neon-bright: #19E0FF;
-            --neon-pink: #FF6EC7;
-            --neon-amber: #FFB454;
-            --neon-green: #7CE38B;
-            --neon-glow: rgba(79, 216, 235, 0.38);
-            --neon-glow-pink: rgba(255, 110, 199, 0.34);
-            --neon-glow-amber: rgba(255, 180, 84, 0.34);
-            --neon-glow-green: rgba(124, 227, 139, 0.34);
-            --neon-text-glow: 0 0 14px rgba(79, 216, 235, 0.4), 0 0 40px rgba(79, 216, 235, 0.18);
-            --neon-border: linear-gradient(120deg, rgba(79,216,235,.75), rgba(255,110,199,.5), rgba(255,180,84,.6));
-        }
-
-        /* ===== 启动画面 · 霓虹增强（覆盖 spark-design.css 基础 boot 样式） ===== */
-        .boot-name {
-            text-shadow: var(--neon-text-glow);
-        }
-
-        .boot-bar {
-            width: 230px;
-            height: 4px;
-            box-shadow: inset 0 0 5px var(--line);
-        }
-
-        .boot-bar-fill {
-            background: linear-gradient(90deg, var(--neon), var(--neon-bright) 45%, var(--neon-pink));
-            background-size: 220% 100%;
-            animation: bootFill 1.1s var(--ease-out) forwards, flowShine 1.6s linear infinite;
-            box-shadow: 0 0 12px var(--neon-glow);
-        }
-
-        @keyframes flowShine {
-            from { background-position: 220% 0; }
-            to { background-position: -220% 0; }
-        }
-
-        .boot-percent {
-            font-family: var(--font-mono);
-            font-size: 12px;
-            letter-spacing: 2px;
-            color: var(--neon);
-            text-shadow: 0 0 10px var(--neon-glow);
-        }
-
-        /* ===== 主题切换闪光层（theme.js applyThemeWithAnimation 使用） ===== */
-        .theme-transition-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 900;
-            pointer-events: none;
-            background: #ffffff;
-            opacity: 0;
-            transition: opacity 0.35s ease;
-        }
-
-        .theme-transition-overlay.active {
-            opacity: 0.6;
-        }
-
-        body.dark-theme .theme-transition-overlay {
-            background: #0b1222;
-        }
-
-        /* ===== 卡片式主题切换弹窗（uiverse · strong-treefrog-90） ===== */
-        .theme-card-modal {
-            position: fixed;
-            inset: 0;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-        }
-
-        .theme-card-modal[hidden] {
-            display: none;
-        }
-
-        .theme-card-modal__backdrop {
-            position: absolute;
-            inset: 0;
-            background: rgba(8, 14, 30, 0.55);
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
-        }
-
-        .theme-card-modal__dialog {
-            position: relative;
-            background: transparent;
-            border: none;
-            padding: 0;
-            text-align: center;
-        }
-
-        .theme-card-modal__close {
-            position: absolute;
-            top: -0.5rem;
-            right: -0.5rem;
-            width: 1.4rem;
-            height: 1.4rem;
-            border: none;
-            background: transparent;
-            color: rgba(255, 255, 255, 0.85);
-            font-size: 1rem;
-            line-height: 1;
-            cursor: pointer;
-            z-index: 5;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
-            transition: color 0.15s ease, transform 0.15s ease;
-        }
-
-        .theme-card-modal__close:hover {
-            color: #ffffff;
-            transform: scale(1.15);
-        }
-
-        .theme-card-modal .theme-card-wrap {
-            padding: 0;
-        }
-
-        .theme-card-modal .tc-phone {
-            margin: 0 auto;
-        }
-
-        .theme-card-wrap {
-            position: relative;
-            padding: 0.75rem;
-        }
-
-        .theme-card-wrap .tc-body {
-            background-color: #F6F7F9;
-            border-radius: 40px;
-            padding: 1rem;
-            transition: background-color .5s ease, color .5s ease;
-        }
-
-        .theme-card-wrap .tc-phone {
-            position: relative;
-            z-index: 2;
-            width: 18rem;
-            height: 17rem;
-            background-color: inherit;
-            box-shadow: 0 4px 35px rgba(0, 0, 0, .1);
-            border-radius: 40px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .theme-card-wrap .tc-menu {
-            font-size: 80%;
-            opacity: .4;
-            padding: .8rem 1.8rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .theme-card-wrap .tc-icons {
-            display: flex;
-            margin-top: .5rem;
-        }
-
-        .theme-card-wrap .tc-battery {
-            width: .85rem;
-            height: .45rem;
-            background-color: black;
-        }
-
-        .theme-card-wrap .tc-network {
-            width: 0;
-            height: 0;
-            border-style: solid;
-            border-width: 0 6.8px 7.2px 6.8px;
-            border-color: transparent transparent black transparent;
-            transform: rotate(135deg);
-            margin: .12rem .5rem;
-        }
-
-        .theme-card-wrap .tc-content {
-            display: flex;
-            flex-direction: column;
-            margin: auto;
-            text-align: center;
-            width: 70%;
-            transform: translateY(5%);
-        }
-
-        .theme-card-wrap .tc-circle {
-            position: relative;
-            border-radius: 100%;
-            width: 8rem;
-            height: 8rem;
-            background: linear-gradient(40deg, #FF0080, #FF8C00 70%);
-            margin: auto;
-            transition: background .5s ease;
-        }
-
-        .theme-card-wrap .tc-crescent {
-            position: absolute;
-            border-radius: 100%;
-            right: 0;
-            width: 6rem;
-            height: 6rem;
-            background: white;
-            transform: scale(0);
-            transform-origin: top right;
-            transition: transform .6s cubic-bezier(0.645, 0.045, 0.355, 1);
-        }
-
-        .theme-card-wrap .tc-toggle-label,
-        .theme-card-wrap .tc-toggle {
-            height: 2.8rem;
-            border-radius: 100px;
-        }
-
-        .theme-card-wrap .tc-toggle-label {
-            width: 100%;
-            background-color: rgba(0, 0, 0, .1);
-            border-radius: 100px;
-            position: relative;
-            margin: 1.8rem 0 4rem 0;
-            cursor: pointer;
-            display: block;
-        }
-
-        .theme-card-wrap .tc-toggle {
-            position: absolute;
-            width: 50%;
-            background-color: #fff;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, .15);
-            transition: transform .3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .theme-card-wrap .tc-names {
-            font-size: 90%;
-            font-weight: bolder;
-            color: black;
-            width: 65%;
-            margin-left: 17.5%;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            user-select: none;
-        }
-
-        .theme-card-wrap .tc-names p {
-            margin: 0;
-            line-height: 1;
-        }
-
-        .theme-card-wrap .tc-dark {
-            opacity: .5;
-        }
-
-        .theme-card-wrap .tc-time {
-            color: black;
-        }
-
-        #themeCardSwitch {
-            display: none;
-        }
-
-        #themeCardSwitch:checked + .tc-app .tc-toggle {
-            transform: translateX(100%);
-            background-color: #34323D;
-        }
-
-        #themeCardSwitch:checked + .tc-app .tc-dark {
-            opacity: 1;
-            color: white;
-        }
-
-        #themeCardSwitch:checked + .tc-app .tc-light {
-            opacity: 1;
-            color: white;
-        }
-
-        #themeCardSwitch:checked + .tc-app .tc-body {
-            background-color: #26242E;
-            color: white;
-            border-radius: 40px;
-        }
-
-        #themeCardSwitch:checked + .tc-app .tc-crescent {
-            transform: scale(1);
-            background: #26242E;
-        }
-
-        #themeCardSwitch:checked + .tc-app .tc-circle {
-            background: linear-gradient(40deg, #8983F7, #A3DAFB 70%);
-        }
-
-        #themeCardSwitch:checked + .tc-app .tc-body .tc-phone .tc-menu .tc-time {
-            color: white;
-        }
-
-        #themeCardSwitch:checked + .tc-app .tc-body .tc-phone .tc-menu .tc-icons .tc-network {
-            border-color: transparent transparent white transparent;
-        }
-
-        #themeCardSwitch:checked + .tc-app .tc-body .tc-phone .tc-menu .tc-icons .tc-battery {
-            background-color: white;
-        }
-
-        /* ===== 仓鼠跑步加载（uiverse · wet-mayfly-23） ===== */
-        .boot-hamster {
-            margin: 6px 0 2px;
-            height: 118px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #hamsterLoader .wheel-and-hamster {
-            --dur: 1s;
-            position: relative;
-            width: 12em;
-            height: 12em;
-            font-size: 10px;
-        }
-
-        #hamsterLoader .wheel,
-        #hamsterLoader .hamster,
-        #hamsterLoader .hamster div,
-        #hamsterLoader .spoke {
-            position: absolute;
-        }
-
-        #hamsterLoader .wheel,
-        #hamsterLoader .spoke {
-            border-radius: 50%;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        #hamsterLoader .wheel {
-            background: radial-gradient(100% 100% at center, hsla(0, 0%, 60%, 0) 47.8%, hsl(0, 0%, 60%) 48%);
-            z-index: 2;
-        }
-
-        #hamsterLoader .hamster {
-            animation: hamster var(--dur) ease-in-out infinite;
-            top: 50%;
-            left: calc(50% - 3.5em);
-            width: 7em;
-            height: 3.75em;
-            transform: rotate(4deg) translate(-0.8em, 1.85em);
-            transform-origin: 50% 0;
-            z-index: 1;
-        }
-
-        #hamsterLoader .hamster__head {
-            animation: hamsterHead var(--dur) ease-in-out infinite;
-            background: hsl(30, 90%, 55%);
-            border-radius: 70% 30% 0 100% / 40% 25% 25% 60%;
-            box-shadow: 0 -0.25em 0 hsl(30, 90%, 80%) inset, 0.75em -1.55em 0 hsl(30, 90%, 90%) inset;
-            top: 0;
-            left: -2em;
-            width: 2.75em;
-            height: 2.5em;
-            transform-origin: 100% 50%;
-        }
-
-        #hamsterLoader .hamster__ear {
-            animation: hamsterEar var(--dur) ease-in-out infinite;
-            background: hsl(0, 90%, 85%);
-            border-radius: 50%;
-            box-shadow: -0.25em 0 hsl(30, 90%, 55%) inset;
-            top: -0.25em;
-            right: -0.25em;
-            width: 0.75em;
-            height: 0.75em;
-            transform-origin: 50% 75%;
-        }
-
-        #hamsterLoader .hamster__eye {
-            animation: hamsterEye var(--dur) linear infinite;
-            background-color: hsl(0, 0%, 0%);
-            border-radius: 50%;
-            top: 0.375em;
-            left: 1.25em;
-            width: 0.5em;
-            height: 0.5em;
-        }
-
-        #hamsterLoader .hamster__nose {
-            background: hsl(0, 90%, 75%);
-            border-radius: 35% 65% 85% 15% / 70% 50% 50% 30%;
-            top: 0.75em;
-            left: 0;
-            width: 0.2em;
-            height: 0.25em;
-        }
-
-        #hamsterLoader .hamster__body {
-            animation: hamsterBody var(--dur) ease-in-out infinite;
-            background: hsl(30, 90%, 90%);
-            border-radius: 50% 30% 50% 30% / 15% 60% 40% 40%;
-            box-shadow: 0.1em 0.75em 0 hsl(30, 90%, 55%) inset, 0.15em -0.5em 0 hsl(30, 90%, 80%) inset;
-            top: 0.25em;
-            left: 2em;
-            width: 4.5em;
-            height: 3em;
-            transform-origin: 17% 50%;
-            transform-style: preserve-3d;
-        }
-
-        #hamsterLoader .hamster__limb--fr,
-        #hamsterLoader .hamster__limb--fl {
-            clip-path: polygon(0 0, 100% 0, 70% 80%, 60% 100%, 0% 100%, 40% 80%);
-            top: 2em;
-            left: 0.5em;
-            width: 1em;
-            height: 1.5em;
-            transform-origin: 50% 0;
-        }
-
-        #hamsterLoader .hamster__limb--fr {
-            animation: hamsterFRLimb var(--dur) linear infinite;
-            background: linear-gradient(hsl(30, 90%, 80%) 80%, hsl(0, 90%, 75%) 80%);
-            transform: rotate(15deg) translateZ(-1px);
-        }
-
-        #hamsterLoader .hamster__limb--fl {
-            animation: hamsterFLLimb var(--dur) linear infinite;
-            background: linear-gradient(hsl(30, 90%, 90%) 80%, hsl(0, 90%, 85%) 80%);
-            transform: rotate(15deg);
-        }
-
-        #hamsterLoader .hamster__limb--br,
-        #hamsterLoader .hamster__limb--bl {
-            border-radius: 0.75em 0.75em 0 0;
-            clip-path: polygon(0 0, 100% 0, 100% 30%, 70% 90%, 70% 100%, 30% 100%, 40% 90%, 0% 30%);
-            top: 1em;
-            left: 2.8em;
-            width: 1.5em;
-            height: 2.5em;
-            transform-origin: 50% 30%;
-        }
-
-        #hamsterLoader .hamster__limb--br {
-            animation: hamsterBRLimb var(--dur) linear infinite;
-            background: linear-gradient(hsl(30, 90%, 80%) 90%, hsl(0, 90%, 75%) 90%);
-            transform: rotate(-25deg) translateZ(-1px);
-        }
-
-        #hamsterLoader .hamster__limb--bl {
-            animation: hamsterBLLimb var(--dur) linear infinite;
-            background: linear-gradient(hsl(30, 90%, 90%) 90%, hsl(0, 90%, 85%) 90%);
-            transform: rotate(-25deg);
-        }
-
-        #hamsterLoader .hamster__tail {
-            animation: hamsterTail var(--dur) linear infinite;
-            background: hsl(0, 90%, 85%);
-            border-radius: 0.25em 50% 50% 0.25em;
-            box-shadow: 0 -0.2em 0 hsl(0, 90%, 75%) inset;
-            top: 1.5em;
-            right: -0.5em;
-            width: 1em;
-            height: 0.5em;
-            transform: rotate(30deg) translateZ(-1px);
-            transform-origin: 0.25em 0.25em;
-        }
-
-        #hamsterLoader .spoke {
-            animation: spoke var(--dur) linear infinite;
-            background: radial-gradient(100% 100% at center, hsl(0, 0%, 60%) 4.8%, hsla(0, 0%, 60%, 0) 5%),
-                linear-gradient(hsla(0, 0%, 55%, 0) 46.9%, hsl(0, 0%, 65%) 47% 52.9%, hsla(0, 0%, 65%, 0) 53%) 50% 50% / 99% 99% no-repeat;
-        }
-
-        @keyframes hamster {
-            from, to { transform: rotate(4deg) translate(-0.8em, 1.85em); }
-            50% { transform: rotate(0) translate(-0.8em, 1.85em); }
-        }
-        @keyframes hamsterHead {
-            from, 25%, 50%, 75%, to { transform: rotate(0); }
-            12.5%, 37.5%, 62.5%, 87.5% { transform: rotate(8deg); }
-        }
-        @keyframes hamsterEye {
-            from, 90%, to { transform: scaleY(1); }
-            95% { transform: scaleY(0); }
-        }
-        @keyframes hamsterEar {
-            from, 25%, 50%, 75%, to { transform: rotate(0); }
-            12.5%, 37.5%, 62.5%, 87.5% { transform: rotate(12deg); }
-        }
-        @keyframes hamsterBody {
-            from, 25%, 50%, 75%, to { transform: rotate(0); }
-            12.5%, 37.5%, 62.5%, 87.5% { transform: rotate(-2deg); }
-        }
-        @keyframes hamsterFRLimb {
-            from, 25%, 50%, 75%, to { transform: rotate(50deg) translateZ(-1px); }
-            12.5%, 37.5%, 62.5%, 87.5% { transform: rotate(-30deg) translateZ(-1px); }
-        }
-        @keyframes hamsterFLLimb {
-            from, 25%, 50%, 75%, to { transform: rotate(-30deg); }
-            12.5%, 37.5%, 62.5%, 87.5% { transform: rotate(50deg); }
-        }
-        @keyframes hamsterBRLimb {
-            from, 25%, 50%, 75%, to { transform: rotate(-60deg) translateZ(-1px); }
-            12.5%, 37.5%, 62.5%, 87.5% { transform: rotate(20deg) translateZ(-1px); }
-        }
-        @keyframes hamsterBLLimb {
-            from, 25%, 50%, 75%, to { transform: rotate(20deg); }
-            12.5%, 37.5%, 62.5%, 87.5% { transform: rotate(-60deg); }
-        }
-        @keyframes hamsterTail {
-            from, 25%, 50%, 75%, to { transform: rotate(30deg) translateZ(-1px); }
-            12.5%, 37.5%, 62.5%, 87.5% { transform: rotate(10deg) translateZ(-1px); }
-        }
-        @keyframes spoke {
-            from { transform: rotate(0); }
-            to { transform: rotate(-1turn); }
-        }
-
-        /* ===== 尊重系统减弱动效设置 ===== */
-        @media (prefers-reduced-motion: reduce) {
-            .boot-bar-fill,
-            .gradient-text,
-            .floating-shape,
-            .cursor-glow {
-                animation: none !important;
-            }
-
-            #hamsterLoader *,
-            #hamsterLoader *::before,
-            #hamsterLoader *::after {
-                animation: none !important;
-            }
-
-            .theme-card-wrap *,
-            .theme-card-wrap *::before,
-            .theme-card-wrap *::after {
-                transition: none !important;
-            }
-        }
     </style>
 </head>
 <body>
@@ -1421,32 +877,7 @@
         })();
     </script>
     <div id="loading">
-        <div class="boot-screen">
-            <div class="boot-name">SPARK<span class="boot-dot">_</span></div>
-            <div id="hamsterLoader" class="boot-hamster" aria-label="橙棕色仓鼠在金属跑轮中奔跑" role="img">
-                <div class="wheel-and-hamster">
-                    <div class="wheel"></div>
-                    <div class="hamster">
-                        <div class="hamster__body">
-                            <div class="hamster__head">
-                                <div class="hamster__ear"></div>
-                                <div class="hamster__eye"></div>
-                                <div class="hamster__nose"></div>
-                            </div>
-                            <div class="hamster__limb hamster__limb--fr"></div>
-                            <div class="hamster__limb hamster__limb--fl"></div>
-                            <div class="hamster__limb hamster__limb--br"></div>
-                            <div class="hamster__limb hamster__limb--bl"></div>
-                            <div class="hamster__tail"></div>
-                        </div>
-                    </div>
-                    <div class="spoke"></div>
-                </div>
-            </div>
-            <div class="boot-bar"><div class="boot-bar-fill" id="bootBarFill"></div></div>
-            <div class="boot-status">正在启动模拟桌面<span class="boot-cursor">▍</span></div>
-            <div class="boot-percent" id="bootPercent">0%</div>
-        </div>
+        <div class="loader"></div>
     </div>
 
     <!-- 主题切换动画覆盖层 -->
@@ -1573,49 +1004,13 @@
                     <span>Spark 模拟系统</span>
                 </div>
                 <div class="footer-actions">
-                    <button id="themePopupBtn" class="footer-btn theme-btn" title="切换亮色 / 暗色主题" aria-label="切换亮色或暗色主题"><i class="fas fa-moon"></i> 切换主题</button>
+                    <button id="themeToggle" class="footer-btn theme-btn"><i class="fas fa-moon"></i> 切换主题</button>
                 </div>
                 <div class="footer-copyright">
                     &copy; 2024 柴炳坤. 保留所有权利。<span class="sep">|</span><span class="uptime">网站已艰难运行了 <span id="uptimeDisplay">0</span> 个月</span>
                 </div>
             </div>
         </footer>
-    </div>
-
-    <!-- 主题切换弹窗（点击 footer 主题按钮弹出手机卡片） -->
-    <div id="themeCardModal" class="theme-card-modal" role="dialog" aria-modal="true" aria-label="切换主题" hidden>
-        <div class="theme-card-modal__backdrop" data-close-theme-modal></div>
-        <div class="theme-card-modal__dialog">
-            <div class="theme-card-wrap">
-                <input id="themeCardSwitch" type="checkbox">
-                <div class="tc-app">
-                    <div class="tc-body">
-                        <div class="tc-phone">
-                            <button type="button" class="theme-card-modal__close" data-close-theme-modal aria-label="关闭">&times;</button>
-                            <div class="tc-menu">
-                                <div class="tc-time">4:20</div>
-                                <div class="tc-icons">
-                                    <div class="tc-network"></div>
-                                    <div class="tc-battery"></div>
-                                </div>
-                            </div>
-                            <div class="tc-content">
-                                <div class="tc-circle">
-                                    <div class="tc-crescent"></div>
-                                </div>
-                                <label for="themeCardSwitch" class="tc-toggle-label">
-                                    <div class="tc-toggle"></div>
-                                    <div class="tc-names">
-                                        <p class="tc-light">Light</p>
-                                        <p class="tc-dark">Dark</p>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
     <!-- ===== 下载对话框 ===== -->
@@ -2244,41 +1639,13 @@
         // ===== 页面加载完成后执行 =====
         window.addEventListener('load', function() {
             const loading = document.getElementById('loading');
-            const bootStatus = loading.querySelector('.boot-status');
-            const bootPercent = document.getElementById('bootPercent');
-            const bootBarFill = document.getElementById('bootBarFill');
-
-            // 分阶段开机序列（BIOS 风格）
-            const bootStages = [
-                { text: '正在检测内存…', percent: 20 },
-                { text: '正在加载内核模块…', percent: 45 },
-                { text: '正在初始化显卡驱动…', percent: 70 },
-                { text: '正在启动模拟桌面…', percent: 92 }
-            ];
-
-            let stageIndex = 0;
-            const stageTimer = setInterval(function() {
-                if (stageIndex < bootStages.length) {
-                    const stage = bootStages[stageIndex];
-                    if (bootStatus) {
-                        bootStatus.innerHTML = stage.text + '<span class="boot-cursor">▍</span>';
-                    }
-                    if (bootPercent) bootPercent.textContent = stage.percent + '%';
-                    if (bootBarFill) bootBarFill.style.width = stage.percent + '%';
-                    stageIndex++;
-                } else {
-                    clearInterval(stageTimer);
-                }
-            }, 300);
-
+            
             setTimeout(function() {
-                if (bootPercent) bootPercent.textContent = '100%';
-                if (bootBarFill) bootBarFill.style.width = '100%';
                 loading.style.opacity = '0';
                 setTimeout(function() {
                     loading.style.display = 'none';
                 }, 400);
-            }, 1500);
+            }, 800);
 
             createParticles();
             initVersionDisplay();
@@ -2301,74 +1668,6 @@
         // 初始化主题（按钮绑定等）
         if (typeof initTheme === 'function') {
             initTheme();
-        }
-    </script>
-    <script>
-        // ===== 主题切换弹窗（点击 footer 主题按钮 → 弹出手机卡片切换器） =====
-        function syncThemeSwitchWidgets() {
-            const isDark = document.body.classList.contains('dark-theme');
-            const card = document.getElementById('themeCardSwitch');
-            if (card) card.checked = isDark;
-            // 同步 footer 主题按钮文案（与 theme.js updateThemeButton 逻辑一致）
-            const btn = document.getElementById('themePopupBtn');
-            if (btn) {
-                btn.innerHTML = isDark
-                    ? '<i class="fas fa-sun"></i> 亮色主题'
-                    : '<i class="fas fa-moon"></i> 暗色主题';
-            }
-        }
-        // 手机卡片开关 → 切换主题
-        const themeCardSwitch = document.getElementById('themeCardSwitch');
-        if (themeCardSwitch) {
-            themeCardSwitch.addEventListener('change', function () {
-                if (typeof toggleTheme === 'function') toggleTheme();
-            });
-        }
-        // footer 主题按钮 → 弹出手机卡片（不直接切换主题）
-        const themeCardModal = document.getElementById('themeCardModal');
-        // 手机卡片时间 → 当前北京时间（Asia/Shanghai），格式 H:MM
-        function updateCardTime() {
-            const t = document.querySelector('#themeCardModal .tc-time');
-            if (!t) return;
-            const parts = new Intl.DateTimeFormat('zh-CN', {
-                timeZone: 'Asia/Shanghai',
-                hour: 'numeric',
-                minute: '2-digit',
-                hour12: false
-            }).formatToParts(new Date());
-            const hour = parts.find(function (p) { return p.type === 'hour'; });
-            const minute = parts.find(function (p) { return p.type === 'minute'; });
-            if (hour && minute) t.textContent = hour.value + ':' + minute.value;
-        }
-        function openThemeModal() {
-            if (!themeCardModal) return;
-            updateCardTime(); // 每次打开时刷新为最新北京时间
-            themeCardModal.hidden = false;
-            document.documentElement.classList.add('dialog-open');
-        }
-        function closeThemeModal() {
-            if (!themeCardModal) return;
-            themeCardModal.hidden = true;
-            document.documentElement.classList.remove('dialog-open');
-        }
-        const themePopupBtn = document.getElementById('themePopupBtn');
-        if (themePopupBtn) {
-            themePopupBtn.addEventListener('click', openThemeModal);
-        }
-        if (themeCardModal) {
-            themeCardModal.querySelectorAll('[data-close-theme-modal]').forEach(function (el) {
-                el.addEventListener('click', closeThemeModal);
-            });
-        }
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape' && themeCardModal && !themeCardModal.hidden) {
-                closeThemeModal();
-            }
-        });
-        syncThemeSwitchWidgets();
-        updateCardTime();
-        if (typeof MutationObserver !== 'undefined') {
-            new MutationObserver(syncThemeSwitchWidgets).observe(document.body, { attributes: true, attributeFilter: ['class'] });
         }
     </script>
 </body>

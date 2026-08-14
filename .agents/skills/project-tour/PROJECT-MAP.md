@@ -2,7 +2,7 @@
 
 > 本文件是项目的「分类索引 + 定位表」。Agent 定位任务时**先读本文件**，按分类找到目标文件，
 > 再只读取目标文件的相关区段（见各行号），**不要逐个文件通读**。
-> 📅 最近更新：2026-08-14（Google Fonts 已本地化至 `lib/fonts/`；行号已按当前文件实测刷新；新增 `.github/`、`.agents/`、`lib/fontawesome/` 等目录收录）
+> 📅 最近更新：2026-08-14（Google Fonts 已本地化至 `lib/fonts/`；三页新增字体 CDN↔本地智能切换，测速百度官网判定；行号已按当前文件实测刷新；新增 `.github/`、`.agents/`、`lib/fontawesome/` 等目录收录）
 
 ## 项目概述
 
@@ -155,7 +155,7 @@
 |---|---|
 | `lib/fontawesome/css/all.min.css` | Font Awesome 6.5 本地化样式（8 行压缩） |
 | `lib/fontawesome/webfonts/` | FA 字体文件 ×8（fa-brands/regular/solid/v4compatibility 的 ttf+woff2，二进制） |
-| `lib/fonts/google-fonts.css` | Google Fonts 本地化样式（2026-08-14；三页 `<link>` 均指向此处；覆盖 Chakra Petch 500/600/700 + Noto Sans SC 300/400/500/700 + JetBrains Mono 400/500/600，含各 unicode 子集 @font-face，URL 已改写为相对路径） |
+| `lib/fonts/google-fonts.css` | Google Fonts 本地化样式（2026-08-14；**三页 `<link>` 均先指向此处**（index L8 / download L8 / lock L7）；覆盖 Chakra Petch 500/600/700 + Noto Sans SC 300/400/500/700 + JetBrains Mono 400/500/600，含各 unicode 子集 @font-face，URL 已改写为相对路径；**若百度官网测速 <1500ms 会被动态替换为 Google Fonts CDN**） |
 | `lib/fonts/woff2/` | 上述 CSS 引用的 119 个 woff2 字体文件（约 4.5 MB，二进制） |
 | `.github/agents/project-guide.agent.md` | VS Code 自定义 Agent「项目导览」定义（26 行，只读定位用） |
 | `.agents/skills/project-tour/` | 本 skill 本体：`SKILL.md`（37 行）+ `PROJECT-MAP.md`（本文件） |
@@ -168,16 +168,23 @@
 
 ```
 index.html ──┬── spark-design.css（深夜模拟桌面设计系统，主页+下载页共用）
+             ├── lib/fonts/google-fonts.css（默认本地字体；测速快→切 CDN）
+             ├── lib/fontawesome/css/all.min.css（本地图标）
              ├── tools-dialog.js ──→ Other-Sites/lock.html
              ├── theme.js
-             └── (内联) EmailJS 反馈 + 主题卡片弹窗 + 分阶段开机
+             └── (内联) EmailJS 反馈（CDN，始终联网）+ 主题卡片弹窗 + 分阶段开机
 download.html ─┬── spark-design.css（同上，共用）
+               ├── lib/fonts/google-fonts.css（默认本地字体；测速快→切 CDN）
+               ├── lib/fontawesome/css/all.min.css（本地图标）
                ├── download-links.js
                ├── tools-dialog.js
                ├── theme.js
                └── (内联) 主题卡片弹窗 + 分阶段开机（2026-08-11 同步自 index.html）
-Other-Sites/lock.html ──（完全自包含，仅 Font Awesome CDN）
+Other-Sites/lock.html ──（独立工具页；字体/图标已本地化到 ../lib/fonts/ 与 ../lib/fontawesome/）
 ```
+
+- **字体加载策略（三页一致，head 内联脚本）**：默认 `<link href="lib/fonts/google-fonts.css" id="local-google-fonts">` 立即渲染（离线/慢网也可用，防闪烁）；随后 `fetch('https://www.baidu.com/', {mode:'no-cors'})` 测速（超时 2500ms，判定阈值 1500ms），**通过则动态注入 Google Fonts CDN 链接、加载完成后移除本地 link**；失败/超时/过慢则保持本地。CDN URL 与 fonts.googleapis.com/css2 相同参数。
+- ⚠️ **以下两项始终联网、不可本地化/切换**（用户明确指定）：① EmailJS `https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js`（index.html L10）；② 必应壁纸 `https://bing.biturl.top/?resolution=1920&format=image`（spark-design.css L158 背景图）。
 
 - 修改**主页**弹窗/样式：`spark-design.css`（对话框 L1352-1592、工具弹窗 L1593-1812、响应式 L2078-2602）
 - 修改**主页创意交互**（Dock/聚焦/折叠/开机/reveal/光晕）：样式 `spark-design.css` L2603-2880；逻辑 `index.html` 内联脚本 `initCursorGlow`/`initWindowFocus`/`initWindowCollapse`/`initDock`/`initScrollReveal` + `bootStages` 开机序列（L1415-1657）

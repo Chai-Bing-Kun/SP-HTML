@@ -4,8 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spark 文件保险库 · 加密/解密工具</title>
-    <link rel="stylesheet" href="../lib/fonts/google-fonts.css">
+    <link rel="stylesheet" href="../lib/fonts/google-fonts.css" id="local-google-fonts">
     <link rel="stylesheet" href="../lib/fontawesome/css/all.min.css">
+    <script>
+    /* 字体资源智能切换：默认本地（离线/慢网可用，防闪烁）；百度官网测速通过(<1500ms)则切换 Google Fonts CDN */
+    (function () {
+        if (!window.fetch || !window.AbortController) return;
+        var CDN_FONTS = 'https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap';
+        var localLink = document.getElementById('local-google-fonts');
+        var ctrl = new AbortController();
+        var timer = setTimeout(function () { ctrl.abort(); }, 2500);
+        var start = performance.now();
+        fetch('https://www.baidu.com/', { mode: 'no-cors', cache: 'no-store', signal: ctrl.signal })
+            .then(function () {
+                clearTimeout(timer);
+                if (performance.now() - start < 1500) {
+                    var cdn = document.createElement('link');
+                    cdn.rel = 'stylesheet';
+                    cdn.href = CDN_FONTS;
+                    cdn.onload = function () { if (localLink && localLink.parentNode) localLink.parentNode.removeChild(localLink); };
+                    document.head.appendChild(cdn);
+                }
+            })
+            .catch(function () { clearTimeout(timer); });
+    })();
+    </script>
     <!-- 主题初始化：与主站同步（localStorage.theme），无设置时跟随系统 -->
     <script>
         (function() {
