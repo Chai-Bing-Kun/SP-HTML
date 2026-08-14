@@ -2,12 +2,12 @@
 
 > 本文件是项目的「分类索引 + 定位表」。Agent 定位任务时**先读本文件**，按分类找到目标文件，
 > 再只读取目标文件的相关区段（见各行号），**不要逐个文件通读**。
-> 📅 最近更新：2026-08-11（行号已按当前文件实测刷新；新增 `.github/`、`.agents/`、`lib/fontawesome/` 等目录收录）
+> 📅 最近更新：2026-08-14（Google Fonts 已本地化至 `lib/fonts/`；行号已按当前文件实测刷新；新增 `.github/`、`.agents/`、`lib/fontawesome/` 等目录收录）
 
 ## 项目概述
 
 - **项目类型**：Spark 模拟系统的静态展示网站（纯 HTML/CSS/JS，无构建工具、无框架）
-- **技术栈**：原生 HTML + CSS + JS，CDN 依赖（EmailJS；Font Awesome 6.5 已本地化于 `lib/fontawesome`；Google Fonts Chakra Petch/Noto Sans SC/JetBrains Mono）
+- **技术栈**：原生 HTML + CSS + JS，CDN 依赖（EmailJS；Font Awesome 6.5 与 Google Fonts 均已本地化于 `lib/fontawesome` / `lib/fonts`，无需联网）
 - **部署**：GitHub Pages（线上域名 `spark-home.pages.dev`）
 - **页面间关系**：`index.html`（主页）与 `download.html`（下载）**共用** `spark-design.css` 深夜模拟桌面设计系统（亮/暗双主题，两页风格已统一）；2026-08-11 起**启动画面（仓鼠+分阶段开机）与主题卡片弹窗也已在两页同步**；`Other-Sites/lock.html` 为独立单文件工具页
 - **完整文件清单**：见文末「四、完整文件清单」（项目内所有文件一网打尽）
@@ -155,6 +155,8 @@
 |---|---|
 | `lib/fontawesome/css/all.min.css` | Font Awesome 6.5 本地化样式（8 行压缩） |
 | `lib/fontawesome/webfonts/` | FA 字体文件 ×8（fa-brands/regular/solid/v4compatibility 的 ttf+woff2，二进制） |
+| `lib/fonts/google-fonts.css` | Google Fonts 本地化样式（2026-08-14；三页 `<link>` 均指向此处；覆盖 Chakra Petch 500/600/700 + Noto Sans SC 300/400/500/700 + JetBrains Mono 400/500/600，含各 unicode 子集 @font-face，URL 已改写为相对路径） |
+| `lib/fonts/woff2/` | 上述 CSS 引用的 119 个 woff2 字体文件（约 4.5 MB，二进制） |
 | `.github/agents/project-guide.agent.md` | VS Code 自定义 Agent「项目导览」定义（26 行，只读定位用） |
 | `.agents/skills/project-tour/` | 本 skill 本体：`SKILL.md`（37 行）+ `PROJECT-MAP.md`（本文件） |
 | `.git/` | Git 仓库 |
@@ -209,6 +211,8 @@ Other-Sites/lock.html ──（完全自包含，仅 Font Awesome CDN）
 | `img/MAIN.svg` | 资源 | 36 行 | Spark logo 矢量版（唯一保留的图片；其余 4 个 img 文件已于 2026-08-11 删除，见 E 部分） |
 | `lib/fontawesome/css/all.min.css` | 库 | 8 行 | Font Awesome 6.5 样式 |
 | `lib/fontawesome/webfonts/` | 库 | 8 个字体文件 | fa-brands/regular/solid/v4compatibility（ttf+woff2） |
+| `lib/fonts/google-fonts.css` | 库 | 461 KB | Google Fonts 本地化样式（2026-08-14） |
+| `lib/fonts/woff2/` | 库 | 119 个字体 | woff2 字体文件（约 4.5 MB） |
 | `.github/agents/project-guide.agent.md` | 配置 | 26 行 | 项目导览 Agent 定义 |
 | `.agents/skills/project-tour/SKILL.md` | skill | 37 行 | 本 skill 流程/约束 |
 | `.agents/skills/project-tour/PROJECT-MAP.md` | skill | 本文件 | 本地图 |
