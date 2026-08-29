@@ -31,6 +31,973 @@
             .catch(function () { clearTimeout(timer); });
     })();
     </script>
+    <style>
+    /* ============================================================
+       ✦ Spark 主页 · 霓虹主题覆盖层（仅 index.html 使用）
+       设计语言：模拟系统 + 霓虹辉光 / 亮暗双主题适配
+       ============================================================ */
+
+    /* ---- 霓虹色变量（亮色 · 日间桌面） ---- */
+    :root {
+        --neon: #0B7A84;
+        --neon-bright: #16B8C4;
+        --neon-pink: #C2438F;
+        --neon-amber: #B5660A;
+        --neon-green: #1F8A4C;
+        --neon-glow: rgba(11, 122, 132, 0.3);
+        --neon-glow-pink: rgba(194, 67, 143, 0.26);
+        --neon-glow-amber: rgba(181, 102, 10, 0.26);
+        --neon-glow-green: rgba(31, 138, 76, 0.26);
+        --neon-text-glow: 0 0 12px rgba(11, 122, 132, 0.2), 0 0 30px rgba(11, 122, 132, 0.1);
+        --neon-border: linear-gradient(120deg, rgba(11,122,132,.6), rgba(194,67,143,.4), rgba(181,102,10,.5));
+        /* 高对比 · 徽章/标签文字（亮色） */
+        --neon-badge-fg: #085E66;
+        --neon-badge-bg: rgba(11, 122, 132, 0.14);
+        --neon-badge-brd: rgba(11, 122, 132, 0.5);
+        --neon-tag-fg: #085E66;
+        --neon-tag-bg: rgba(11, 122, 132, 0.12);
+        --neon-tag-brd: rgba(11, 122, 132, 0.4);
+        --neon-tag-amber-fg: #8A4A00;
+        --neon-tag-amber-bg: rgba(181, 102, 10, 0.12);
+        --neon-tag-amber-brd: rgba(181, 102, 10, 0.4);
+        --neon-tag-green-fg: #0F6B36;
+        --neon-tag-green-bg: rgba(31, 138, 76, 0.12);
+        --neon-tag-green-brd: rgba(31, 138, 76, 0.4);
+        /* 高对比 · 标题辉光（亮色，淡） */
+        --neon-title-glow: 0 0 20px rgba(11, 122, 132, 0.14);
+        /* 对比度修复：次要文字加深 */
+        --ink-faint: #5A6B8F;
+    }
+
+    /* ---- 霓虹色变量（暗色 · 深夜桌面） ---- */
+    body.dark-theme {
+        --neon: #4FD8EB;
+        --neon-bright: #19E0FF;
+        --neon-pink: #FF6EC7;
+        --neon-amber: #FFB454;
+        --neon-green: #7CE38B;
+        --neon-glow: rgba(79, 216, 235, 0.38);
+        --neon-glow-pink: rgba(255, 110, 199, 0.34);
+        --neon-glow-amber: rgba(255, 180, 84, 0.34);
+        --neon-glow-green: rgba(124, 227, 139, 0.34);
+        --neon-text-glow: 0 0 14px rgba(79, 216, 235, 0.4), 0 0 40px rgba(79, 216, 235, 0.18);
+        --neon-border: linear-gradient(120deg, rgba(79,216,235,.75), rgba(255,110,199,.5), rgba(255,180,84,.6));
+        /* 高对比 · 徽章/标签文字（暗色，近白） */
+        --neon-badge-fg: #E9EFFF;
+        --neon-badge-bg: rgba(79, 216, 235, 0.18);
+        --neon-badge-brd: rgba(79, 216, 235, 0.55);
+        --neon-tag-fg: #E9EFFF;
+        --neon-tag-bg: rgba(79, 216, 235, 0.16);
+        --neon-tag-brd: rgba(79, 216, 235, 0.45);
+        --neon-tag-amber-fg: #FFD28A;
+        --neon-tag-amber-bg: rgba(255, 180, 84, 0.14);
+        --neon-tag-amber-brd: rgba(255, 180, 84, 0.45);
+        --neon-tag-green-fg: #A8F0B8;
+        --neon-tag-green-bg: rgba(124, 227, 139, 0.12);
+        --neon-tag-green-brd: rgba(124, 227, 139, 0.45);
+        /* 高对比 · 标题辉光（暗色，淡） */
+        --neon-title-glow: 0 0 20px rgba(79, 216, 235, 0.2);
+        /* 对比度修复：次要文字提亮 */
+        --ink-faint: #94A5C8;
+    }
+
+    /* ========== 1. 启动画面 · 霓虹终端启动器 ========== */
+    .boot-name {
+        text-shadow: var(--neon-text-glow);
+    }
+
+    .boot-bar {
+        width: 230px;
+        height: 4px;
+        box-shadow: inset 0 0 5px var(--line);
+    }
+
+    .boot-bar-fill {
+        background: linear-gradient(90deg, var(--neon), var(--neon-bright) 45%, var(--neon-pink));
+        background-size: 220% 100%;
+        animation: bootFill 1.1s var(--ease-out) forwards, flowShine 1.6s linear infinite;
+        box-shadow: 0 0 12px var(--neon-glow);
+    }
+
+    @keyframes flowShine {
+        from { background-position: 220% 0; }
+        to { background-position: -220% 0; }
+    }
+
+    .boot-percent {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        letter-spacing: 2px;
+        color: var(--neon);
+        text-shadow: 0 0 10px var(--neon-glow);
+    }
+
+    /* ========== 2. Hero · 霓虹启动窗口（签名元素） ========== */
+    body main section.hero-section .window,
+    body main.has-focus section.hero-section .window {
+        transition: transform 0.5s var(--ease-out), box-shadow 0.5s var(--ease-out), border-color 0.4s ease;
+    }
+
+    body main section.hero-section .window:hover,
+    body main.has-focus section.hero-section .window:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg), 0 0 34px var(--neon-glow);
+        border-color: var(--neon);
+    }
+
+    .hero-title {
+        text-shadow: var(--neon-title-glow);
+    }
+
+    .gradient-text {
+        background: linear-gradient(100deg, var(--neon), var(--neon-bright) 40%, var(--neon-pink));
+        background-size: 200% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: none;
+        animation: gradientShift 6s ease-in-out infinite;
+    }
+
+    @keyframes gradientShift {
+        0%, 100% { background-position: 0% 0; }
+        50% { background-position: 100% 0; }
+    }
+
+    .hero-badge {
+        color: var(--neon-badge-fg);
+        background: var(--neon-badge-bg);
+        border-color: var(--neon-badge-brd);
+        box-shadow: 0 0 14px var(--neon-glow);
+        text-shadow: none;
+    }
+
+    .hero-badge::before {
+        background: var(--neon-green);
+        box-shadow: 0 0 8px var(--neon-green);
+    }
+
+    .hero-btn {
+        position: relative;
+        transition: transform 0.4s var(--ease-out), box-shadow 0.4s ease, filter 0.4s ease, border-color 0.4s ease, color 0.4s ease;
+    }
+
+    .hero-btn.primary {
+        background: linear-gradient(120deg, var(--neon), var(--neon-bright));
+        box-shadow: 0 6px 22px var(--neon-glow), 0 0 0 1px var(--line-strong), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    .hero-btn.primary:hover {
+        filter: brightness(1.1);
+        box-shadow: 0 12px 34px var(--neon-glow), 0 0 26px var(--neon-glow);
+    }
+
+    .hero-btn.secondary:hover {
+        border-color: var(--neon);
+        color: var(--neon);
+        box-shadow: 0 0 20px var(--neon-glow);
+    }
+
+    /* 霓虹轨道装饰 */
+    .floating-shape {
+        border-radius: 50%;
+        opacity: 0.55;
+        filter: blur(2px);
+    }
+
+    .shape-1 {
+        background: radial-gradient(circle, var(--neon-glow), transparent 70%);
+        animation: orbitA 11s ease-in-out infinite;
+    }
+
+    .shape-2 {
+        background: radial-gradient(circle, var(--neon-glow-amber), transparent 70%);
+        animation: orbitB 9s ease-in-out infinite reverse;
+    }
+
+    .shape-3 {
+        background: radial-gradient(circle, var(--neon-glow-pink), transparent 70%);
+        animation: orbitC 13s ease-in-out infinite 1.5s;
+    }
+
+    @keyframes orbitA {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        25% { transform: translate(-26px, 30px) scale(1.08); }
+        50% { transform: translate(12px, 44px) scale(0.94); }
+        75% { transform: translate(28px, -10px) scale(1.04); }
+    }
+
+    @keyframes orbitB {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33% { transform: translate(22px, -26px) scale(1.06); }
+        66% { transform: translate(-16px, 20px) scale(0.92); }
+    }
+
+    @keyframes orbitC {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        40% { transform: translate(-20px, -28px) scale(1.1); }
+        80% { transform: translate(14px, 16px) scale(0.9); }
+    }
+
+    /* ========== 3. 窗口 · 玻璃拟态升级 ========== */
+    .window {
+        backdrop-filter: blur(22px);
+        -webkit-backdrop-filter: blur(22px);
+    }
+
+    /* 顶部霓虹高光条 */
+    .window::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 14px;
+        right: 14px;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--neon-glow), transparent);
+        z-index: 2;
+        pointer-events: none;
+        opacity: 0.85;
+    }
+
+    .window:hover {
+        border-color: var(--neon);
+        box-shadow: var(--shadow-lg), 0 0 26px var(--neon-glow);
+    }
+
+    .window-bar:hover {
+        background: linear-gradient(180deg, var(--neon-glow), transparent);
+    }
+
+    .section-icon {
+        background: var(--neon-glow);
+        color: var(--neon);
+        box-shadow: 0 0 14px var(--neon-glow);
+    }
+
+    /* ========== 4. 时间线 · 霓虹脉络 ========== */
+    .timeline::before {
+        background: linear-gradient(180deg, var(--neon), var(--neon-pink), var(--track));
+        box-shadow: 0 0 8px var(--neon-glow);
+    }
+
+    .timeline-dot {
+        border-color: var(--neon);
+        background: var(--neon);
+        box-shadow: 0 0 0 4px var(--neon-glow), 0 0 16px var(--neon-glow);
+        transition: transform 0.45s var(--ease-out), filter 0.45s ease;
+    }
+
+    .timeline-row:nth-child(3) .timeline-dot {
+        border-color: var(--neon-amber);
+        background: var(--neon-amber);
+        box-shadow: 0 0 0 4px var(--neon-glow-amber), 0 0 16px var(--neon-glow-amber);
+    }
+
+    .timeline-row:nth-child(4) .timeline-dot {
+        border-color: var(--neon-green);
+        background: var(--neon-green);
+        box-shadow: 0 0 0 4px var(--neon-glow-green), 0 0 16px var(--neon-glow-green);
+    }
+
+    .timeline-row:nth-child(5) .timeline-dot {
+        border-color: var(--neon-pink);
+        background: var(--neon-pink);
+        box-shadow: 0 0 0 4px var(--neon-glow-pink), 0 0 16px var(--neon-glow-pink);
+    }
+
+    .timeline-row:hover .timeline-dot {
+        transform: scale(1.3);
+        filter: brightness(1.25);
+    }
+
+    .timeline-tag {
+        color: var(--neon-tag-fg);
+        background: var(--neon-tag-bg);
+        border: 1px solid var(--neon-tag-brd);
+        box-shadow: 0 0 12px var(--neon-glow);
+    }
+
+    .timeline-row:nth-child(3) .timeline-tag,
+    .timeline-row:nth-child(5) .timeline-tag {
+        color: var(--neon-tag-amber-fg);
+        background: var(--neon-tag-amber-bg);
+        border-color: var(--neon-tag-amber-brd);
+    }
+
+    .timeline-row:nth-child(4) .timeline-tag {
+        color: var(--neon-tag-green-fg);
+        background: var(--neon-tag-green-bg);
+        border-color: var(--neon-tag-green-brd);
+    }
+
+    .timeline-row:hover .timeline-title { color: var(--neon); }
+    .timeline-row:hover .timeline-body { color: var(--ink); }
+
+    /* ========== 5. 部署卡片 · 悬停浮升 + 霓虹描边 ========== */
+    .deploy-card {
+        position: relative;
+        transition: transform 0.5s var(--ease-out), border-color 0.4s ease, box-shadow 0.5s var(--ease-out), background 0.4s ease;
+    }
+
+    .deploy-card:hover {
+        transform: translateY(-4px);
+        border-color: var(--neon);
+        box-shadow: var(--shadow-lg), 0 0 24px var(--neon-glow);
+    }
+
+    .deploy-icon {
+        background: linear-gradient(135deg, var(--neon-green), var(--neon));
+        box-shadow: 0 4px 14px var(--neon-glow-green), 0 0 18px var(--neon-glow-green);
+        transition: transform 0.45s var(--ease-out), box-shadow 0.45s ease;
+    }
+
+    .deploy-icon.windows {
+        background: linear-gradient(135deg, #2E86C1, #1B6CA8);
+        box-shadow: 0 4px 14px rgba(46, 134, 193, 0.35), 0 0 18px rgba(46, 134, 193, 0.3);
+    }
+
+    .deploy-card:hover .deploy-icon {
+        transform: scale(1.08);
+        box-shadow: 0 6px 22px var(--neon-glow-green), 0 0 26px var(--neon-glow-green);
+    }
+
+    .deploy-card:hover .deploy-icon.windows {
+        box-shadow: 0 6px 22px rgba(46, 134, 193, 0.45), 0 0 26px rgba(46, 134, 193, 0.4);
+    }
+
+    /* ========== 6. 下载模拟窗口 · 霓虹流动进度 ========== */
+    .dl-progress-fill {
+        background: linear-gradient(90deg, var(--neon), var(--neon-green), var(--neon-bright));
+        background-size: 200% 100%;
+        animation: dlFlow 2.4s linear infinite;
+        box-shadow: 0 0 10px var(--neon-glow-green);
+    }
+
+    @keyframes dlFlow {
+        from { background-position: 200% 0; }
+        to { background-position: -200% 0; }
+    }
+
+    .dl-file-status {
+        filter: drop-shadow(0 0 6px var(--neon-glow-green));
+    }
+
+    .dl-tip i {
+        filter: drop-shadow(0 0 4px var(--neon-green));
+    }
+
+    /* ========== 7. Dock · 磁吸霓虹 ========== */
+    .desktop-dock {
+        backdrop-filter: blur(28px);
+        -webkit-backdrop-filter: blur(28px);
+        box-shadow: var(--shadow-lg), 0 0 30px var(--neon-glow);
+    }
+
+    .dock-icon {
+        transition: transform 0.3s var(--ease-out), opacity 0.35s ease, background 0.3s ease;
+    }
+
+    .dock-icon:hover {
+        transform: scale(1.22);
+    }
+
+    /* 磁吸：相邻图标跟随让位 */
+    .dock-icon:hover + .dock-icon,
+    .dock-icon:has(+ .dock-icon:hover) {
+        transform: scale(1.08) translateY(-2px);
+    }
+
+    .dock-icon.dock-active::before {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 16px;
+        height: 3px;
+        border-radius: 3px;
+        background: var(--neon);
+        box-shadow: 0 0 10px var(--neon-glow);
+        z-index: 5;
+    }
+
+    .dock-icon:hover .dock-icon-symbol,
+    .dock-icon.dock-active .dock-icon-symbol {
+        background: linear-gradient(135deg, var(--neon), var(--neon-bright));
+        box-shadow: 0 6px 18px var(--neon-glow), 0 0 22px var(--neon-glow);
+    }
+
+    .dock-icon:hover .dock-icon-label,
+    .dock-icon.dock-active .dock-icon-label {
+        color: var(--neon);
+    }
+
+    /* ========== 8. 对话框 · 霓虹描边 ========== */
+    dialog {
+        border: 1px solid transparent;
+        background:
+            linear-gradient(var(--panel-solid), var(--panel-solid)) padding-box,
+            var(--neon-border) border-box;
+        box-shadow: var(--shadow-lg), 0 0 34px var(--neon-glow);
+    }
+
+    dialog::backdrop {
+        background: rgba(4, 8, 18, 0.5);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+    }
+
+    .dialog-header {
+        background: linear-gradient(180deg, var(--neon-glow), transparent);
+    }
+
+    /* ========== 9. Footer 按钮 · 霓虹描边 ========== */
+    .footer-btn:hover {
+        border-color: var(--neon);
+        color: var(--neon);
+        box-shadow: 0 0 18px var(--neon-glow), inset 0 0 12px var(--neon-glow);
+    }
+
+    .footer-btn:hover i {
+        filter: drop-shadow(0 0 6px var(--neon));
+    }
+
+    /* ========== 10. 导航 · 霓虹滑块 ========== */
+    nav ul li a:hover {
+        background: linear-gradient(120deg, var(--neon-glow), transparent);
+        color: var(--neon);
+    }
+
+    nav ul li a.active {
+        color: var(--neon);
+        text-shadow: 0 0 10px var(--neon-glow);
+    }
+
+    nav ul li a.active::after {
+        width: 24px;
+        background: linear-gradient(90deg, var(--neon), var(--neon-pink));
+        box-shadow: 0 0 10px var(--neon-glow);
+    }
+
+    .mobile-menu-btn:hover {
+        background: var(--neon-glow);
+        color: var(--neon);
+    }
+
+    /* ========== 11. 鼠标光晕 · 双色霓虹 ========== */
+    .cursor-glow {
+        background: radial-gradient(circle, var(--neon-glow) 0%, var(--neon-glow-pink) 45%, transparent 65%);
+        opacity: 0.5;
+    }
+
+    /* ========== 12. 响应式与可访问性 ========== */
+    @media (pointer: coarse) {
+        .hero-section .window:hover,
+        .deploy-card:hover {
+            transform: none;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .boot-bar-fill,
+        .gradient-text,
+        .floating-shape,
+        .dl-progress-fill,
+        .cursor-glow {
+            animation: none !important;
+        }
+        .hero-section .window:hover,
+        .deploy-card:hover,
+        .deploy-card:hover .deploy-icon,
+        .timeline-row:hover .timeline-dot {
+            transform: none !important;
+            transition: none !important;
+        }
+        /* uiverse 组件 · 尊重系统减弱动效设置 */
+        #hamsterLoader *,
+        #hamsterLoader *::before,
+        #hamsterLoader *::after {
+            animation: none !important;
+        }
+        .theme-card-wrap *,
+        .theme-card-wrap *::before,
+        .theme-card-wrap *::after {
+            transition: none !important;
+        }
+    }
+
+    /* ========== 14. uiverse · 卡片式主题切换（Pradeepsaranbishnoi/strong-treefrog-90）· 弹窗容器 ========== */
+    .theme-card-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+    }
+    .theme-card-modal[hidden] {
+        display: none;
+    }
+    .theme-card-modal__backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(8, 14, 30, 0.55);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+    }
+    .theme-card-modal__dialog {
+        position: relative;
+        background: transparent;
+        border: none;
+        padding: 0;
+        text-align: center;
+    }
+    .theme-card-modal__close {
+        position: absolute;
+        top: -0.5rem;
+        right: -0.5rem;
+        width: 1.4rem;
+        height: 1.4rem;
+        border: none;
+        background: transparent;
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 1rem;
+        line-height: 1;
+        cursor: pointer;
+        z-index: 5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+        transition: color 0.15s ease, transform 0.15s ease;
+    }
+    .theme-card-modal__close:hover {
+        color: #ffffff;
+        transform: scale(1.15);
+    }
+    .theme-card-modal .theme-card-wrap {
+        padding: 0;
+    }
+    .theme-card-modal .tc-phone {
+        margin: 0 auto;
+    }
+
+    /* 主题切换闪光层（theme.js applyThemeWithAnimation 使用） */
+    .theme-transition-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 900;
+        pointer-events: none;
+        background: #ffffff;
+        opacity: 0;
+        transition: opacity 0.35s ease;
+    }
+    .theme-transition-overlay.active {
+        opacity: 0.6;
+    }
+    body.dark-theme .theme-transition-overlay {
+        background: #0b1222;
+    }
+    .theme-card-wrap {
+        position: relative;
+        padding: 0.75rem;
+    }
+    .theme-card-wrap .tc-body {
+        background-color: #F6F7F9;
+        border-radius: 40px;
+        padding: 1rem;
+        transition: background-color .5s ease, color .5s ease;
+    }
+    .theme-card-wrap .tc-phone {
+        position: relative;
+        z-index: 2;
+        width: 18rem;
+        height: 17rem;
+        background-color: inherit;
+        box-shadow: 0 4px 35px rgba(0, 0, 0, .1);
+        border-radius: 40px;
+        display: flex;
+        flex-direction: column;
+    }
+    .theme-card-wrap .tc-menu {
+        font-size: 80%;
+        opacity: .4;
+        padding: .8rem 1.8rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .theme-card-wrap .tc-icons {
+        display: flex;
+        margin-top: .5rem;
+    }
+    .theme-card-wrap .tc-battery {
+        width: .85rem;
+        height: .45rem;
+        background-color: black;
+    }
+    .theme-card-wrap .tc-network {
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 6.8px 7.2px 6.8px;
+        border-color: transparent transparent black transparent;
+        transform: rotate(135deg);
+        margin: .12rem .5rem;
+    }
+    .theme-card-wrap .tc-content {
+        display: flex;
+        flex-direction: column;
+        margin: auto;
+        text-align: center;
+        width: 70%;
+        transform: translateY(5%);
+    }
+    .theme-card-wrap .tc-circle {
+        position: relative;
+        border-radius: 100%;
+        width: 8rem;
+        height: 8rem;
+        background: linear-gradient(40deg, #FF0080, #FF8C00 70%);
+        margin: auto;
+        transition: background .5s ease;
+    }
+    .theme-card-wrap .tc-crescent {
+        position: absolute;
+        border-radius: 100%;
+        right: 0;
+        width: 6rem;
+        height: 6rem;
+        background: white;
+        transform: scale(0);
+        transform-origin: top right;
+        transition: transform .6s cubic-bezier(0.645, 0.045, 0.355, 1);
+    }
+    .theme-card-wrap .tc-toggle-label,
+    .theme-card-wrap .tc-toggle {
+        height: 2.8rem;
+        border-radius: 100px;
+    }
+    .theme-card-wrap .tc-toggle-label {
+        width: 100%;
+        background-color: rgba(0, 0, 0, .1);
+        border-radius: 100px;
+        position: relative;
+        margin: 1.8rem 0 4rem 0;
+        cursor: pointer;
+        display: block;
+    }
+    .theme-card-wrap .tc-toggle {
+        position: absolute;
+        width: 50%;
+        background-color: #fff;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, .15);
+        transition: transform .3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .theme-card-wrap .tc-names {
+        font-size: 90%;
+        font-weight: bolder;
+        color: black;
+        width: 65%;
+        margin-left: 17.5%;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        user-select: none;
+    }
+    .theme-card-wrap .tc-names p {
+        margin: 0;
+        line-height: 1;
+    }
+    .theme-card-wrap .tc-dark {
+        opacity: .5;
+    }
+    .theme-card-wrap .tc-time {
+        color: black;
+    }
+    #themeCardSwitch {
+        display: none;
+    }
+    #themeCardSwitch:checked + .tc-app .tc-toggle {
+        transform: translateX(100%);
+        background-color: #34323D;
+    }
+    #themeCardSwitch:checked + .tc-app .tc-dark {
+        opacity: 1;
+        color: white;
+    }
+    #themeCardSwitch:checked + .tc-app .tc-light {
+        opacity: 1;
+        color: white;
+    }
+    #themeCardSwitch:checked + .tc-app .tc-body {
+        background-color: #26242E;
+        color: white;
+        border-radius: 40px;
+    }
+    #themeCardSwitch:checked + .tc-app .tc-crescent {
+        transform: scale(1);
+        background: #26242E;
+    }
+    #themeCardSwitch:checked + .tc-app .tc-circle {
+        background: linear-gradient(40deg, #8983F7, #A3DAFB 70%);
+    }
+    #themeCardSwitch:checked + .tc-app .tc-body .tc-phone .tc-menu .tc-time {
+        color: white;
+    }
+    #themeCardSwitch:checked + .tc-app .tc-body .tc-phone .tc-menu .tc-icons .tc-network {
+        border-color: transparent transparent white transparent;
+    }
+    #themeCardSwitch:checked + .tc-app .tc-body .tc-phone .tc-menu .tc-icons .tc-battery {
+        background-color: white;
+    }
+
+    /* ========== 15. uiverse · 仓鼠跑步加载（Nawsome/wet-mayfly-23） ========== */
+    .boot-hamster {
+        margin: 6px 0 2px;
+        height: 118px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    #hamsterLoader .wheel-and-hamster {
+        --dur: 1s;
+        position: relative;
+        width: 12em;
+        height: 12em;
+        font-size: 10px;
+    }
+    #hamsterLoader .wheel,
+    #hamsterLoader .hamster,
+    #hamsterLoader .hamster div,
+    #hamsterLoader .spoke {
+        position: absolute;
+    }
+    #hamsterLoader .wheel,
+    #hamsterLoader .spoke {
+        border-radius: 50%;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    #hamsterLoader .wheel {
+        background: radial-gradient(100% 100% at center, hsla(0, 0%, 60%, 0) 47.8%, hsl(0, 0%, 60%) 48%);
+        z-index: 2;
+    }
+    #hamsterLoader .hamster {
+        animation: hamster var(--dur) ease-in-out infinite;
+        top: 50%;
+        left: calc(50% - 3.5em);
+        width: 7em;
+        height: 3.75em;
+        transform: rotate(4deg) translate(-0.8em, 1.85em);
+        transform-origin: 50% 0;
+        z-index: 1;
+    }
+    #hamsterLoader .hamster__head {
+        animation: hamsterHead var(--dur) ease-in-out infinite;
+        background: hsl(30, 90%, 55%);
+        border-radius: 70% 30% 0 100% / 40% 25% 25% 60%;
+        box-shadow: 0 -0.25em 0 hsl(30, 90%, 80%) inset, 0.75em -1.55em 0 hsl(30, 90%, 90%) inset;
+        top: 0;
+        left: -2em;
+        width: 2.75em;
+        height: 2.5em;
+        transform-origin: 100% 50%;
+    }
+    #hamsterLoader .hamster__ear {
+        animation: hamsterEar var(--dur) ease-in-out infinite;
+        background: hsl(0, 90%, 85%);
+        border-radius: 50%;
+        box-shadow: -0.25em 0 hsl(30, 90%, 55%) inset;
+        top: -0.25em;
+        right: -0.25em;
+        width: 0.75em;
+        height: 0.75em;
+        transform-origin: 50% 75%;
+    }
+    #hamsterLoader .hamster__eye {
+        animation: hamsterEye var(--dur) linear infinite;
+        background-color: hsl(0, 0%, 0%);
+        border-radius: 50%;
+        top: 0.375em;
+        left: 1.25em;
+        width: 0.5em;
+        height: 0.5em;
+    }
+    #hamsterLoader .hamster__nose {
+        background: hsl(0, 90%, 75%);
+        border-radius: 35% 65% 85% 15% / 70% 50% 50% 30%;
+        top: 0.75em;
+        left: 0;
+        width: 0.2em;
+        height: 0.25em;
+    }
+    #hamsterLoader .hamster__body {
+        animation: hamsterBody var(--dur) ease-in-out infinite;
+        background: hsl(30, 90%, 90%);
+        border-radius: 50% 30% 50% 30% / 15% 60% 40% 40%;
+        box-shadow: 0.1em 0.75em 0 hsl(30, 90%, 55%) inset, 0.15em -0.5em 0 hsl(30, 90%, 80%) inset;
+        top: 0.25em;
+        left: 2em;
+        width: 4.5em;
+        height: 3em;
+        transform-origin: 17% 50%;
+        transform-style: preserve-3d;
+    }
+    #hamsterLoader .hamster__limb--fr,
+    #hamsterLoader .hamster__limb--fl {
+        clip-path: polygon(0 0, 100% 0, 70% 80%, 60% 100%, 0% 100%, 40% 80%);
+        top: 2em;
+        left: 0.5em;
+        width: 1em;
+        height: 1.5em;
+        transform-origin: 50% 0;
+    }
+    #hamsterLoader .hamster__limb--fr {
+        animation: hamsterFRLimb var(--dur) linear infinite;
+        background: linear-gradient(hsl(30, 90%, 80%) 80%, hsl(0, 90%, 75%) 80%);
+        transform: rotate(15deg) translateZ(-1px);
+    }
+    #hamsterLoader .hamster__limb--fl {
+        animation: hamsterFLLimb var(--dur) linear infinite;
+        background: linear-gradient(hsl(30, 90%, 90%) 80%, hsl(0, 90%, 85%) 80%);
+        transform: rotate(15deg);
+    }
+    #hamsterLoader .hamster__limb--br,
+    #hamsterLoader .hamster__limb--bl {
+        border-radius: 0.75em 0.75em 0 0;
+        clip-path: polygon(0 0, 100% 0, 100% 30%, 70% 90%, 70% 100%, 30% 100%, 40% 90%, 0% 30%);
+        top: 1em;
+        left: 2.8em;
+        width: 1.5em;
+        height: 2.5em;
+        transform-origin: 50% 30%;
+    }
+    #hamsterLoader .hamster__limb--br {
+        animation: hamsterBRLimb var(--dur) linear infinite;
+        background: linear-gradient(hsl(30, 90%, 80%) 90%, hsl(0, 90%, 75%) 90%);
+        transform: rotate(-25deg) translateZ(-1px);
+    }
+    #hamsterLoader .hamster__limb--bl {
+        animation: hamsterBLLimb var(--dur) linear infinite;
+        background: linear-gradient(hsl(30, 90%, 90%) 90%, hsl(0, 90%, 85%) 90%);
+        transform: rotate(-25deg);
+    }
+    #hamsterLoader .hamster__tail {
+        animation: hamsterTail var(--dur) linear infinite;
+        background: hsl(0, 90%, 85%);
+        border-radius: 0.25em 50% 50% 0.25em;
+        box-shadow: 0 -0.2em 0 hsl(0, 90%, 75%) inset;
+        top: 1.5em;
+        right: -0.5em;
+        width: 1em;
+        height: 0.5em;
+        transform: rotate(30deg) translateZ(-1px);
+        transform-origin: 0.25em 0.25em;
+    }
+    #hamsterLoader .spoke {
+        animation: spoke var(--dur) linear infinite;
+        background: radial-gradient(100% 100% at center, hsl(0, 0%, 60%) 4.8%, hsla(0, 0%, 60%, 0) 5%),
+            linear-gradient(hsla(0, 0%, 55%, 0) 46.9%, hsl(0, 0%, 65%) 47% 52.9%, hsla(0, 0%, 65%, 0) 53%) 50% 50% / 99% 99% no-repeat;
+    }
+    @keyframes hamster {
+        from, to { transform: rotate(4deg) translate(-0.8em, 1.85em); }
+        50% { transform: rotate(0) translate(-0.8em, 1.85em); }
+    }
+    @keyframes hamsterHead {
+        from, 25%, 50%, 75%, to { transform: rotate(0); }
+        12.5%, 37.5%, 62.5%, 87.5% { transform: rotate(8deg); }
+    }
+    @keyframes hamsterEye {
+        from, 90%, to { transform: scaleY(1); }
+        95% { transform: scaleY(0); }
+    }
+    @keyframes hamsterEar {
+        from, 25%, 50%, 75%, to { transform: rotate(0); }
+        12.5%, 37.5%, 62.5%, 87.5% { transform: rotate(12deg); }
+    }
+    @keyframes hamsterBody {
+        from, 25%, 50%, 75%, to { transform: rotate(0); }
+        12.5%, 37.5%, 62.5%, 87.5% { transform: rotate(-2deg); }
+    }
+    @keyframes hamsterFRLimb {
+        from, 25%, 50%, 75%, to { transform: rotate(50deg) translateZ(-1px); }
+        12.5%, 37.5%, 62.5%, 87.5% { transform: rotate(-30deg) translateZ(-1px); }
+    }
+    @keyframes hamsterFLLimb {
+        from, 25%, 50%, 75%, to { transform: rotate(-30deg); }
+        12.5%, 37.5%, 62.5%, 87.5% { transform: rotate(50deg); }
+    }
+    @keyframes hamsterBRLimb {
+        from, 25%, 50%, 75%, to { transform: rotate(-60deg) translateZ(-1px); }
+        12.5%, 37.5%, 62.5%, 87.5% { transform: rotate(20deg) translateZ(-1px); }
+    }
+    @keyframes hamsterBLLimb {
+        from, 25%, 50%, 75%, to { transform: rotate(20deg); }
+        12.5%, 37.5%, 62.5%, 87.5% { transform: rotate(-60deg); }
+    }
+    @keyframes hamsterTail {
+        from, 25%, 50%, 75%, to { transform: rotate(30deg) translateZ(-1px); }
+        12.5%, 37.5%, 62.5%, 87.5% { transform: rotate(10deg) translateZ(-1px); }
+    }
+    @keyframes spoke {
+        from { transform: rotate(0); }
+        to { transform: rotate(-1turn); }
+    }
+    /* 反馈提交 loading 状态 */
+    #submitFeedback.is-loading {
+        opacity: 0.75;
+        pointer-events: none;
+        cursor: default;
+    }
+    #submitFeedback.is-loading .spinner {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        margin-right: 6px;
+        border: 2px solid rgba(255, 255, 255, 0.35);
+        border-top-color: #fff;
+        border-radius: 50%;
+        vertical-align: -2px;
+        animation: submitSpin 0.8s linear infinite;
+    }
+    @keyframes submitSpin {
+        to { transform: rotate(1turn); }
+    }
+    /* 反馈提交状态提示条（在对话框内显示结果，不依赖 alert 弹窗） */
+    #feedbackStatus {
+        min-height: 20px;
+        margin: 10px 0 2px;
+        padding: 6px 10px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 1.5;
+        text-align: center;
+        opacity: 0;
+        transform: translateY(-4px);
+        transition: opacity 0.25s ease, transform 0.25s ease;
+        pointer-events: none;
+    }
+    #feedbackStatus.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    #feedbackStatus.is-success {
+        color: var(--accent-3);
+        background: var(--accent-3-soft);
+    }
+    #feedbackStatus.is-error {
+        color: #FF8A8A;
+        background: rgba(255, 107, 107, 0.12);
+    }
+    </style>
 </head>
 <body>
     <!-- ===== 主题初始化：在渲染前同步应用暗色主题，防止闪烁 ===== -->
@@ -50,8 +1017,27 @@
     </script>
     <div id="loading">
         <div class="boot-screen">
-            <img src="img/MAIN.svg" alt="Spark" class="boot-logo">
             <div class="boot-name">SPARK<span class="boot-dot">_</span></div>
+            <div id="hamsterLoader" class="boot-hamster" aria-label="橙棕色仓鼠在金属跑轮中奔跑" role="img">
+                <div class="wheel-and-hamster">
+                    <div class="wheel"></div>
+                    <div class="hamster">
+                        <div class="hamster__body">
+                            <div class="hamster__head">
+                                <div class="hamster__ear"></div>
+                                <div class="hamster__eye"></div>
+                                <div class="hamster__nose"></div>
+                            </div>
+                            <div class="hamster__limb hamster__limb--fr"></div>
+                            <div class="hamster__limb hamster__limb--fl"></div>
+                            <div class="hamster__limb hamster__limb--br"></div>
+                            <div class="hamster__limb hamster__limb--bl"></div>
+                            <div class="hamster__tail"></div>
+                        </div>
+                    </div>
+                    <div class="spoke"></div>
+                </div>
+            </div>
             <div class="boot-bar"><div class="boot-bar-fill" id="bootBarFill"></div></div>
             <div class="boot-status">正在启动模拟桌面<span class="boot-cursor">▍</span></div>
             <div class="boot-percent" id="bootPercent">0%</div>
@@ -300,6 +1286,7 @@
                     </div>
                 </div>
             </section>
+
         </main>
 
         <footer>
@@ -310,13 +1297,51 @@
                 </div>
                 <div class="footer-actions">
                     <button id="feedbackBtn" class="footer-btn feedback-btn"><i class="fas fa-comment"></i> 提供建议</button>
-                    <button id="themeToggle" class="footer-btn theme-btn"><i class="fas fa-moon"></i> 切换主题</button>
+                    <button id="themePopupBtn" class="footer-btn theme-btn" title="切换亮色 / 暗色主题" aria-label="切换亮色或暗色主题">
+                        <i class="fas fa-moon"></i> 暗色主题
+                    </button>
                 </div>
                 <div class="footer-copyright">
                     &copy; 2024 柴炳坤. 保留所有权利。<span class="sep">|</span><span class="uptime">网站已艰难运行了 <span id="uptimeDisplay">0</span> 个月</span>
                 </div>
             </div>
         </footer>
+    </div>
+
+    <!-- 主题切换弹窗（点击 footer 主题按钮弹出手机卡片） -->
+    <div id="themeCardModal" class="theme-card-modal" role="dialog" aria-modal="true" aria-label="切换主题" hidden>
+        <div class="theme-card-modal__backdrop" data-close-theme-modal></div>
+        <div class="theme-card-modal__dialog">
+            <div class="theme-card-wrap">
+                <input id="themeCardSwitch" type="checkbox">
+                <div class="tc-app">
+                    <div class="tc-body">
+                        <div class="tc-phone">
+                            <button type="button" class="theme-card-modal__close" data-close-theme-modal aria-label="关闭">&times;</button>
+                            <div class="tc-menu">
+                                <div class="tc-time">4:20</div>
+                                <div class="tc-icons">
+                                    <div class="tc-network"></div>
+                                    <div class="tc-battery"></div>
+                                </div>
+                            </div>
+                            <div class="tc-content">
+                                <div class="tc-circle">
+                                    <div class="tc-crescent"></div>
+                                </div>
+                                <label for="themeCardSwitch" class="tc-toggle-label">
+                                    <div class="tc-toggle"></div>
+                                    <div class="tc-names">
+                                        <p class="tc-light">Light</p>
+                                        <p class="tc-dark">Dark</p>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <dialog id="announcementDialog">
@@ -364,6 +1389,7 @@
             <input type="text" id="user_name" placeholder="你的姓名">
             <input type="email" id="user_email" placeholder="你的联系方式（邮箱）">
             <textarea id="message" placeholder="你提交的问题"></textarea>
+            <div id="feedbackStatus" class="feedback-status" role="status" aria-live="polite"></div>
             <div class="dialog-actions">
                 <button id="submitFeedback" style="margin-right: 10px;">提交</button>
                 <button id="cancelFeedback">取消</button>
@@ -538,6 +1564,8 @@
             });
         }
 
+        // 6. Hero 窗口悬停浮升（霓虹启动窗口 · 纯 CSS 过渡）
+
         function showAnnouncement() {
             const dialog = document.getElementById('announcementDialog');
             dialog.showModal();
@@ -691,28 +1719,79 @@
         });
 
         // 处理提交按钮点击事件
+        // 窗口内状态提示：成功 → 绿色提示并自动关闭；失败/超时 → 红色提示并恢复按钮（不依赖 alert）
+        const statusEl = document.getElementById('feedbackStatus');
+        const showStatus = function (msg, type) {
+            if (!statusEl) return;
+            statusEl.textContent = msg;
+            statusEl.className = 'feedback-status is-visible' + (type === 'success' ? ' is-success' : ' is-error');
+        };
+        const hideStatus = function () {
+            if (!statusEl) return;
+            statusEl.textContent = '';
+            statusEl.className = 'feedback-status';
+        };
+        // 对话框关闭时清除状态提示，避免下次打开残留
+        document.getElementById('feedbackDialog').addEventListener('close', hideStatus);
+
         document.getElementById('submitFeedback').addEventListener('click', function () {
+            const btn = this;
+            if (btn.disabled) return; // 防重复提交
+
             const userName = document.getElementById('user_name').value;
             const userEmail = document.getElementById('user_email').value;
             const message = document.getElementById('message').value;
 
-            if (userName && userEmail && message) {
-                emailjs.send("service_x1ryoog", "template_8wyjz97", {
-                    user_name: userName,
-                    user_email: userEmail,
-                    message: message
-                })
-                    .then(function (response) {
-                        alert('反馈提交成功！');
+            if (!(userName && userEmail && message)) {
+                showStatus('请填写所有必填字段！', 'error');
+                return;
+            }
+
+            // EmailJS 脚本加载失败兜底，避免静默无响应
+            if (typeof emailjs === 'undefined') {
+                showStatus('邮件服务加载失败，请刷新页面或检查网络后重试。', 'error');
+                return;
+            }
+
+            hideStatus();
+            // 进入 loading 状态
+            btn.disabled = true;
+            btn.classList.add('is-loading');
+            btn.innerHTML = '<span class="spinner"></span>提交中…';
+
+            // 恢复按钮
+            const restoreBtn = function () {
+                btn.disabled = false;
+                btn.classList.remove('is-loading');
+                btn.textContent = '提交';
+            };
+
+            // 15 秒超时保护，避免请求挂起导致长时间无响应
+            const timeoutId = setTimeout(function () {
+                restoreBtn();
+                showStatus('提交超时，请检查网络后重试。', 'error');
+            }, 15000);
+
+            emailjs.send("service_x1ryoog", "template_8wyjz97", {
+                user_name: userName,
+                user_email: userEmail,
+                message: message
+            })
+                .then(function (response) {
+                    clearTimeout(timeoutId);
+                    // 窗口内显示成功提示，让用户明确知道已提交完成
+                    showStatus('✅ 反馈提交成功，感谢你的反馈！', 'success');
+                    // 短暂停留后自动关闭窗口
+                    setTimeout(function () {
                         const dialog = document.getElementById('feedbackDialog');
                         dialog.close();
                         document.documentElement.classList.remove('dialog-open');
-                    }, function (error) {
-                        alert('反馈提交失败：' + error.text);
-                    });
-            } else {
-                alert('请填写所有必填字段！');
-            }
+                    }, 1200);
+                }, function (error) {
+                    clearTimeout(timeoutId);
+                    restoreBtn();
+                    showStatus('❌ 提交失败：' + (error && error.text ? error.text : '未知错误') + '，请稍后重试。', 'error');
+                });
         });
 
         // 处理取消按钮点击事件
@@ -721,6 +1800,74 @@
             dialog.close();
             document.documentElement.classList.remove('dialog-open');
         });
+    </script>
+    <script>
+        // ===== 主题切换弹窗（点击 footer 主题按钮 → 弹出手机卡片切换器） =====
+        function syncThemeSwitchWidgets() {
+            const isDark = document.body.classList.contains('dark-theme');
+            const card = document.getElementById('themeCardSwitch');
+            if (card) card.checked = isDark;
+            // 同步 footer 主题按钮文案（与 theme.js updateThemeButton 逻辑一致）
+            const btn = document.getElementById('themePopupBtn');
+            if (btn) {
+                btn.innerHTML = isDark
+                    ? '<i class="fas fa-sun"></i> 亮色主题'
+                    : '<i class="fas fa-moon"></i> 暗色主题';
+            }
+        }
+        // 手机卡片开关 → 切换主题
+        const themeCardSwitch = document.getElementById('themeCardSwitch');
+        if (themeCardSwitch) {
+            themeCardSwitch.addEventListener('change', function () {
+                if (typeof toggleTheme === 'function') toggleTheme();
+            });
+        }
+        // footer 主题按钮 → 弹出手机卡片（不直接切换主题）
+        const themeCardModal = document.getElementById('themeCardModal');
+        // 手机卡片时间 → 当前北京时间（Asia/Shanghai），格式 H:MM
+        function updateCardTime() {
+            const t = document.querySelector('#themeCardModal .tc-time');
+            if (!t) return;
+            const parts = new Intl.DateTimeFormat('zh-CN', {
+                timeZone: 'Asia/Shanghai',
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: false
+            }).formatToParts(new Date());
+            const hour = parts.find(function (p) { return p.type === 'hour'; });
+            const minute = parts.find(function (p) { return p.type === 'minute'; });
+            if (hour && minute) t.textContent = hour.value + ':' + minute.value;
+        }
+        function openThemeModal() {
+            if (!themeCardModal) return;
+            updateCardTime(); // 每次打开时刷新为最新北京时间
+            themeCardModal.hidden = false;
+            document.documentElement.classList.add('dialog-open');
+        }
+        function closeThemeModal() {
+            if (!themeCardModal) return;
+            themeCardModal.hidden = true;
+            document.documentElement.classList.remove('dialog-open');
+        }
+        const themePopupBtn = document.getElementById('themePopupBtn');
+        if (themePopupBtn) {
+            themePopupBtn.addEventListener('click', openThemeModal);
+        }
+        if (themeCardModal) {
+            themeCardModal.querySelectorAll('[data-close-theme-modal]').forEach(function (el) {
+                el.addEventListener('click', closeThemeModal);
+            });
+        }
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && themeCardModal && !themeCardModal.hidden) {
+                closeThemeModal();
+            }
+        });
+        syncThemeSwitchWidgets();
+        updateCardTime();
+        if (typeof MutationObserver !== 'undefined') {
+            new MutationObserver(syncThemeSwitchWidgets).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+        }
     </script>
 </body>
 </html>
