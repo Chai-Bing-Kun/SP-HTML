@@ -18,16 +18,16 @@
 
 | 需求 | 文件 | 位置 |
 |---|---|---|
-| 首页视觉/文案/结构 | `index.html` | 全文件 1850 行，见下方区段表 |
-| 下载页视觉/文案/结构 | `download.html` | 全文件 2375 行，见下方区段表（样式大部分来自 spark-design.css） |
+| 首页视觉/文案/结构 | `index.html` | 全文件 1873 行，见下方区段表 |
+| 下载页视觉/文案/结构 | `download.html` | 全文件 2398 行，见下方区段表（样式大部分来自 spark-design.css） |
 | 下载链接地址（版本/平台/镜像） | `download-links.js` | `SPARK_DOWNLOADS` 对象（L3 起） |
-| 下载对话框筛选逻辑 | `download.html` | L1622（对话框 HTML）+ 主脚本 L1720-2117 |
+| 下载对话框筛选逻辑 | `download.html` | L1645（对话框 HTML）+ 主脚本 L1743-2140 |
 | 工具导航弹窗（4 个工具入口） | `tools-dialog.js` | `toolsPages` 配置数组（L4-31） |
 | 主题切换（亮/暗） | `theme.js` | 全文件 99 行 |
-| 主题卡片弹窗（手机卡片切换器） | `index.html` / `download.html` | HTML L1289 / L1586；CSS 各自内联 style；JS L1781 / L2312 |
-| 启动画面（分阶段开机 + 仓鼠） | `index.html` / `download.html` | HTML L995 / L1423；CSS 各自内联 style；JS `bootStages` L1609 / L2245 |
-| 反馈表单提交（EmailJS） | `index.html` | 内联脚本 L1688-1779（`emailjs.init` L1689、`emailjs.send` L1752） |
-| 公告内容 | `index.html` | `#announcementDialog`（L1324-1358） |
+| 主题卡片弹窗（手机卡片切换器） | `index.html` / `download.html` | HTML L1312 / L1609；CSS 各自内联 style；JS L1804 / L2335 |
+| 启动画面（分阶段开机 + 仓鼠） | `index.html` / `download.html` | HTML L1018 / L1446；CSS 各自内联 style；JS `bootStages` L1632 / L2275 |
+| 反馈表单提交（EmailJS） | `index.html` | 内联脚本 L1711-1802（`emailjs.init` L1712、`emailjs.send` L1775） |
+| 公告内容 | `index.html` | `#announcementDialog`（L1347-1381） |
 | 文件加密工具（独立页） | `Other-Sites/lock.html` | 全文件 2954 行，见下方区段表 |
 | 网页版 Spark 4/5/6 | `Spark for the web/Spark N.html` | ⚠️ 5~16MB 大文件，见下方警告 |
 | 网站设计系统（主页+下载页） | `spark-design.css` | 2880 行，**index.html 与 download.html 共用**，见下方区段表 |
@@ -41,45 +41,45 @@
 
 ### A. 网站页面（展示层）
 
-#### `index.html`（1850 行）— 主页（模拟桌面风 + 霓虹主题）
+#### `index.html`（1873 行）— 主页（模拟桌面风 + 霓虹主题）
 | 区段 | 行号 | 内容 |
 |---|---|---|
-| head | L1-10 | 标题、`spark-design.css`、Font Awesome / Chakra Petch+Noto Sans SC+JetBrains Mono / EmailJS CDN（L10） |
-| 内联 `<style>`（霓虹覆盖层） | L11-977 | 霓虹变量 L12-80（`:root` 亮色 + `body.dark-theme` 暗色两套）；boot 霓虹增强 L82-104；reduced-motion L476-505；主题卡片弹窗 CSS L507-731（`.theme-card-modal`/`.tc-*`）；主题切换闪光层 L563；仓鼠加载 CSS L733-894（`.boot-hamster`/`#hamsterLoader` + 12 个 keyframes） |
-| 防闪烁脚本 | L981-992 | 主题初始化（防 FOUC） |
-| 启动画面 | L995-1030 | `#loading` > `.boot-screen`（SPARK_ + `#hamsterLoader` 仓鼠 + `.boot-bar#bootBarFill` + `.boot-status` + `#bootPercent`） |
-| 背景容器 | L1032-1082 | `#cursorGlow` 鼠标光晕 + `.particles` + `#desktopDock` 桌面 Dock（5 个 `.dock-icon`：top/about/history/install/download） |
-| Hero（启动窗口） | L1084-1110 | `.window[data-window="top"]`：交通灯标题栏 `spark.exe` + 标语 + 下载/公告按钮 |
-| 「什么是 Spark」 | L1111-1129 | `.window[data-window="about"]` + `.text-card` 项目背景介绍文案 |
-| 「为什么要编写 Spark」 | L1130-1174 | `.window[data-window="history"]` + `.text-card` 长文 + `.timeline` 时间轴 |
-| 「如何获取 Spark」部署指引 | L1175-1275 | `.window[data-window="install"]` + 手机版 APK / Windows 版 Zip + 运行命令 + `.download-sim` 模拟下载窗口 |
-| Footer（任务栏） | L1277-1287 | 反馈按钮、`#themePopupBtn` 主题按钮、运行时间 `#uptimeDisplay` |
-| 主题卡片弹窗 | L1289-1322 | `#themeCardModal`（`#themeCardSwitch` + 手机卡片 Light/Dark 切换器） |
-| 公告对话框 | L1324-1358 | `#announcementDialog`（新版本说明 `.is-new` + 网站公告 `.is-site`） |
-| 反馈对话框 | L1360-1375 | `#feedbackDialog`（姓名/邮箱/问题 + `#submitFeedback`） |
-| 内联主脚本 | L1377-1660 | 移动端菜单、粒子背景、运行时间、EmailJS 反馈提交；**创意交互**：`initCursorGlow`(L1415)/`initWindowFocus`(L1442)/`initWindowCollapse`(L1466)/`initDock`(L1494)/`initScrollReveal`(L1524)；分阶段开机序列 `bootStages`(L1609)，load 时调用 5 个 init(L1653-1657) |
-| 外部脚本引入 | L1666-1671 | `tools-dialog.js` / `theme.js` |
-| EmailJS 反馈逻辑 | L1688-1779 | `emailjs.init`(L1689) + `emailjs.send`(L1752)；加载失败兜底 L1727 |
-| 主题弹窗 JS | L1781-1840 | `syncThemeSwitchWidgets`/`updateCardTime`/`openThemeModal`/`closeThemeModal`/Escape 关闭/MutationObserver |
+| head | L1-33 | 标题、`spark-design.css`、本地字体 + 智能切换脚本（L8-30）、Font Awesome / Chakra Petch+Noto Sans SC+JetBrains Mono / EmailJS CDN（L10） |
+| 内联 `<style>`（霓虹覆盖层） | L34-1000 | 霓虹变量 L35-103（`:root` 亮色 + `body.dark-theme` 暗色两套）；boot 霓虹增强 L105-127；reduced-motion L499-528；主题卡片弹窗 CSS L530-754（`.theme-card-modal`/`.tc-*`）；主题切换闪光层 L586；仓鼠加载 CSS L756-917（`.boot-hamster`/`#hamsterLoader` + 12 个 keyframes） |
+| 防闪烁脚本 | L1004-1015 | 主题初始化（防 FOUC） |
+| 启动画面 | L1018-1053 | `#loading` > `.boot-screen`（SPARK_ + `#hamsterLoader` 仓鼠 + `.boot-bar#bootBarFill` + `.boot-status` + `#bootPercent`） |
+| 背景容器 | L1055-1105 | `#cursorGlow` 鼠标光晕 + `.particles` + `#desktopDock` 桌面 Dock（5 个 `.dock-icon`：top/about/history/install/download） |
+| Hero（启动窗口） | L1107-1133 | `.window[data-window="top"]`：交通灯标题栏 `spark.exe` + 标语 + 下载/公告按钮 |
+| 「什么是 Spark」 | L1134-1152 | `.window[data-window="about"]` + `.text-card` 项目背景介绍文案 |
+| 「为什么要编写 Spark」 | L1153-1197 | `.window[data-window="history"]` + `.text-card` 长文 + `.timeline` 时间轴 |
+| 「如何获取 Spark」部署指引 | L1198-1298 | `.window[data-window="install"]` + 手机版 APK / Windows 版 Zip + 运行命令 + `.download-sim` 模拟下载窗口 |
+| Footer（任务栏） | L1300-1310 | 反馈按钮、`#themePopupBtn` 主题按钮、运行时间 `#uptimeDisplay` |
+| 主题卡片弹窗 | L1312-1345 | `#themeCardModal`（`#themeCardSwitch` + 手机卡片 Light/Dark 切换器） |
+| 公告对话框 | L1347-1381 | `#announcementDialog`（新版本说明 `.is-new` + 网站公告 `.is-site`） |
+| 反馈对话框 | L1383-1398 | `#feedbackDialog`（姓名/邮箱/问题 + `#submitFeedback`） |
+| 内联主脚本 | L1400-1683 | 移动端菜单、粒子背景、运行时间、EmailJS 反馈提交；**创意交互**：`initCursorGlow`(L1438)/`initWindowFocus`(L1465)/`initWindowCollapse`(L1489)/`initDock`(L1517)/`initScrollReveal`(L1547)；分阶段开机序列 `bootStages`(L1632)，load 时调用 5 个 init(L1676-1680) |
+| 外部脚本引入 | L1689-1694 | `tools-dialog.js` / `theme.js` |
+| EmailJS 反馈逻辑 | L1711-1802 | `emailjs.init`(L1712) + `emailjs.send`(L1775)；加载失败兜底 L1750 |
+| 主题弹窗 JS | L1804-1863 | `syncThemeSwitchWidgets`/`updateCardTime`/`openThemeModal`/`closeThemeModal`/Escape 关闭/MutationObserver |
 
-#### `download.html`（2375 行）— 下载中心（spark 桌面主题）
+#### `download.html`（2398 行）— 下载中心（spark 桌面主题）
 | 区段 | 行号 | 内容 |
 |---|---|---|
-| head | L1-8 | 标题、`spark-design.css`（与主页共用）、Chakra Petch+Noto Sans SC+JetBrains Mono 字体、Font Awesome |
-| 内联 `<style>` | L10-1405 | ⚠️ 分两段：**L10-903 下载页特有样式**（筛选抽屉/下载列表/hero 装饰/版本卡/action-btn 变体/公告列表/响应式）；**L907-1404 同步自 index.html（2026-08-11）**：neon 变量、boot 霓虹、主题卡片弹窗 CSS、仓鼠加载 CSS、reduced-motion。基础样式/header/footer/dialog 均继承 spark-design.css |
-| 主题初始化 | L1408-1419 | 与 index.html 相同的防闪烁脚本 |
-| 加载动画 + 背景 | L1423-1483 | `#loading` boot-screen（SPARK_ + 仓鼠 + 进度条，L1423-1470）+ `.background-container` + `.particles`（L1472-1483） |
-| Hero 区 | L1485-1501 | 「📥 下载中心」badge + 渐变标题 + 运行/GitHub 按钮 + 浮动装饰 shape |
-| Spark 6 卡片 | L1503-1523 | 版本徽章「最新版」 + 描述 + 运行/下载/GitHub 按钮 |
-| Spark 5 卡片 | L1525-1545 | 「旧版本」徽章 + 已停止更新描述 |
-| Spark 4 卡片 | L1547-1574 | 「旧版本」徽章 + 已停止更新描述 |
-| Footer | L1576-1584 | 与主页同构（spark 任务栏风，含 `#themePopupBtn` 主题按钮） |
-| 主题卡片弹窗 | L1586-1620 | `#themeCardModal`（与主页同款手机卡片切换器） |
-| 下载对话框 | L1622-1679 | OS 检测提示 + 筛选抽屉（版本/来源/平台）+ 下载列表 |
-| 公告对话框 | L1681-1716 | 与主页共享同一公告样式 |
-| 脚本引入 | L1718 / L2293 / L2299 | `download-links.js` / `tools-dialog.js` / `theme.js` |
-| 主脚本 | L1720-2291 | 渲染下载列表、筛选逻辑、系统检测（`detectOS` L1730）、粒子、运行时间、**分阶段开机 `bootStages`（load 事件 L2245）**、菜单 |
-| 主题弹窗 JS | L2312-2364 | `syncThemeSwitchWidgets`/`updateCardTime`/`openThemeModal`/`closeThemeModal`/Escape 关闭/MutationObserver |
+| head | L1-31 | 标题、`spark-design.css`（与主页共用）、本地字体 + 智能切换脚本（L8-30）、Font Awesome |
+| 内联 `<style>` | L33-1428 | ⚠️ 分两段：**L33-926 下载页特有样式**（筛选抽屉/下载列表/hero 装饰/版本卡/action-btn 变体/公告列表/响应式）；**L930-1427 同步自 index.html（2026-08-11）**：neon 变量、boot 霓虹、主题卡片弹窗 CSS、仓鼠加载 CSS、reduced-motion。基础样式/header/footer/dialog 均继承 spark-design.css |
+| 主题初始化 | L1431-1442 | 与 index.html 相同的防闪烁脚本 |
+| 加载动画 + 背景 | L1446-1506 | `#loading` boot-screen（SPARK_ + 仓鼠 + 进度条，L1446-1493）+ `.background-container` + `.particles`（L1501-1506） |
+| Hero 区 | L1508-1524 | 「📥 下载中心」badge + 渐变标题 + 运行/GitHub 按钮 + 浮动装饰 shape |
+| Spark 6 卡片 | L1526-1546 | 版本徽章「最新版」 + 描述 + 运行/下载/GitHub 按钮 |
+| Spark 5 卡片 | L1548-1568 | 「旧版本」徽章 + 已停止更新描述 |
+| Spark 4 卡片 | L1570-1597 | 「旧版本」徽章 + 已停止更新描述 |
+| Footer | L1599-1607 | 与主页同构（spark 任务栏风，含 `#themePopupBtn` 主题按钮） |
+| 主题卡片弹窗 | L1609-1643 | `#themeCardModal`（与主页同款手机卡片切换器） |
+| 下载对话框 | L1645-1702 | OS 检测提示 + 筛选抽屉（版本/来源/平台）+ 下载列表 |
+| 公告对话框 | L1704-1739 | 与主页共享同一公告样式 |
+| 脚本引入 | L1741 / L2316 / L2322 | `download-links.js` / `tools-dialog.js` / `theme.js` |
+| 主脚本 | L1743-2314 | 渲染下载列表、筛选逻辑、系统检测（`detectOS` L1753）、粒子、运行时间、**分阶段开机 `bootStages`（load 事件 L2275）**、菜单 |
+| 主题弹窗 JS | L2335-2387 | `syncThemeSwitchWidgets`/`updateCardTime`/`openThemeModal`/`closeThemeModal`/Escape 关闭/MutationObserver |
 
 #### `Other-Sites/lock.html`（2954 行）— 文件加密/解密工具（独立页）
 > 完全自包含：内联 CSS + JS，仅引用 Font Awesome CDN。不依赖任何网站样式表 / 脚本。
@@ -187,9 +187,9 @@ Other-Sites/lock.html ──（独立工具页；字体/图标已本地化到 ..
 - ⚠️ **以下两项始终联网、不可本地化/切换**（用户明确指定）：① EmailJS `https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js`（index.html L10）；② 必应壁纸 `https://bing.biturl.top/?resolution=1920&format=image`（spark-design.css L158 背景图）。
 
 - 修改**主页**弹窗/样式：`spark-design.css`（对话框 L1352-1592、工具弹窗 L1593-1812、响应式 L2078-2602）
-- 修改**主页创意交互**（Dock/聚焦/折叠/开机/reveal/光晕）：样式 `spark-design.css` L2603-2880；逻辑 `index.html` 内联脚本 `initCursorGlow`/`initWindowFocus`/`initWindowCollapse`/`initDock`/`initScrollReveal` + `bootStages` 开机序列（L1415-1657）
-- 修改**加载条 / 主题卡片**（⚠️ 两页已同步，改一处须同步另一处）：`index.html` 启动画面 L995-1030、主题卡片 L1289-1322；`download.html` 启动画面 L1423-1470、主题卡片 L1586-1620；CSS 各自内联 style（index L11-977；download L907-1404）；JS 各自内联（index L1781-1840；download L2312-2364）。**注意 `--neon*` 变量不在 spark-design.css 中，由两页内联 style 各自维护**
-- 修改**下载页**样式：基础/Header/Footer/Dialog 用 `spark-design.css`；**下载页特有样式**（筛选抽屉/下载列表/hero 装饰/版本卡/action-btn/公告列表/下载页响应式）在 `download.html` 内联 `<style>` L10-903
+- 修改**主页创意交互**（Dock/聚焦/折叠/开机/reveal/光晕）：样式 `spark-design.css` L2603-2880；逻辑 `index.html` 内联脚本 `initCursorGlow`/`initWindowFocus`/`initWindowCollapse`/`initDock`/`initScrollReveal` + `bootStages` 开机序列（L1438-1680）
+- 修改**加载条 / 主题卡片**（⚠️ 两页已同步，改一处须同步另一处）：`index.html` 启动画面 L1018-1053、主题卡片 L1312-1345；`download.html` 启动画面 L1446-1493、主题卡片 L1609-1643；CSS 各自内联 style（index L34-1000；download L930-1427）；JS 各自内联（index L1804-1863；download L2335-2387）。**注意 `--neon*` 变量不在 spark-design.css 中，由两页内联 style 各自维护**
+- 修改**下载页**样式：基础/Header/Footer/Dialog 用 `spark-design.css`；**下载页特有样式**（筛选抽屉/下载列表/hero 装饰/版本卡/action-btn/公告列表/下载页响应式）在 `download.html` 内联 `<style>` L33-926
 - 修改弹窗逻辑：`tools-dialog.js`（工具导航）、`download.html` 主脚本（下载对话框）
 - 新增下载版本：只改 `download-links.js` 的 `SPARK_DOWNLOADS`
 - 新增工具入口：只改 `tools-dialog.js` 的 `toolsPages`
@@ -203,8 +203,8 @@ Other-Sites/lock.html ──（独立工具页；字体/图标已本地化到 ..
 
 | 路径 | 类型 | 规模 | 归属 / 说明 |
 |---|---|---|---|
-| `index.html` | 页面 | 1850 行 | 主页（模拟桌面 + 霓虹） |
-| `download.html` | 页面 | 2375 行 | 下载中心 |
+| `index.html` | 页面 | 1873 行 | 主页（模拟桌面 + 霓虹） |
+| `download.html` | 页面 | 2398 行 | 下载中心 |
 | `Other-Sites/lock.html` | 页面 | 2954 行 | 文件加密工具（独立单文件） |
 | `Spark for the web/Spark 4.html` | 页面 | 5.7 MB / 397 行 | TurboWarp 产物 ⚠️ 勿读全文 |
 | `Spark for the web/Spark 5.html` | 页面 | 16.4 MB / 561 行 | TurboWarp 产物 ⚠️ 勿读全文 |
