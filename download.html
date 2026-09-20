@@ -1431,7 +1431,8 @@
     <!-- ===== 主题初始化：在渲染前同步应用暗色主题，防止闪烁 ===== -->
     <script>
         (function() {
-            var savedTheme = localStorage.getItem('theme');
+            var savedTheme = null;
+            try { savedTheme = localStorage.getItem('theme'); } catch (e) {}
             var isDark;
             if (savedTheme === 'dark' || savedTheme === 'light') {
                 isDark = (savedTheme === 'dark');
@@ -2340,11 +2341,17 @@
                     : '<i class="fas fa-moon"></i> 暗色主题';
             }
         }
-        // 手机卡片开关 → 切换主题
+        // 手机卡片开关 → 显式切换到目标主题（不依赖 body 状态反转）
         const themeCardSwitch = document.getElementById('themeCardSwitch');
         if (themeCardSwitch) {
             themeCardSwitch.addEventListener('change', function () {
-                if (typeof toggleTheme === 'function') toggleTheme();
+                const target = this.checked ? 'dark' : 'light';   // 开关状态即目标
+                try { localStorage.setItem('theme', target); } catch (e) {}
+                if (typeof applyThemeWithAnimation === 'function') {
+                    applyThemeWithAnimation(target);
+                } else if (typeof applyTheme === 'function') {
+                    applyTheme(target);
+                }
             });
         }
         // footer 主题按钮 → 弹出手机卡片（不直接切换主题）

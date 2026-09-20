@@ -2,7 +2,8 @@
 
 // 获取正确的主题：优先使用用户保存的偏好，其次使用系统主题
 function getPreferredTheme() {
-    const savedTheme = localStorage.getItem('theme');
+    var savedTheme = null;
+    try { savedTheme = localStorage.getItem('theme'); } catch (e) {}
     if (savedTheme === 'dark' || savedTheme === 'light') {
         return savedTheme;
     }
@@ -74,7 +75,7 @@ function applyTheme(theme, updateButton = true) {
 function toggleTheme() {
     const isDark = document.body.classList.contains('dark-theme');
     const newTheme = isDark ? 'light' : 'dark';
-    localStorage.setItem('theme', newTheme);
+    try { localStorage.setItem('theme', newTheme); } catch (e) {}  // 隐私模式不中断
     applyThemeWithAnimation(newTheme);
 }
 
@@ -90,7 +91,8 @@ function initTheme() {
     }
     
     // 监听系统主题变化（仅当用户没有保存过偏好时）
-    const savedTheme = localStorage.getItem('theme');
+    var savedTheme = null;
+    try { savedTheme = localStorage.getItem('theme'); } catch (e) {}
     if (savedTheme === null) {
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
             applyTheme(e.matches ? 'dark' : 'light');
